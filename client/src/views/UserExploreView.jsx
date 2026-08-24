@@ -141,10 +141,10 @@ export default function UserExploreView({
 
       </div>
 
-      {/* Vehicle Category Selector Bar with Small "14 Cities Connected" Badge */}
+      {/* Vehicle Category Selector Bar with Extra-Small "14 Cities Connected" Badge */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-[#0E1524] p-3 rounded-2xl border border-white/10 shadow-lg">
         
-        {/* Category Filters with Rich Grey in Transparency & White on Hover */}
+        {/* Category Filters */}
         <div className="flex flex-wrap items-center justify-center gap-2">
           <button
             onClick={() => setVehicleCategory('ALL')}
@@ -180,28 +180,28 @@ export default function UserExploreView({
             <span>🚗 4W Fast DC Cars</span>
           </button>
 
-          {/* 14 Cities Connected Badge (Compact & Centered) */}
-          <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/40 border border-white/15 text-[11px] text-slate-300 font-mono">
+          {/* 14 Cities Connected Badge (Noticeably Smaller & Delicate) */}
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-[10px] text-slate-400 font-mono tracking-tight self-center">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00E676] shadow-sm shadow-emerald-400"></span>
-            <span className="font-semibold text-slate-300">14 Cities Connected</span>
+            <span>14 Cities Connected</span>
           </div>
         </div>
 
       </div>
 
-      {/* Search & Dynamic Filter Controls Bar (Proper Search Alignment) */}
+      {/* Search & Dynamic Filter Controls Bar (Crisp Contrast & Alignment) */}
       <div className="glass-panel p-4 md:p-5 border border-white/10 space-y-4 shadow-xl">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
           
-          {/* Search Input with Clean Proportions */}
+          {/* Search Input with Bright Contrast & Proper Icon Padding */}
           <div className="md:col-span-4 relative flex items-center">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+            <Search className="w-4 h-4 text-[#00F2FE] absolute left-3.5 pointer-events-none" />
             <input
               type="text"
               placeholder="Search station, city, expressway..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="input-glass pl-10 text-xs w-full"
+              className="w-full bg-[#111827] border border-white/20 text-white placeholder-slate-400 pl-10 pr-3 py-2.5 rounded-xl text-xs outline-none focus:border-[#00F2FE] focus:ring-1 focus:ring-[#00F2FE] transition-all font-body"
             />
           </div>
 
@@ -210,7 +210,7 @@ export default function UserExploreView({
             <select
               value={selectedConnector}
               onChange={(e) => setSelectedConnector(e.target.value)}
-              className="input-glass text-xs"
+              className="w-full bg-[#111827] border border-white/20 text-white pl-3 pr-8 py-2.5 rounded-xl text-xs outline-none focus:border-[#00F2FE] transition-all font-body cursor-pointer"
             >
               <option value="">All Connector Standards</option>
               <option value="Ather Grid (2W)">🛵 Ather Grid Fast (2W)</option>
@@ -223,7 +223,7 @@ export default function UserExploreView({
           </div>
 
           {/* Max Price Range Slider */}
-          <div className="md:col-span-3 bg-black/30 p-2.5 rounded-xl border border-white/5 text-xs">
+          <div className="md:col-span-3 bg-[#111827] p-2.5 rounded-xl border border-white/20 text-xs">
             <div className="flex justify-between text-[11px] text-slate-300 mb-1">
               <span>Max Tariff:</span>
               <span className="font-mono text-[#00E676] font-bold">₹{maxPrice.toFixed(2)}/kWh</span>
@@ -243,10 +243,10 @@ export default function UserExploreView({
           <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-2">
             <button
               onClick={() => setAvailableOnly(!availableOnly)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
                 availableOnly
                   ? 'bg-emerald-500/25 text-[#00E676] border-emerald-500/50 shadow-sm'
-                  : 'bg-white/5 text-slate-300 border-white/15 hover:text-white hover:bg-white/10'
+                  : 'bg-[#111827] text-slate-300 border-white/20 hover:text-white hover:bg-white/10'
               }`}
             >
               <span className={`pulse-dot ${availableOnly ? 'pulse-dot-green' : ''}`}></span>
@@ -256,7 +256,7 @@ export default function UserExploreView({
             <button
               onClick={handleResetFilters}
               title="Reset all filters"
-              className="p-2 text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105"
+              className="p-2.5 text-slate-300 hover:text-white bg-[#111827] hover:bg-white/10 rounded-xl border border-white/20 transition-all cursor-pointer hover:scale-105"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
