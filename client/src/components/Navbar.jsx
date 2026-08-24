@@ -153,9 +153,9 @@ export default function Navbar({
             </button>
           )}
 
-          {/* Telemetry Live Indicator (Button size +1, clean dot spacing) */}
-          <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm self-center whitespace-nowrap">
-            <span className={`pulse-dot shrink-0 ${telemetryConnected ? 'pulse-dot-green' : 'pulse-dot-cyan'}`}></span>
+          {/* Telemetry Live Indicator (Spaced Green Circle & Text) */}
+          <div className="hidden sm:inline-flex items-center px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm self-center whitespace-nowrap">
+            <span className={`pulse-dot shrink-0 mr-2.5 ${telemetryConnected ? 'pulse-dot-green' : 'pulse-dot-cyan'}`}></span>
             <span className="leading-none tracking-tight">Live Telemetry</span>
           </div>
 
