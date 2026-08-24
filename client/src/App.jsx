@@ -241,13 +241,10 @@ export default function App() {
       />
 
       {/* Footer */}
-      <footer className="border-t border-white/10 bg-black/40 py-6 px-4 lg:px-8 text-xs text-slate-500 text-center">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <footer className="border-t border-white/10 bg-black/40 py-5 px-4 lg:px-8 text-xs text-slate-400 text-center">
+        <div className="max-w-7xl mx-auto flex items-center justify-center">
           <div>
-            <span className="font-extrabold text-slate-300">EVConnect AI</span> • Full-Stack Two-Sided Marketplace & Real-Time OCPP Platform
-          </div>
-          <div className="font-mono text-[11px] text-slate-400">
-            Roadmap Phase 1 - 6 Complete • 10% Platform / 90% Host Settlement Engine
+            <span className="font-extrabold text-white">EV Connect AI</span> • Pan-India Intelligent EV Charging, Telemetry & Booking Marketplace
           </div>
         </div>
       </footer>
