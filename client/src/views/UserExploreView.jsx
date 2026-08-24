@@ -248,9 +248,9 @@ export default function UserExploreView({
               <ChevronDown className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200 ${isConnectorDropdownOpen ? 'rotate-180 text-[#00F2FE]' : ''}`} />
             </button>
 
-            {/* Transparent Glass Dropdown Menu */}
+            {/* Transparent Frosted Glass Dropdown Menu with Deep Backdrop Blur */}
             {isConnectorDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#0B0F19]/95 backdrop-blur-xl border border-white/15 rounded-xl shadow-2xl z-50 p-1.5 space-y-0.5 animate-fadeIn max-h-60 overflow-y-auto">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-[#0B0F19]/80 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] z-50 p-2 space-y-1 animate-fadeIn max-h-64 overflow-y-auto">
                 {CONNECTOR_OPTIONS.map((opt) => {
                   const isSelected = selectedConnector === opt.value;
                   return (
@@ -261,14 +261,14 @@ export default function UserExploreView({
                         setSelectedConnector(opt.value);
                         setIsConnectorDropdownOpen(false);
                       }}
-                      className={`w-full px-2.5 py-2 rounded-lg text-xs flex items-center justify-between text-left transition-all cursor-pointer ${
+                      className={`w-full px-3 py-2.5 rounded-xl text-xs flex items-center justify-between text-left transition-all duration-200 cursor-pointer ${
                         isSelected
-                          ? 'bg-cyan-500/15 text-[#00F2FE] font-bold border border-cyan-400/30'
-                          : 'text-slate-300 hover:text-white hover:bg-white/10 bg-transparent'
+                          ? 'bg-cyan-500/25 text-[#00F2FE] font-bold border border-cyan-400/40 shadow-sm backdrop-blur-xl'
+                          : 'text-slate-300 hover:text-white hover:bg-white/10 hover:backdrop-blur-xl active:bg-white/20 active:backdrop-blur-2xl bg-transparent'
                       }`}
                     >
-                      <div className="flex items-center gap-2 truncate">
-                        <span className="shrink-0">{opt.icon}</span>
+                      <div className="flex items-center gap-2.5 truncate">
+                        <span className="shrink-0 text-sm leading-none">{opt.icon}</span>
                         <span className="truncate">{opt.label}</span>
                       </div>
                       {isSelected && <Check className="w-3.5 h-3.5 text-[#00F2FE] shrink-0" />}
