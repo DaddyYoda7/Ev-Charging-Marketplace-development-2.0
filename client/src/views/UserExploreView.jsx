@@ -239,11 +239,11 @@ export default function UserExploreView({
             />
           </div>
 
-          {/* Transparent Available Only Toggle & Reset */}
-          <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-2">
+          {/* Transparent Available Only Toggle & Reset (Centered Alignment) */}
+          <div className="md:col-span-2 flex items-center justify-center gap-2">
             <button
               onClick={() => setAvailableOnly(!availableOnly)}
-              className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                 availableOnly
                   ? 'bg-emerald-500/25 text-[#00E676] border-emerald-500/50 shadow-sm'
                   : 'bg-white/5 text-slate-300 border-white/15 hover:text-white hover:bg-white/10'
