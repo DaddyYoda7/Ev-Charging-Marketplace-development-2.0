@@ -141,20 +141,20 @@ export default function UserExploreView({
 
       </div>
 
-      {/* Vehicle Category Selector Bar with "14 Cities Connected" Aligned in the Center */}
+      {/* Vehicle Category Selector Bar with Small "14 Cities Connected" Badge */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-[#0E1524] p-3 rounded-2xl border border-white/10 shadow-lg">
         
-        {/* Category Filters with Grey in Transparency & White on Hover */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5">
+        {/* Category Filters with Rich Grey in Transparency & White on Hover */}
+        <div className="flex flex-wrap items-center justify-center gap-2">
           <button
             onClick={() => setVehicleCategory('ALL')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'ALL'
                 ? 'bg-gradient-to-r from-[#00F2FE] to-[#00B0FF] text-[#040814] shadow-md shadow-cyan-500/30 scale-105 font-black'
-                : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
             }`}
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="w-3.5 h-3.5" />
             <span>All Charging Hubs ({stations.length})</span>
           </button>
 
@@ -163,7 +163,7 @@ export default function UserExploreView({
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'SCOOTY'
                 ? 'bg-gradient-to-r from-[#00E676] to-[#00B0FF] text-[#040814] shadow-md shadow-emerald-500/30 scale-105 font-black'
-                : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
             }`}
           >
             <span>🛵 EV Scooty (2W Fast & Swaps)</span>
@@ -174,34 +174,34 @@ export default function UserExploreView({
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'CAR'
                 ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30 scale-105 font-black'
-                : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
             }`}
           >
             <span>🚗 4W Fast DC Cars</span>
           </button>
 
-          {/* 14 Cities Connected Badge Centered */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 border border-white/15 text-xs text-slate-300 font-mono">
-            <span className="w-2 h-2 rounded-full bg-[#00E676] shadow-sm shadow-emerald-400"></span>
-            <span className="font-bold text-slate-200">14 Cities Connected</span>
+          {/* 14 Cities Connected Badge (Compact & Centered) */}
+          <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/40 border border-white/15 text-[11px] text-slate-300 font-mono">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00E676] shadow-sm shadow-emerald-400"></span>
+            <span className="font-semibold text-slate-300">14 Cities Connected</span>
           </div>
         </div>
 
       </div>
 
-      {/* Search & Dynamic Filter Controls Bar */}
+      {/* Search & Dynamic Filter Controls Bar (Proper Search Alignment) */}
       <div className="glass-panel p-4 md:p-5 border border-white/10 space-y-4 shadow-xl">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
           
-          {/* Search Input */}
-          <div className="md:col-span-4 relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          {/* Search Input with Clean Proportions */}
+          <div className="md:col-span-4 relative flex items-center">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
             <input
               type="text"
-              placeholder="Search station, city (Bengaluru, Mumbai, Delhi...), expressway..."
+              placeholder="Search station, city, expressway..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="input-glass pl-10 text-xs"
+              className="input-glass pl-10 text-xs w-full"
             />
           </div>
 
@@ -246,7 +246,7 @@ export default function UserExploreView({
               className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
                 availableOnly
                   ? 'bg-emerald-500/25 text-[#00E676] border-emerald-500/50 shadow-sm'
-                  : 'bg-white/5 text-slate-400 border-white/15 hover:text-white hover:bg-white/10'
+                  : 'bg-white/5 text-slate-300 border-white/15 hover:text-white hover:bg-white/10'
               }`}
             >
               <span className={`pulse-dot ${availableOnly ? 'pulse-dot-green' : ''}`}></span>
@@ -256,7 +256,7 @@ export default function UserExploreView({
             <button
               onClick={handleResetFilters}
               title="Reset all filters"
-              className="p-2 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105"
+              className="p-2 text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
