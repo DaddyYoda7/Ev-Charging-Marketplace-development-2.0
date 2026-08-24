@@ -1,0 +1,16 @@
+{
+  "name": "evconnect-ai-server",
+  "version": "1.0.0",
+  "description": "EVConnect AI - Backend API and Real-Time Telemetry / OCPP Engine",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  }
+}
