@@ -15,7 +15,7 @@ export default function Navbar({
     <header className="sticky top-0 z-50 bg-[#0B0F19]/90 backdrop-blur-xl border-b border-white/10 px-4 lg:px-8 py-3 shadow-2xl transition-all">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
         
-        {/* Brand Logo & Title: EV Connect AI (With Space & Perfect Alignment) */}
+        {/* Brand Logo & Title: EV Connect AI */}
         <div 
           className="flex items-center gap-3 cursor-pointer select-none group shrink-0" 
           onClick={() => onViewChange(currentRole === 'user' ? 'explore' : currentRole === 'owner' ? 'host-stations' : 'admin-dashboard')}
@@ -36,16 +36,16 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Center View Navigation Links: Transparent Background with Rich Slate Text & White on Hover */}
-        <nav className="flex items-center gap-1.5 bg-white/5 backdrop-blur-md p-1 rounded-xl border border-white/10 shadow-sm">
+        {/* Center View Navigation Links: Transparent Background & Grey Font */}
+        <nav className="flex items-center gap-1.5 bg-transparent p-1 rounded-xl border border-white/10">
           {currentRole === 'user' && (
             <>
               <button
                 onClick={() => onViewChange('explore')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'explore'
-                    ? 'bg-[#00F2FE] text-[#040814] shadow-md shadow-cyan-500/30 font-black scale-105'
-                    : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                    ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm'
+                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
                 <Compass className="w-3.5 h-3.5" />
@@ -56,8 +56,8 @@ export default function Navbar({
                 onClick={() => onViewChange('user-dashboard')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'user-dashboard'
-                    ? 'bg-[#00F2FE] text-[#040814] shadow-md shadow-cyan-500/30 font-black scale-105'
-                    : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                    ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm'
+                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
                 <LayoutDashboard className="w-3.5 h-3.5" />
@@ -68,11 +68,11 @@ export default function Navbar({
                 onClick={() => onViewChange('ai-planner')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ai-planner'
-                    ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30 font-black scale-105'
-                    : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                    ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm'
+                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
-                <Brain className="w-3.5 h-3.5 text-[#C084FC]" />
+                <Brain className="w-3.5 h-3.5" />
                 <span>AI Trip Planner</span>
               </button>
             </>
@@ -84,8 +84,8 @@ export default function Navbar({
                 onClick={() => onViewChange('host-stations')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'host-stations'
-                    ? 'bg-[#00E676] text-[#040814] shadow-md shadow-emerald-500/30 font-black scale-105'
-                    : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                    ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40'
+                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
                 <Building2 className="w-3.5 h-3.5" />
@@ -96,8 +96,8 @@ export default function Navbar({
                 onClick={() => onViewChange('host-analytics')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'host-analytics'
-                    ? 'bg-[#00E676] text-[#040814] shadow-md shadow-emerald-500/30 font-black scale-105'
-                    : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                    ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40'
+                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
                 <Layers className="w-3.5 h-3.5" />
@@ -108,8 +108,8 @@ export default function Navbar({
                 onClick={() => onViewChange('ocpp-lab')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ocpp-lab'
-                    ? 'bg-[#00F2FE] text-[#040814] shadow-md shadow-cyan-500/30 font-black scale-105'
-                    : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                    ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40'
+                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
                 <Cpu className="w-3.5 h-3.5" />
@@ -123,8 +123,8 @@ export default function Navbar({
               onClick={() => onViewChange('admin-dashboard')}
               className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 activeView === 'admin-dashboard'
-                  ? 'bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white shadow-md shadow-purple-500/30 font-black scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                  ? 'bg-purple-500/15 text-[#D8B4FE] border border-purple-400/40'
+                  : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
               <Shield className="w-3.5 h-3.5" />
@@ -140,12 +140,12 @@ export default function Navbar({
           {currentRole === 'user' && primaryVehicle && (
             <button
               onClick={onOpenGarage}
-              className="hidden lg:flex items-center gap-2 bg-white/5 hover:bg-white/15 border border-white/15 hover:border-[#00F2FE] px-3 py-1.5 rounded-xl text-xs font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/15 cursor-pointer"
+              className="hidden lg:flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#00F2FE] px-3 py-1.5 rounded-xl text-xs font-semibold text-white transition-all duration-200 hover:scale-105 cursor-pointer"
               title="Click to switch EV or adjust battery SoC"
             >
               <BatteryCharging className="w-4 h-4 text-[#00E676]" />
               <div className="text-left">
-                <div className="text-white font-bold leading-tight">{primaryVehicle.model}</div>
+                <div className="text-slate-200 font-bold leading-tight">{primaryVehicle.model}</div>
                 <div className="text-[10px] text-[#00E676] font-mono font-bold">
                   {primaryVehicle.current_soc}% SoC • {primaryVehicle.connector_type}
                 </div>
@@ -165,8 +165,8 @@ export default function Navbar({
               onClick={() => onRoleChange('user')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'user'
-                  ? 'bg-gradient-to-r from-[#00F2FE] to-[#00B0FF] text-[#040814] shadow-md shadow-cyan-500/30 font-black scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                  ? 'bg-cyan-500/20 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-black'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
               <Zap className="w-3 h-3" />
@@ -177,8 +177,8 @@ export default function Navbar({
               onClick={() => onRoleChange('owner')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'owner'
-                  ? 'bg-gradient-to-r from-[#00E676] to-[#00B0FF] text-[#040814] shadow-md shadow-emerald-500/30 font-black scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                  ? 'bg-emerald-500/20 text-[#00E676] border border-emerald-400/40 shadow-sm font-black'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
               <Building2 className="w-3 h-3" />
@@ -189,8 +189,8 @@ export default function Navbar({
               onClick={() => onRoleChange('admin')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'admin'
-                  ? 'bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white shadow-md shadow-purple-500/30 font-black scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                  ? 'bg-purple-500/20 text-[#D8B4FE] border border-purple-400/40 shadow-sm font-black'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
               <Shield className="w-3 h-3" />
