@@ -68,11 +68,11 @@ export default function Navbar({
                 onClick={() => onViewChange('ai-planner')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ai-planner'
-                    ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
+                    ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
                     : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
-                <Brain className="w-3.5 h-3.5 text-[#00F2FE]" />
+                <Brain className="w-3.5 h-3.5 text-[#C084FC]" />
                 <span>AI Trip Planner</span>
               </button>
             </>
@@ -123,11 +123,11 @@ export default function Navbar({
               onClick={() => onViewChange('admin-dashboard')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 activeView === 'admin-dashboard'
-                  ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
+                  ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
                   : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
-              <Shield className="w-3.5 h-3.5" />
+              <Shield className="w-3.5 h-3.5 text-[#C084FC]" />
               <span>National Platform Hub</span>
             </button>
           )}
@@ -159,7 +159,7 @@ export default function Navbar({
             <span className="text-[11px] text-slate-400 font-mono font-semibold">Live Telemetry</span>
           </div>
 
-          {/* Transparent Role Switcher Pill Bar with Unified Cyan/Emerald Styling & Grey Font */}
+          {/* Transparent Role Switcher Pill Bar (Distinct Color for Admin: Royal Purple #C084FC) */}
           <div className="flex items-center bg-transparent p-1 rounded-xl border border-white/10 gap-1">
             <button
               onClick={() => onRoleChange('user')}
@@ -189,11 +189,11 @@ export default function Navbar({
               onClick={() => onRoleChange('admin')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'admin'
-                  ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
+                  ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
                   : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
-              <Shield className="w-3 h-3" />
+              <Shield className="w-3 h-3 text-[#C084FC]" />
               <span>Admin</span>
             </button>
           </div>
