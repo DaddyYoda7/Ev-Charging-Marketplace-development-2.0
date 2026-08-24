@@ -153,10 +153,10 @@ export default function Navbar({
             </button>
           )}
 
-          {/* Telemetry Live Indicator */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-transparent border border-white/10 text-xs shadow-sm">
-            <span className={`pulse-dot ${telemetryConnected ? 'pulse-dot-green' : 'pulse-dot-cyan'}`}></span>
-            <span className="text-[11px] text-slate-400 font-mono font-semibold">Live Telemetry</span>
+          {/* Telemetry Live Indicator (Perfect Vertical & Horizontal Alignment) */}
+          <div className="hidden sm:flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl bg-transparent border border-white/10 text-xs shadow-sm self-center">
+            <span className={`pulse-dot shrink-0 ${telemetryConnected ? 'pulse-dot-green' : 'pulse-dot-cyan'}`}></span>
+            <span className="text-[11px] text-slate-400 font-mono font-semibold leading-none">Live Telemetry</span>
           </div>
 
           {/* Transparent Role Switcher Pill Bar (Distinct Colors for Roles) */}
