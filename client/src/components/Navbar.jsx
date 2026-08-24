@@ -68,7 +68,7 @@ export default function Navbar({
                 onClick={() => onViewChange('ai-planner')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ai-planner'
-                    ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
+                    ? 'bg-purple-500/20 text-[#C084FC] border border-purple-400/50 shadow-sm font-bold'
                     : 'bg-transparent text-slate-400 hover:text-[#C084FC] hover:bg-purple-500/10'
                 }`}
               >
@@ -123,7 +123,7 @@ export default function Navbar({
               onClick={() => onViewChange('admin-dashboard')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 activeView === 'admin-dashboard'
-                  ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
+                  ? 'bg-purple-500/20 text-[#C084FC] border border-purple-400/50 shadow-sm font-bold'
                   : 'bg-transparent text-slate-400 hover:text-[#C084FC] hover:bg-purple-500/10'
               }`}
             >
@@ -159,7 +159,7 @@ export default function Navbar({
             <span className="text-[11px] text-slate-400 font-mono font-semibold">Live Telemetry</span>
           </div>
 
-          {/* Transparent Role Switcher Pill Bar with Vivid Distinct Color Accents on Hover */}
+          {/* Transparent Role Switcher Pill Bar with Vivid Purple for Admin */}
           <div className="flex items-center bg-transparent p-1 rounded-xl border border-white/10 gap-1">
             <button
               onClick={() => onRoleChange('user')}
@@ -189,7 +189,7 @@ export default function Navbar({
               onClick={() => onRoleChange('admin')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'admin'
-                  ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
+                  ? 'bg-purple-500/20 text-[#C084FC] border border-purple-400/50 shadow-sm font-bold'
                   : 'bg-transparent text-slate-400 hover:text-[#C084FC] hover:bg-purple-500/10'
               }`}
             >
