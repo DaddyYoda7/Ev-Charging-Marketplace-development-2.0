@@ -89,18 +89,18 @@ export default function UserExploreView({
       {/* Hero Welcome Banner */}
       <div className="glass-panel p-6 md:p-8 border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden">
         
-        {/* Left Side: Headline & Subtitle */}
-        <div className="space-y-3 max-w-2xl text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#00F2FE]/20 to-[#00E676]/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 font-mono shadow-sm">
-            <span className="pulse-dot pulse-dot-green"></span>
+        {/* Left Side: Headline & Subtitle (Clean Optical Alignment) */}
+        <div className="flex flex-col items-start gap-2.5 max-w-2xl text-left">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-[#00F2FE]/15 to-[#00E676]/15 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-[#00E676] shadow-[0_0_6px_#00E676] shrink-0"></span>
             <span>Live Pan-India EV Infrastructure Active 🇮🇳</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight m-0">
             Find, Reserve & Charge Any EV in India
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed m-0">
             Real-time charging bays & battery swap hubs for <span className="text-emerald-400 font-semibold">Ather, Ola, TVS, Vida, Chetak EV Scooters</span> and <span className="text-cyan-300 font-semibold">Tata, MG, Mahindra, Hyundai 4W Cars</span> across India.
           </p>
         </div>
