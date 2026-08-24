@@ -86,21 +86,21 @@ export default function UserExploreView({
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
       
-      {/* Hero Welcome Banner */}
+      {/* Hero Welcome Banner with Perfectly Aligned Typographic Hierarchy */}
       <div className="glass-panel p-6 md:p-8 border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden">
         
-        {/* Left Side: Headline & Subtitle */}
-        <div className="space-y-3 max-w-2xl text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#00F2FE]/20 to-[#00E676]/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 font-mono shadow-sm">
+        {/* Left Side: Headline & Subtitle (Harmonious Alignment) */}
+        <div className="max-w-2xl text-left flex flex-col justify-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#00F2FE]/20 to-[#00E676]/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 font-mono shadow-sm w-fit mb-3">
             <span className="pulse-dot pulse-dot-green"></span>
             <span>Live Pan-India EV Infrastructure Active 🇮🇳</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight mb-2.5">
             Find, Reserve & Charge Any EV in India
           </h1>
 
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-sm text-slate-300 font-normal leading-relaxed">
             Real-time charging bays & battery swap hubs for <span className="text-emerald-400 font-semibold">Ather, Ola, TVS, Vida, Chetak EV Scooters</span> and <span className="text-cyan-300 font-semibold">Tata, MG, Mahindra, Hyundai 4W Cars</span> across India.
           </p>
         </div>
@@ -144,7 +144,7 @@ export default function UserExploreView({
       {/* Vehicle Category Selector Bar with Transparent Background & Small "14 Cities Connected" Badge */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-lg">
         
-        {/* Category Filters with Transparent Buttons */}
+        {/* Category Filters */}
         <div className="flex flex-wrap items-center justify-center gap-2">
           <button
             onClick={() => setVehicleCategory('ALL')}
