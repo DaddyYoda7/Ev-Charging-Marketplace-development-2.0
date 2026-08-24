@@ -235,10 +235,10 @@ export default function UserExploreView({
           {/* Transparent Connector Standard Filter (Custom Glass Dropdown with Transparent Options & Full Background Blur) */}
           <div className={`md:col-span-3 relative ${isConnectorDropdownOpen ? 'z-50' : 'z-10'}`} ref={connectorDropdownRef}>
             
-            {/* Background Blur Overlay when dropdown is open */}
+            {/* Full High-Intensity Background Blur Overlay when dropdown is open */}
             {isConnectorDropdownOpen && (
               <div 
-                className="fixed inset-0 bg-black/40 backdrop-blur-md z-40 transition-all duration-300"
+                className="fixed inset-0 bg-black/65 backdrop-blur-2xl z-40 transition-all duration-300 animate-fadeIn"
                 onClick={() => setIsConnectorDropdownOpen(false)}
               />
             )}
