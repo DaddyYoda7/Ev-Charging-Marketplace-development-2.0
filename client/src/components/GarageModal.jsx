@@ -10,10 +10,10 @@ export default function GarageModal({
 }) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newModel, setNewModel] = useState('');
-  const [newBrand, setNewBrand] = useState('Tata Motors');
+  const [newBrand, setNewBrand] = useState('Ather Energy');
   const [newNumber, setNewNumber] = useState('');
-  const [newBattery, setNewBattery] = useState(45);
-  const [newConnector, setNewConnector] = useState('CCS2');
+  const [newBattery, setNewBattery] = useState(3.7);
+  const [newConnector, setNewConnector] = useState('Ather Grid (2W)');
   const [adding, setAdding] = useState(false);
 
   if (!isOpen) return null;
@@ -49,9 +49,9 @@ export default function GarageModal({
       const res = await api.addVehicle({
         userId: 'usr-driver-1',
         model: newModel,
-        brand: newBrand || 'Tata Motors',
-        vehicleNumber: newNumber || 'KA-01-EV-9900',
-        batteryCapacity: Number(newBattery) || 45,
+        brand: newBrand || 'Ather Energy',
+        vehicleNumber: newNumber || 'KA-01-EV-8822',
+        batteryCapacity: Number(newBattery) || 3.7,
         connectorType: newConnector,
         currentSoc: 40
       });
@@ -83,17 +83,18 @@ export default function GarageModal({
         {/* Header */}
         <div className="mb-6 text-center">
           <div className="inline-flex items-center gap-2 text-xs font-bold text-[#00E676] uppercase tracking-wider mb-1">
-            <Car className="w-4 h-4" />
-            <span>Driver Vehicle Garage & Battery Telemetry</span>
+            <BatteryCharging className="w-4 h-4" />
+            <span>Driver Garage • EV Scooty & Electric Cars</span>
           </div>
           <h2 className="text-2xl font-black text-white">Registered Electric Vehicles</h2>
-          <p className="text-xs text-slate-400 mt-0.5">Select active vehicle or adjust battery SoC % to recalculate AI matching.</p>
+          <p className="text-xs text-slate-400 mt-0.5">Select active EV scooty/car or adjust battery SoC % for precision AI recommendation.</p>
         </div>
 
         {/* Vehicles List */}
         <div className="space-y-4 mb-6">
           {vehicles.map((v) => {
             const isPrimary = v.is_primary === 1;
+            const isScooty = v.connector_type.includes('2W') || v.connector_type.includes('Ather') || v.connector_type.includes('Ola') || v.battery_capacity <= 10;
             return (
               <div
                 key={v.id}
@@ -106,15 +107,16 @@ export default function GarageModal({
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <div className="flex items-center gap-2">
+                      <span className="text-sm">{isScooty ? '🛵' : '🚗'}</span>
                       <span className="font-bold text-white text-base">{v.model}</span>
                       {isPrimary && (
                         <span className="badge badge-available text-[9px] py-0.5">
-                          Active Primary
+                          Active Vehicle
                         </span>
                       )}
                     </div>
                     <div className="text-xs text-slate-400 font-mono mt-0.5">
-                      {v.brand} • {v.vehicle_number} • {v.battery_capacity} kWh Pack
+                      {v.brand} • {v.vehicle_number} • {v.battery_capacity} kWh Battery Pack
                     </div>
                   </div>
 
@@ -133,7 +135,7 @@ export default function GarageModal({
                   </div>
                 </div>
 
-                {/* Interactive Battery Slider for this vehicle */}
+                {/* Interactive Battery Slider */}
                 <div className="bg-black/30 p-3 rounded-lg border border-white/5">
                   <div className="flex items-center justify-between text-xs mb-1.5">
                     <span className="text-slate-400 flex items-center gap-1">
@@ -163,7 +165,7 @@ export default function GarageModal({
             className="w-full btn-secondary text-xs py-2.5 justify-center border-dashed"
           >
             <Plus className="w-4 h-4 text-[#00F2FE]" />
-            <span>Add Another Electric Vehicle (Tata / MG / Mahindra / Hyundai)</span>
+            <span>Add EV Scooty (Ather / Ola / TVS / Vida) or EV Car</span>
           </button>
         ) : (
           /* Add Vehicle Form */
@@ -174,22 +176,43 @@ export default function GarageModal({
                 <label className="text-[10px] text-slate-400 uppercase">Make / Brand</label>
                 <select
                   value={newBrand}
-                  onChange={(e) => setNewBrand(e.target.value)}
+                  onChange={(e) => {
+                    setNewBrand(e.target.value);
+                    if (e.target.value === 'Ather Energy') {
+                      setNewConnector('Ather Grid (2W)');
+                      setNewBattery(3.7);
+                    } else if (e.target.value === 'Ola Electric') {
+                      setNewConnector('Ola Hypercharger (2W)');
+                      setNewBattery(4.0);
+                    } else if (e.target.value === 'TVS Motor' || e.target.value === 'Bajaj Auto') {
+                      setNewConnector('15A EV Socket (2W)');
+                      setNewBattery(4.4);
+                    } else if (e.target.value === 'Hero Vida') {
+                      setNewConnector('Battery Swap (2W)');
+                      setNewBattery(3.94);
+                    } else {
+                      setNewConnector('CCS2');
+                      setNewBattery(45.0);
+                    }
+                  }}
                   className="input-glass mt-1 text-xs"
                 >
-                  <option value="Tata Motors">Tata Motors</option>
-                  <option value="MG Motor India">MG Motor India</option>
-                  <option value="Mahindra Electric">Mahindra Electric</option>
-                  <option value="Hyundai India">Hyundai India</option>
-                  <option value="BYD India">BYD India</option>
-                  <option value="Tesla">Tesla</option>
+                  <option value="Ather Energy">🛵 Ather Energy (450X / Apex)</option>
+                  <option value="Ola Electric">🛵 Ola Electric (S1 Pro / Air)</option>
+                  <option value="TVS Motor">🛵 TVS Motor (iQube ST / S)</option>
+                  <option value="Hero Vida">🛵 Hero Vida (V1 Pro / Plus)</option>
+                  <option value="Bajaj Auto">🛵 Bajaj Auto (Cetak Premium)</option>
+                  <option value="Tata Motors">🚗 Tata Motors (Nexon / Punch EV)</option>
+                  <option value="MG Motor India">🚗 MG Motor India (ZS EV / Comet)</option>
+                  <option value="Mahindra Electric">🚗 Mahindra Electric (XUV400)</option>
+                  <option value="Hyundai India">🚗 Hyundai India (Ioniq 5 / Creta EV)</option>
                 </select>
               </div>
               <div>
-                <label className="text-[10px] text-slate-400 uppercase">Model</label>
+                <label className="text-[10px] text-slate-400 uppercase">Model Name</label>
                 <input
                   type="text"
-                  placeholder="e.g. Nexon EV, Curvv EV, Atto 3"
+                  placeholder="e.g. 450X Gen 3 / S1 Pro"
                   required
                   value={newModel}
                   onChange={(e) => setNewModel(e.target.value)}
@@ -200,10 +223,10 @@ export default function GarageModal({
 
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <label className="text-[10px] text-slate-400 uppercase">Reg Plate #</label>
+                <label className="text-[10px] text-slate-400 uppercase">Reg Number</label>
                 <input
                   type="text"
-                  placeholder="e.g. KA-01-EV-1122"
+                  placeholder="KA-01-EV-9999"
                   value={newNumber}
                   onChange={(e) => setNewNumber(e.target.value)}
                   className="input-glass mt-1 text-xs font-mono"
@@ -213,23 +236,25 @@ export default function GarageModal({
                 <label className="text-[10px] text-slate-400 uppercase">Battery (kWh)</label>
                 <input
                   type="number"
-                  placeholder="45"
+                  step="0.1"
                   value={newBattery}
                   onChange={(e) => setNewBattery(e.target.value)}
                   className="input-glass mt-1 text-xs font-mono"
                 />
               </div>
               <div>
-                <label className="text-[10px] text-slate-400 uppercase">Connector</label>
+                <label className="text-[10px] text-slate-400 uppercase">Connector Standard</label>
                 <select
                   value={newConnector}
                   onChange={(e) => setNewConnector(e.target.value)}
                   className="input-glass mt-1 text-xs font-mono"
                 >
-                  <option value="CCS2">CCS2</option>
-                  <option value="Type 2">Type 2</option>
-                  <option value="CHAdeMO">CHAdeMO</option>
-                  <option value="NACS">NACS</option>
+                  <option value="Ather Grid (2W)">Ather Grid (2W)</option>
+                  <option value="Ola Hypercharger (2W)">Ola Hypercharger (2W)</option>
+                  <option value="15A EV Socket (2W)">15A EV Socket (2W)</option>
+                  <option value="Battery Swap (2W)">Battery Swap (2W)</option>
+                  <option value="CCS2">CCS2 (4W)</option>
+                  <option value="Type 2">Type 2 (4W)</option>
                 </select>
               </div>
             </div>
@@ -247,7 +272,7 @@ export default function GarageModal({
                 disabled={adding}
                 className="btn-primary text-xs px-4 py-1.5"
               >
-                {adding ? 'Saving...' : 'Save Vehicle'}
+                {adding ? 'Saving...' : 'Add Vehicle'}
               </button>
             </div>
           </form>
