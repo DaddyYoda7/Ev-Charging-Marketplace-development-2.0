@@ -86,27 +86,27 @@ export default function UserExploreView({
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
       
-      {/* Hero Welcome Banner (Vehicle Card Positioned on the Side) */}
+      {/* Hero Welcome Banner (Center-Aligned Text Block with Vehicle Card on the Side) */}
       <div className="glass-panel p-6 md:p-8 border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden">
         
-        {/* Left Side: Headline & Subtitle Block */}
-        <div className="space-y-2.5 max-w-2xl text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm">
+        {/* Left/Center Text Block (Center-Aligned) */}
+        <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2.5 max-w-2xl mx-auto lg:mx-0">
+          <div className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm">
             <span className="w-2 h-2 rounded-full bg-[#00E676] shadow-[0_0_8px_#00E676] shrink-0"></span>
             <span>Live Pan-India EV Infrastructure Active 🇮🇳</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight text-center">
             Find, Reserve & Charge Any EV in India
           </h1>
 
-          <p className="text-sm text-slate-300 leading-relaxed max-w-2xl">
+          <p className="text-sm text-slate-300 leading-relaxed text-center max-w-xl mx-auto">
             Real-time charging bays & battery swap hubs for <span className="text-emerald-400 font-semibold">Ather, Ola, TVS, Vida, Chetak EV Scooters</span> and <span className="text-cyan-300 font-semibold">Tata, MG, Mahindra, Hyundai 4W Cars</span> across India.
           </p>
         </div>
 
-        {/* Right Side: Active Primary Vehicle Card (On the Side) */}
-        <div className="shrink-0 flex items-center justify-start lg:justify-end">
+        {/* Right Side: Active Primary Vehicle Card (Kept exactly as it is on the side) */}
+        <div className="shrink-0 flex items-center justify-center lg:justify-end">
           {primaryVehicle ? (
             <div
               onClick={onOpenGarage}
