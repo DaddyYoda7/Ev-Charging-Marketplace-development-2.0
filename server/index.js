@@ -30,9 +30,26 @@ app.use('/api/analytics', analyticsRoutes);
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
-    platform: 'EVConnect AI',
-    version: '1.0.0',
+    platform: 'EV Connect AI',
+    version: '2.0.0',
     timestamp: new Date().toISOString()
+  });
+});
+
+// Serve Static Frontend in Production (client/dist)
+const clientDistPath = path.join(__dirname, '../client/dist');
+app.use(express.static(clientDistPath));
+
+// SPA Fallback for non-API routes
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'API route not found' });
+  }
+  const indexPath = path.join(clientDistPath, 'index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      res.status(200).send('EV Connect AI Server is active. Please build the frontend (`npm run build`) to load UI.');
+    }
   });
 });
 
@@ -40,8 +57,8 @@ async function startServer() {
   await initSchema();
   app.listen(PORT, () => {
     console.log(`====================================================`);
-    console.log(`⚡ EVConnect AI API Server running on port ${PORT}`);
-    console.log(`⚡ REST API: http://localhost:${PORT}/api/health`);
+    console.log(`⚡ EV Connect AI Server running on port ${PORT}`);
+    console.log(`⚡ Health Check: http://localhost:${PORT}/api/health`);
     console.log(`⚡ Telemetry SSE: http://localhost:${PORT}/api/telemetry/stream`);
     console.log(`====================================================`);
   });
