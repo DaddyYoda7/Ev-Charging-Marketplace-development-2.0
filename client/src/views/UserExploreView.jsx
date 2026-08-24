@@ -86,12 +86,12 @@ export default function UserExploreView({
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
       
-      {/* Hero Welcome Banner (Centered Typographic Layout) */}
-      <div className="glass-panel p-6 md:p-8 border border-white/10 flex flex-col items-center justify-center text-center relative overflow-hidden gap-6">
+      {/* Hero Welcome Banner (Vehicle Card Positioned on the Side) */}
+      <div className="glass-panel p-6 md:p-8 border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden">
         
-        {/* Centered Headline & Subtitle Block */}
-        <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm">
+        {/* Left Side: Headline & Subtitle Block */}
+        <div className="space-y-2.5 max-w-2xl text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm">
             <span className="w-2 h-2 rounded-full bg-[#00E676] shadow-[0_0_8px_#00E676] shrink-0"></span>
             <span>Live Pan-India EV Infrastructure Active 🇮🇳</span>
           </div>
@@ -100,42 +100,44 @@ export default function UserExploreView({
             Find, Reserve & Charge Any EV in India
           </h1>
 
-          <p className="text-sm text-slate-300 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm text-slate-300 leading-relaxed max-w-2xl">
             Real-time charging bays & battery swap hubs for <span className="text-emerald-400 font-semibold">Ather, Ola, TVS, Vida, Chetak EV Scooters</span> and <span className="text-cyan-300 font-semibold">Tata, MG, Mahindra, Hyundai 4W Cars</span> across India.
           </p>
         </div>
 
-        {/* Centered Active Primary Vehicle Card */}
-        {primaryVehicle ? (
-          <div
-            onClick={onOpenGarage}
-            title="Click to switch vehicle or adjust battery SoC"
-            className="p-3.5 px-5 rounded-2xl bg-white/5 hover:bg-white/10 border border-cyan-500/30 hover:border-cyan-400/60 cursor-pointer transition-all duration-300 flex items-center justify-center gap-4 shadow-xl shadow-cyan-500/5 group hover:scale-105"
-          >
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center text-[#00E676] group-hover:scale-110 transition-transform shrink-0">
-              <BatteryCharging className="w-5 h-5" />
-            </div>
-
-            <div className="text-left">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-white tracking-tight">{primaryVehicle.model}</span>
-                <span className="badge badge-charging text-[10px] font-mono py-0.5 px-2">
-                  {primaryVehicle.connector_type}
-                </span>
+        {/* Right Side: Active Primary Vehicle Card (On the Side) */}
+        <div className="shrink-0 flex items-center justify-start lg:justify-end">
+          {primaryVehicle ? (
+            <div
+              onClick={onOpenGarage}
+              title="Click to switch vehicle or adjust battery SoC"
+              className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-cyan-500/30 hover:border-cyan-400/60 cursor-pointer transition-all duration-300 flex items-center gap-4 shadow-xl shadow-cyan-500/5 group w-full sm:w-auto hover:scale-105"
+            >
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center text-[#00E676] group-hover:scale-110 transition-transform shrink-0">
+                <BatteryCharging className="w-6 h-6" />
               </div>
 
-              <div className="text-xs text-slate-300 font-mono mt-0.5 flex items-center gap-2">
-                <span>Battery SoC: <b className="text-[#00E676] font-bold">{primaryVehicle.current_soc}%</b></span>
-                <span className="text-slate-500">•</span>
-                <span>{primaryVehicle.battery_capacity} kWh</span>
+              <div className="text-left">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-white tracking-tight">{primaryVehicle.model}</span>
+                  <span className="badge badge-charging text-[10px] font-mono py-0.5 px-2">
+                    {primaryVehicle.connector_type}
+                  </span>
+                </div>
+
+                <div className="text-xs text-slate-300 font-mono mt-1 flex items-center gap-2">
+                  <span>Battery SoC: <b className="text-[#00E676] font-bold">{primaryVehicle.current_soc}%</b></span>
+                  <span className="text-slate-500">•</span>
+                  <span>{primaryVehicle.battery_capacity} kWh</span>
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <button onClick={onOpenGarage} className="btn-secondary text-xs px-5 py-3">
-            Configure EV Garage
-          </button>
-        )}
+          ) : (
+            <button onClick={onOpenGarage} className="btn-secondary text-xs px-5 py-3">
+              Configure EV Garage
+            </button>
+          )}
+        </div>
 
       </div>
 
