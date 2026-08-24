@@ -232,12 +232,23 @@ export default function UserExploreView({
             />
           </div>
 
-          {/* Transparent Connector Standard Filter (Custom Glass Dropdown with Transparent Options) */}
-          <div className="md:col-span-3 relative" ref={connectorDropdownRef}>
+          {/* Transparent Connector Standard Filter (Custom Glass Dropdown with Transparent Options & Full Background Blur) */}
+          <div className={`md:col-span-3 relative ${isConnectorDropdownOpen ? 'z-50' : 'z-10'}`} ref={connectorDropdownRef}>
+            
+            {/* Background Blur Overlay when dropdown is open */}
+            {isConnectorDropdownOpen && (
+              <div 
+                className="fixed inset-0 bg-black/40 backdrop-blur-md z-40 transition-all duration-300"
+                onClick={() => setIsConnectorDropdownOpen(false)}
+              />
+            )}
+
             <button
               type="button"
               onClick={() => setIsConnectorDropdownOpen(!isConnectorDropdownOpen)}
-              className="w-full h-[38px] bg-white/5 hover:bg-white/10 focus:bg-white/10 border border-white/15 hover:border-white/30 focus:border-[#00F2FE] text-white px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all cursor-pointer select-none"
+              className={`w-full h-[38px] bg-white/5 hover:bg-white/10 focus:bg-white/10 border text-white px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all cursor-pointer select-none relative z-50 ${
+                isConnectorDropdownOpen ? 'border-[#00F2FE] shadow-[0_0_15px_rgba(0,242,254,0.25)] bg-[#0B0F19]/90' : 'border-white/15 hover:border-white/30'
+              }`}
             >
               <div className="flex items-center gap-2 truncate">
                 <span className="shrink-0 text-sm leading-none">{currentConnectorObj.icon}</span>
@@ -250,7 +261,7 @@ export default function UserExploreView({
 
             {/* Transparent Frosted Glass Dropdown Menu with Deep Backdrop Blur */}
             {isConnectorDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-[#0B0F19]/80 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] z-50 p-2 space-y-1 animate-fadeIn max-h-64 overflow-y-auto">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-[#0B0F19]/90 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.95)] z-50 p-2 space-y-1 animate-fadeIn max-h-64 overflow-y-auto">
                 {CONNECTOR_OPTIONS.map((opt) => {
                   const isSelected = selectedConnector === opt.value;
                   return (
