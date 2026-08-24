@@ -91,8 +91,8 @@ export default function UserExploreView({
         
         {/* Left/Center Text Block (Center-Aligned) */}
         <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2.5 max-w-2xl mx-auto lg:mx-0">
-          <div className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-[#00E676] shadow-[0_0_8px_#00E676] shrink-0"></span>
+          <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-[11px] font-bold text-cyan-300 font-mono shadow-sm">
+            <span className="pulse-dot pulse-dot-green shrink-0"></span>
             <span>Live Pan-India EV Infrastructure Active 🇮🇳</span>
           </div>
 
