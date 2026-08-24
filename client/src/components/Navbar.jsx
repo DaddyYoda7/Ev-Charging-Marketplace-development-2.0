@@ -84,7 +84,7 @@ export default function Navbar({
                 onClick={() => onViewChange('host-stations')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'host-stations'
-                    ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40'
+                    ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40 shadow-sm'
                     : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
@@ -96,7 +96,7 @@ export default function Navbar({
                 onClick={() => onViewChange('host-analytics')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'host-analytics'
-                    ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40'
+                    ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40 shadow-sm'
                     : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
@@ -108,7 +108,7 @@ export default function Navbar({
                 onClick={() => onViewChange('ocpp-lab')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ocpp-lab'
-                    ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40'
+                    ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm'
                     : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
               >
@@ -123,7 +123,7 @@ export default function Navbar({
               onClick={() => onViewChange('admin-dashboard')}
               className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 activeView === 'admin-dashboard'
-                  ? 'bg-purple-500/15 text-[#D8B4FE] border border-purple-400/40'
+                  ? 'bg-purple-500/15 text-[#D8B4FE] border border-purple-400/40 shadow-sm'
                   : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
@@ -140,7 +140,7 @@ export default function Navbar({
           {currentRole === 'user' && primaryVehicle && (
             <button
               onClick={onOpenGarage}
-              className="hidden lg:flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#00F2FE] px-3 py-1.5 rounded-xl text-xs font-semibold text-white transition-all duration-200 hover:scale-105 cursor-pointer"
+              className="hidden lg:flex items-center gap-2 bg-transparent hover:bg-white/5 border border-white/10 hover:border-[#00F2FE] px-3 py-1.5 rounded-xl text-xs font-semibold text-white transition-all duration-200 hover:scale-105 cursor-pointer"
               title="Click to switch EV or adjust battery SoC"
             >
               <BatteryCharging className="w-4 h-4 text-[#00E676]" />
@@ -154,19 +154,19 @@ export default function Navbar({
           )}
 
           {/* Telemetry Live Indicator */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs shadow-sm">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-transparent border border-white/10 text-xs shadow-sm">
             <span className={`pulse-dot ${telemetryConnected ? 'pulse-dot-green' : 'pulse-dot-cyan'}`}></span>
-            <span className="text-[11px] text-slate-300 font-mono font-semibold">Live Telemetry</span>
+            <span className="text-[11px] text-slate-400 font-mono font-semibold">Live Telemetry</span>
           </div>
 
-          {/* Transparent Role Switcher Pill Bar */}
-          <div className="flex items-center bg-white/5 p-1 rounded-xl border border-white/10 shadow-sm gap-1">
+          {/* Transparent Role Switcher Pill Bar with Grey Font */}
+          <div className="flex items-center bg-transparent p-1 rounded-xl border border-white/10 gap-1">
             <button
               onClick={() => onRoleChange('user')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'user'
-                  ? 'bg-cyan-500/20 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-black'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
+                  : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
               <Zap className="w-3 h-3" />
@@ -177,8 +177,8 @@ export default function Navbar({
               onClick={() => onRoleChange('owner')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'owner'
-                  ? 'bg-emerald-500/20 text-[#00E676] border border-emerald-400/40 shadow-sm font-black'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40 shadow-sm font-bold'
+                  : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
               <Building2 className="w-3 h-3" />
@@ -189,8 +189,8 @@ export default function Navbar({
               onClick={() => onRoleChange('admin')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'admin'
-                  ? 'bg-purple-500/20 text-[#D8B4FE] border border-purple-400/40 shadow-sm font-black'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  ? 'bg-purple-500/15 text-[#D8B4FE] border border-purple-400/40 shadow-sm font-bold'
+                  : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
               }`}
             >
               <Shield className="w-3 h-3" />
