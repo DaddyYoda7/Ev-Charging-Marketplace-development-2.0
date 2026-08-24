@@ -86,11 +86,11 @@ export default function UserExploreView({
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
       
-      {/* Hero Welcome Banner (Clean Centered Alignment & Vehicle Card) */}
-      <div className="glass-panel p-6 md:p-8 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+      {/* Hero Welcome Banner (Cleanly Aligned Text & Ather 450X Vehicle Card) */}
+      <div className="glass-panel p-6 md:p-8 border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden">
         
-        {/* Left Side: Headline & Description */}
-        <div className="space-y-2.5 max-w-2xl">
+        {/* Left Side: Headline & Subtitle */}
+        <div className="space-y-3 max-w-2xl text-left">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#00F2FE]/20 to-[#00E676]/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 font-mono shadow-sm">
             <span className="pulse-dot pulse-dot-green"></span>
             <span>Live Pan-India EV Infrastructure Active 🇮🇳</span>
@@ -101,19 +101,19 @@ export default function UserExploreView({
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Real-time charging bays & battery swap hubs for <b>Ather, Ola, TVS, Vida, Chetak EV Scooters</b> and <b>Tata, MG, Mahindra, Hyundai 4W Cars</b> across India.
+            Real-time charging bays & battery swap hubs for <span className="text-emerald-400 font-semibold">Ather, Ola, TVS, Vida, Chetak EV Scooters</span> and <span className="text-cyan-300 font-semibold">Tata, MG, Mahindra, Hyundai 4W Cars</span> across India.
           </p>
         </div>
 
         {/* Right Side: Active Primary Vehicle Card */}
-        <div className="shrink-0 flex items-center justify-start md:justify-end">
+        <div className="shrink-0 flex items-center justify-start lg:justify-end">
           {primaryVehicle ? (
             <div
               onClick={onOpenGarage}
               title="Click to switch vehicle or adjust battery SoC"
-              className="p-4 rounded-2xl bg-[#111A2E]/90 hover:bg-[#15223D] border border-cyan-500/30 hover:border-cyan-400/60 cursor-pointer transition-all duration-300 flex items-center gap-4 shadow-xl shadow-cyan-500/5 group"
+              className="p-4 rounded-2xl bg-[#111A2E]/90 hover:bg-[#15223D] border border-cyan-500/30 hover:border-cyan-400/60 cursor-pointer transition-all duration-300 flex items-center gap-4 shadow-xl shadow-cyan-500/5 group w-full sm:w-auto"
             >
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center text-[#00E676] group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center text-[#00E676] group-hover:scale-110 transition-transform shrink-0">
                 <BatteryCharging className="w-6 h-6" />
               </div>
 
@@ -263,7 +263,7 @@ export default function UserExploreView({
         </div>
       </div>
 
-      {/* 1. Default View Map Section */}
+      {/* 1. Default Pan-India EV Charging Map Section */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">

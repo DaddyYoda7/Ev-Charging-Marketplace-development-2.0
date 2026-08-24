@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { MapPin, Navigation, Zap, Compass, Layers, Crosshair, Sparkles } from 'lucide-react';
+import { MapPin, Navigation, Zap, Compass, Layers, Crosshair } from 'lucide-react';
 
 const INDIAN_CITIES = [
   { name: 'All India 🇮🇳', lat: 20.5937, lon: 78.9629, zoom: 5 },
@@ -19,8 +19,7 @@ export default function InteractiveMap({
   onSelectStation,
   onBookStation,
   userLocation = { lat: 12.9716, lon: 77.5946 },
-  onUserLocationChange,
-  viewMode = 'both'
+  onUserLocationChange
 }) {
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
@@ -31,7 +30,7 @@ export default function InteractiveMap({
   const [mapTheme, setMapTheme] = useState('dark');
   const [liveLocationTracking, setLiveLocationTracking] = useState(false);
 
-  // Initialize Map
+  // Initialize Map with guaranteed height & Leaflet bindings
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
@@ -44,10 +43,11 @@ export default function InteractiveMap({
 
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-      // Default Dark Theme TileLayer
-      const tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      // Reliable CartoDB Voyager / Dark Tiles
+      const tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://carto.com/">CARTO</a>, &copy; OpenStreetMap',
-        maxZoom: 19
+        maxZoom: 19,
+        subdomains: 'abcd'
       }).addTo(map);
 
       mapInstanceRef.current = map;
@@ -60,44 +60,32 @@ export default function InteractiveMap({
       });
     }
 
-    // Trigger invalidateSize after initial layout paint
-    const timer = setTimeout(() => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.invalidateSize();
-      }
-    }, 200);
-
-    return () => clearTimeout(timer);
+    // Force invalidateSize on mount to ensure tiles are fully rendered
+    const map = mapInstanceRef.current;
+    if (map) {
+      setTimeout(() => map.invalidateSize(), 100);
+      setTimeout(() => map.invalidateSize(), 500);
+    }
   }, []);
 
-  // Handle Resize & InvalidateSize when viewMode changes (Split / Full Map)
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.invalidateSize();
-      }
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [viewMode]);
-
-  // Update Tile Theme
+  // Handle Map Theme Switching
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map || !map._tileLayer) return;
 
     map.removeLayer(map._tileLayer);
-    let newUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-    if (mapTheme === 'voyager') {
-      newUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+    let newUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+    if (mapTheme === 'dark') {
+      newUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
     } else if (mapTheme === 'satellite') {
       newUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
     }
 
-    const newLayer = L.tileLayer(newUrl, { maxZoom: 19 }).addTo(map);
+    const newLayer = L.tileLayer(newUrl, { maxZoom: 19, subdomains: 'abcd' }).addTo(map);
     map._tileLayer = newLayer;
   }, [mapTheme]);
 
-  // Update Markers & Popups
+  // Update Markers & Popups across India
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
@@ -298,10 +286,10 @@ export default function InteractiveMap({
   }
 
   return (
-    <div className="relative w-full h-[520px] lg:h-[660px] rounded-2xl overflow-hidden glass-panel border border-white/10 shadow-2xl flex flex-col">
+    <div className="relative w-full rounded-2xl overflow-hidden glass-panel border border-white/10 shadow-2xl flex flex-col" style={{ minHeight: '520px', height: '540px' }}>
       
       {/* Top Pan-India City Quick Selector Toolbar */}
-      <div className="absolute top-3 left-3 right-3 z-[1000] flex items-center justify-between gap-2 overflow-x-auto pb-1">
+      <div className="absolute top-3.5 left-3.5 right-3.5 z-[1000] flex items-center justify-between gap-2 overflow-x-auto pb-1">
         <div className="flex items-center gap-1.5 bg-[#0B0F19]/95 backdrop-blur-md p-1.5 rounded-xl border border-white/15 shadow-xl shrink-0">
           <div className="px-2 py-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
             <Compass className="w-3.5 h-3.5 text-[#00F2FE]" />
@@ -344,10 +332,13 @@ export default function InteractiveMap({
         </div>
       </div>
 
-      {/* Map DOM Container */}
-      <div ref={mapContainerRef} className="w-full h-full" />
+      {/* Map DOM Container with Explicit Pixel Height */}
+      <div
+        ref={mapContainerRef}
+        style={{ width: '100%', height: '540px', minHeight: '520px', backgroundColor: '#0B0F19', position: 'relative', zIndex: 1 }}
+      />
       
-      {/* Bottom Map Legend & Interactive Hint */}
+      {/* Bottom Map Legend */}
       <div className="absolute bottom-4 left-4 z-[1000] bg-[#0B0F19]/90 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-xs flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-1.5 font-semibold text-slate-200">
           <span className="text-sm">🛵</span>
