@@ -39,7 +39,7 @@ export default function OcppSimulator({
 
   async function handleOcppAction(eventType, status = null, faultCode = null) {
     if (!selectedChargerId) return;
-    setActionMsg(`Sending OCPP ${eventType}...`);
+    setActionMsg(`Dispatching OCPP 2.0.1 ${eventType}...`);
     try {
       const res = await api.triggerOcppEvent({
         chargerId: selectedChargerId,
@@ -53,7 +53,7 @@ export default function OcppSimulator({
           charger: res.charger,
           healthReport: res.healthReport
         }));
-        setActionMsg(`✓ OCPP Message Ack: ${eventType}`);
+        setActionMsg(`✓ OCPP Message Acknowledged: ${eventType}`);
         if (onChargerUpdated) onChargerUpdated(res.charger);
       }
     } catch (err) {
@@ -68,7 +68,7 @@ export default function OcppSimulator({
   const isAvailable = ch?.status === 'AVAILABLE';
 
   return (
-    <div className="glass-panel p-6 border border-white/20 bg-[#0C121E]">
+    <div className="glass-panel p-6 border border-white/20 bg-[#0E1524] shadow-2xl">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-white/10 mb-6">
@@ -78,12 +78,12 @@ export default function OcppSimulator({
             <span>Phase 6 • OCPP 1.6 / 2.0.1 Hardware & Telemetry Simulator</span>
           </div>
           <h2 className="text-2xl font-black text-white">Live Charge Point Simulator</h2>
-          <p className="text-xs text-slate-400">Inject real hardware events, trigger live charging cycles, or simulate thermal/ground faults.</p>
+          <p className="text-xs text-slate-400 mt-0.5">Inject real hardware events, trigger live charging cycles, or simulate thermal/ground faults.</p>
         </div>
 
         {/* Charger Bay Switcher */}
         <div className="flex items-center gap-2">
-          <label className="text-xs font-bold text-slate-400 uppercase">Target Charger:</label>
+          <label className="text-xs font-bold text-slate-300 uppercase tracking-wider shrink-0">Target Bay:</label>
           <select
             value={selectedChargerId}
             onChange={(e) => setSelectedChargerId(e.target.value)}
@@ -99,8 +99,8 @@ export default function OcppSimulator({
       </div>
 
       {actionMsg && (
-        <div className="mb-4 p-2.5 rounded-lg bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-xs font-mono flex items-center gap-2">
-          <Activity className="w-3.5 h-3.5 animate-spin" />
+        <div className="mb-4 p-2.5 rounded-xl bg-cyan-950/50 border border-cyan-500/40 text-cyan-300 text-xs font-mono flex items-center gap-2">
+          <Activity className="w-4 h-4 text-[#00F2FE] animate-spin shrink-0" />
           <span>{actionMsg}</span>
         </div>
       )}
@@ -115,9 +115,9 @@ export default function OcppSimulator({
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               
               {/* Status */}
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
+              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status</div>
-                <div className="mt-1">
+                <div className="mt-1 flex justify-center">
                   <span className={`badge text-[11px] ${
                     isAvailable ? 'badge-available' : isCharging ? 'badge-charging' : isFaulted ? 'badge-faulted' : 'badge-occupied'
                   }`}>
@@ -127,7 +127,7 @@ export default function OcppSimulator({
               </div>
 
               {/* Active Power Draw */}
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
+              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Power</div>
                 <div className="text-xl font-extrabold text-[#00F2FE] font-mono mt-0.5">
                   {ch.active_power_kw?.toFixed(1) || '0.0'} <span className="text-xs font-normal text-slate-400">kW</span>
@@ -135,7 +135,7 @@ export default function OcppSimulator({
               </div>
 
               {/* Internal Temperature */}
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
+              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Temperature</div>
                 <div className={`text-xl font-extrabold font-mono mt-0.5 ${
                   ch.temperature_c > 45 ? 'text-red-400' : ch.temperature_c > 38 ? 'text-amber-400' : 'text-emerald-400'
@@ -145,7 +145,7 @@ export default function OcppSimulator({
               </div>
 
               {/* Health Score */}
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10">
+              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Health Index</div>
                 <div className="text-xl font-extrabold text-white font-mono mt-0.5">
                   {ch.health_score}%
@@ -161,7 +161,7 @@ export default function OcppSimulator({
                   <span className="pulse-dot pulse-dot-cyan"></span>
                   OCPP 1.6-J Raw Telemetry Frame
                 </span>
-                <span className="text-[10px] text-slate-400 font-mono">Voltage: 400.0V • 3-Phase AC/DC</span>
+                <span className="text-[10px] text-slate-400 font-mono">Voltage: 415.0V • 3-Phase Indian Grid</span>
               </div>
 
               <div className="bg-[#070B12] p-3 rounded-lg border border-white/5 font-mono text-[11px] text-slate-300 space-y-1 max-h-36 overflow-y-auto">
@@ -169,7 +169,7 @@ export default function OcppSimulator({
                 <div className="text-emerald-400">[OCPP 2.0] &lt;MeterValues&gt; Active.Import: {ch.active_power_kw || 0} kW, Temp: {ch.temperature_c}°C</div>
                 {chargerData?.recentLogs?.slice(0, 4).map((log, idx) => (
                   <div key={idx} className="text-slate-400">
-                    [{new Date(log.timestamp).toLocaleTimeString()}] {log.event_type} - {log.power_kw}kW, {log.temperature_c}°C {log.fault_code ? `[FAULT: ${log.fault_code}]` : ''}
+                    [{new Date(log.timestamp).toLocaleTimeString('en-IN')}] {log.event_type} - {log.power_kw}kW, {log.temperature_c}°C {log.fault_code ? `[FAULT: ${log.fault_code}]` : ''}
                   </div>
                 ))}
               </div>
@@ -179,12 +179,12 @@ export default function OcppSimulator({
 
           {/* Right Column: Interactive Hardware Trigger Controls */}
           <div className="p-5 rounded-xl bg-white/[0.03] border border-white/10 space-y-4">
-            <div className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+            <div className="text-xs font-bold text-slate-300 uppercase tracking-wider text-center">
               Simulation Hardware Actions
             </div>
 
             {/* Standard Operations */}
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <button
                 onClick={() => handleOcppAction('StartTransaction', 'CHARGING')}
                 disabled={isCharging}
@@ -205,8 +205,8 @@ export default function OcppSimulator({
             </div>
 
             {/* Fault Injections (Phase 6.5) */}
-            <div className="pt-3 border-t border-white/10 space-y-2">
-              <div className="text-[11px] font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="pt-3 border-t border-white/10 space-y-2.5">
+              <div className="text-[11px] font-bold text-red-400 uppercase tracking-wider flex items-center justify-center gap-1.5">
                 <AlertOctagon className="w-3.5 h-3.5" />
                 <span>Fault Injection & Anomaly Testing</span>
               </div>
@@ -219,7 +219,7 @@ export default function OcppSimulator({
               </button>
 
               <button
-                onClick={() => handleOcppAction('FaultAlert', 'FAULTED', 'Ground Failure / Relay Insulation Breakdown')}
+                onClick={() => handleOcppAction('FaultAlert', 'FAULTED', 'Ground Relay Insulation Breakdown')}
                 className="w-full btn-danger text-xs py-2 justify-center"
               >
                 Inject Ground Relay Failure
@@ -230,10 +230,10 @@ export default function OcppSimulator({
             {health && health.severity !== 'NORMAL' && (
               <div className="p-3 rounded-lg bg-red-500/15 border border-red-500/40 text-red-300 text-xs space-y-1">
                 <div className="font-bold flex items-center gap-1.5">
-                  <ShieldAlert className="w-4 h-4 text-red-400" />
+                  <ShieldAlert className="w-4 h-4 text-red-400 shrink-0" />
                   <span>Predictive Alert: {health.failureRiskPct}% Risk</span>
                 </div>
-                <p className="text-[11px] text-red-200/90">{health.recommendation}</p>
+                <p className="text-[11px] text-red-200/90 leading-tight">{health.recommendation}</p>
               </div>
             )}
 
