@@ -36,7 +36,7 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Center View Navigation Links: Transparent Background & Colored Accents on Hover */}
+        {/* Center View Navigation Links: Unified Cyan Palette for Driver Views */}
         <nav className="flex items-center gap-1.5 bg-transparent p-1 rounded-xl border border-white/10">
           {currentRole === 'user' && (
             <>
@@ -68,11 +68,11 @@ export default function Navbar({
                 onClick={() => onViewChange('ai-planner')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ai-planner'
-                    ? 'bg-purple-500/20 text-[#C084FC] border border-purple-400/50 shadow-sm font-bold'
-                    : 'bg-transparent text-slate-400 hover:text-[#C084FC] hover:bg-purple-500/10'
+                    ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
+                    : 'bg-transparent text-slate-400 hover:text-[#00F2FE] hover:bg-cyan-500/10'
                 }`}
               >
-                <Brain className="w-3.5 h-3.5 text-[#C084FC]" />
+                <Brain className="w-3.5 h-3.5" />
                 <span>AI Trip Planner</span>
               </button>
             </>
@@ -159,7 +159,7 @@ export default function Navbar({
             <span className="text-[11px] text-slate-400 font-mono font-semibold">Live Telemetry</span>
           </div>
 
-          {/* Transparent Role Switcher Pill Bar with Vivid Purple for Admin */}
+          {/* Transparent Role Switcher Pill Bar (Distinct Colors for Roles) */}
           <div className="flex items-center bg-transparent p-1 rounded-xl border border-white/10 gap-1">
             <button
               onClick={() => onRoleChange('user')}
