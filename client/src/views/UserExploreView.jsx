@@ -1,9 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Filter, SlidersHorizontal, MapPin, Zap, BatteryCharging, Sparkles, Navigation, CheckCircle2, RotateCcw, Compass } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, Filter, SlidersHorizontal, MapPin, Zap, BatteryCharging, Sparkles, Navigation, CheckCircle2, RotateCcw, Compass, ChevronDown, Check } from 'lucide-react';
 import InteractiveMap from '../components/InteractiveMap';
 import StationCard from '../components/StationCard';
 import StationDetailModal from '../components/StationDetailModal';
 import { api } from '../utils/api';
+
+const CONNECTOR_OPTIONS = [
+  { value: '', label: 'All Connector Standards', icon: '⚡' },
+  { value: 'Ather Grid (2W)', label: 'Ather Grid Fast (2W)', icon: '🛵' },
+  { value: 'Ola Hypercharger (2W)', label: 'Ola Hypercharger (2W)', icon: '🛵' },
+  { value: '15A EV Socket (2W)', label: '15A EV Scooty Socket', icon: '🛵' },
+  { value: 'Battery Swap (2W)', label: '2W Fast Battery Swap', icon: '🛵' },
+  { value: 'CCS2', label: 'CCS2 (Tata / MG / Hyundai / Mahindra)', icon: '🚗' },
+  { value: 'Type 2', label: 'Type 2 AC', icon: '🚗' }
+];
 
 export default function UserExploreView({
   onSelectStation,
@@ -16,12 +26,26 @@ export default function UserExploreView({
   const [searchQuery, setSearchQuery] = useState('');
   const [vehicleCategory, setVehicleCategory] = useState('ALL'); // 'ALL' | 'SCOOTY' | 'CAR'
   const [selectedConnector, setSelectedConnector] = useState('');
+  const [isConnectorDropdownOpen, setIsConnectorDropdownOpen] = useState(false);
   const [minPower, setMinPower] = useState(0);
   const [maxPrice, setMaxPrice] = useState(35.0);
   const [availableOnly, setAvailableOnly] = useState(false);
   const [selectedStation, setSelectedStation] = useState(null);
   const [detailModalStation, setDetailModalStation] = useState(null);
   const [userLocation, setUserLocation] = useState({ lat: 12.9716, lon: 77.5946 });
+
+  const connectorDropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (connectorDropdownRef.current && !connectorDropdownRef.current.contains(event.target)) {
+        setIsConnectorDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     fetchStations();
@@ -76,12 +100,15 @@ export default function UserExploreView({
     setMinPower(0);
     setMaxPrice(35.0);
     setAvailableOnly(false);
+    setIsConnectorDropdownOpen(false);
   }
 
   function handleStationSelect(st) {
     setSelectedStation(st);
     if (onSelectStation) onSelectStation(st);
   }
+
+  const currentConnectorObj = CONNECTOR_OPTIONS.find(o => o.value === selectedConnector) || CONNECTOR_OPTIONS[0];
 
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
@@ -189,7 +216,7 @@ export default function UserExploreView({
 
       </div>
 
-      {/* Search & Dynamic Filter Controls Bar (Transparent Backgrounds) */}
+      {/* Search & Dynamic Filter Controls Bar (Transparent Backgrounds & Perfect Alignment) */}
       <div className="glass-panel p-4 md:p-5 border border-white/10 space-y-4 shadow-xl">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
           
@@ -201,32 +228,62 @@ export default function UserExploreView({
               placeholder="Search station, city, expressway..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/5 hover:bg-white/[0.08] focus:bg-white/10 border border-white/15 hover:border-white/30 focus:border-[#00F2FE] text-white placeholder-slate-400 pl-10 pr-3 py-2.5 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#00F2FE] transition-all font-body"
+              className="w-full h-[38px] bg-white/5 hover:bg-white/[0.08] focus:bg-white/10 border border-white/15 hover:border-white/30 focus:border-[#00F2FE] text-white placeholder-slate-400 pl-10 pr-3 py-2 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#00F2FE] transition-all font-body flex items-center"
             />
           </div>
 
-          {/* Transparent Connector Standard Filter */}
-          <div className="md:col-span-3">
-            <select
-              value={selectedConnector}
-              onChange={(e) => setSelectedConnector(e.target.value)}
-              className="w-full bg-white/5 hover:bg-white/[0.08] focus:bg-white/10 border border-white/15 hover:border-white/30 focus:border-[#00F2FE] text-white pl-3 pr-8 py-2.5 rounded-xl text-xs outline-none transition-all font-body cursor-pointer"
+          {/* Transparent Connector Standard Filter (Custom Glass Dropdown with Transparent Options) */}
+          <div className="md:col-span-3 relative" ref={connectorDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsConnectorDropdownOpen(!isConnectorDropdownOpen)}
+              className="w-full h-[38px] bg-white/5 hover:bg-white/10 focus:bg-white/10 border border-white/15 hover:border-white/30 focus:border-[#00F2FE] text-white px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all cursor-pointer select-none"
             >
-              <option value="" className="bg-[#0B0F19] text-white">All Connector Standards</option>
-              <option value="Ather Grid (2W)" className="bg-[#0B0F19] text-white">🛵 Ather Grid Fast (2W)</option>
-              <option value="Ola Hypercharger (2W)" className="bg-[#0B0F19] text-white">🛵 Ola Hypercharger (2W)</option>
-              <option value="15A EV Socket (2W)" className="bg-[#0B0F19] text-white">🛵 15A EV Scooty Socket</option>
-              <option value="Battery Swap (2W)" className="bg-[#0B0F19] text-white">🛵 2W Fast Battery Swap</option>
-              <option value="CCS2" className="bg-[#0B0F19] text-white">🚗 CCS2 (Tata / MG / Hyundai / Mahindra)</option>
-              <option value="Type 2" className="bg-[#0B0F19] text-white">🚗 Type 2 AC</option>
-            </select>
+              <div className="flex items-center gap-2 truncate">
+                <span className="shrink-0 text-sm leading-none">{currentConnectorObj.icon}</span>
+                <span className="truncate text-slate-300 font-medium leading-none">
+                  {currentConnectorObj.label}
+                </span>
+              </div>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200 ${isConnectorDropdownOpen ? 'rotate-180 text-[#00F2FE]' : ''}`} />
+            </button>
+
+            {/* Transparent Glass Dropdown Menu */}
+            {isConnectorDropdownOpen && (
+              <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#0B0F19]/95 backdrop-blur-xl border border-white/15 rounded-xl shadow-2xl z-50 p-1.5 space-y-0.5 animate-fadeIn max-h-60 overflow-y-auto">
+                {CONNECTOR_OPTIONS.map((opt) => {
+                  const isSelected = selectedConnector === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => {
+                        setSelectedConnector(opt.value);
+                        setIsConnectorDropdownOpen(false);
+                      }}
+                      className={`w-full px-2.5 py-2 rounded-lg text-xs flex items-center justify-between text-left transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-cyan-500/15 text-[#00F2FE] font-bold border border-cyan-400/30'
+                          : 'text-slate-300 hover:text-white hover:bg-white/10 bg-transparent'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        <span className="shrink-0">{opt.icon}</span>
+                        <span className="truncate">{opt.label}</span>
+                      </div>
+                      {isSelected && <Check className="w-3.5 h-3.5 text-[#00F2FE] shrink-0" />}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Transparent Max Price Range Slider */}
-          <div className="md:col-span-3 bg-white/5 p-2.5 rounded-xl border border-white/15 text-xs">
-            <div className="flex justify-between text-[11px] text-slate-300 mb-1">
+          <div className="md:col-span-3 bg-white/5 p-2.5 rounded-xl border border-white/15 text-xs h-[38px] flex flex-col justify-center">
+            <div className="flex justify-between text-[10px] text-slate-300 mb-0.5 leading-none">
               <span>Max Tariff:</span>
-              <span className="font-mono text-[#00E676] font-bold">₹{maxPrice.toFixed(2)}/kWh</span>
+              <span className="font-mono text-[#00E676] font-bold leading-none">₹{maxPrice.toFixed(2)}/kWh</span>
             </div>
             <input
               type="range"
@@ -235,7 +292,7 @@ export default function UserExploreView({
               step="1"
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-full h-1.5 bg-white/10 rounded appearance-none cursor-pointer"
+              className="w-full h-1 bg-white/10 rounded appearance-none cursor-pointer"
             />
           </div>
 
@@ -243,7 +300,7 @@ export default function UserExploreView({
           <div className="md:col-span-2 flex items-center justify-center gap-2">
             <button
               onClick={() => setAvailableOnly(!availableOnly)}
-              className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold border transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              className={`w-full h-[38px] px-3 rounded-xl text-xs font-bold border transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 availableOnly
                   ? 'bg-emerald-500/20 text-[#00E676] border-emerald-500/50 shadow-sm'
                   : 'bg-white/5 text-slate-300 border-white/15 hover:text-white hover:bg-white/10'
@@ -258,7 +315,7 @@ export default function UserExploreView({
             <button
               onClick={handleResetFilters}
               title="Reset all filters"
-              className="p-2.5 text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105 shrink-0 flex items-center justify-center"
+              className="w-[38px] h-[38px] text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105 shrink-0 flex items-center justify-center"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
