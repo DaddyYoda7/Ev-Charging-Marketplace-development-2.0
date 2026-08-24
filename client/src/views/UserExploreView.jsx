@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Search, Filter, SlidersHorizontal, MapPin, Zap, BatteryCharging, Sparkles, Navigation, CheckCircle2, RotateCcw } from 'lucide-react';
 import InteractiveMap from '../components/InteractiveMap';
 import StationCard from '../components/StationCard';
+import StationDetailModal from '../components/StationDetailModal';
 import { api } from '../utils/api';
 
 export default function UserExploreView({
   onSelectStation,
   onBookStation,
-  onViewStationDetails,
   primaryVehicle,
   onOpenGarage
 }) {
@@ -21,28 +21,24 @@ export default function UserExploreView({
   const [availableOnly, setAvailableOnly] = useState(false);
   const [viewMode, setViewMode] = useState('both'); // 'both' | 'map' | 'list'
   const [selectedStation, setSelectedStation] = useState(null);
-  const [aiTopMatch, setAiTopMatch] = useState(null);
+  const [detailModalStation, setDetailModalStation] = useState(null);
+  const [userLocation, setUserLocation] = useState({ lat: 12.9716, lon: 77.5946 });
 
   useEffect(() => {
     fetchStations();
-  }, [searchQuery, selectedConnector, minPower, maxPrice, availableOnly, primaryVehicle, vehicleCategory]);
+  }, [searchQuery, selectedConnector, minPower, maxPrice, availableOnly, primaryVehicle, vehicleCategory, userLocation]);
 
   async function fetchStations() {
     setLoading(true);
     try {
-      let connectorParam = selectedConnector;
-      if (vehicleCategory === 'SCOOTY' && !selectedConnector) {
-        connectorParam = '';
-      }
-
       const res = await api.getStations({
         search: searchQuery,
-        connector: connectorParam,
+        connector: selectedConnector,
         minPower,
         maxPrice,
         availableOnly,
-        userLat: 12.9716,
-        userLon: 77.5946
+        userLat: userLocation.lat,
+        userLon: userLocation.lon
       });
 
       if (res.success) {
@@ -66,9 +62,6 @@ export default function UserExploreView({
         }
 
         setStations(results);
-        if (results.length > 0) {
-          setAiTopMatch(results[0]);
-        }
       }
     } catch (err) {
       console.error('Failed to load stations:', err);
@@ -86,6 +79,11 @@ export default function UserExploreView({
     setAvailableOnly(false);
   }
 
+  function handleStationSelect(st) {
+    setSelectedStation(st);
+    if (onSelectStation) onSelectStation(st);
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-6 space-y-6">
       
@@ -94,7 +92,7 @@ export default function UserExploreView({
         <div className="space-y-1.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-[#00F2FE]/20 to-[#00E676]/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 font-mono">
             <span className="pulse-dot pulse-dot-green"></span>
-            <span>Pan-India Live EV Charging Network & 2W Scooty Swaps Active 🇮🇳</span>
+            <span>Live Pan-India EV Grid & 2W Scooty Swaps Active 🇮🇳</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Find, Reserve & Charge Any EV in India
@@ -186,7 +184,7 @@ export default function UserExploreView({
               viewMode === 'map' ? 'bg-white/15 text-white' : 'text-slate-400 hover:text-white'
             }`}
           >
-            Map Only
+            Live Map
           </button>
           <button
             onClick={() => setViewMode('list')}
@@ -194,7 +192,7 @@ export default function UserExploreView({
               viewMode === 'list' ? 'bg-white/15 text-white' : 'text-slate-400 hover:text-white'
             }`}
           >
-            List Only
+            Grid List
           </button>
         </div>
       </div>
@@ -278,14 +276,16 @@ export default function UserExploreView({
       {/* Main Content Area: Map & Station Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Left Column: Interactive Map */}
+        {/* Left Column: Live Interactive Map */}
         {(viewMode === 'both' || viewMode === 'map') && (
           <div className={`${viewMode === 'map' ? 'lg:col-span-12' : 'lg:col-span-7'}`}>
             <InteractiveMap
               stations={stations}
               selectedStation={selectedStation}
-              onSelectStation={(st) => setSelectedStation(st)}
+              onSelectStation={handleStationSelect}
               onBookStation={(st) => onBookStation(st)}
+              userLocation={userLocation}
+              onUserLocationChange={(coords) => setUserLocation(coords)}
             />
           </div>
         )}
@@ -300,7 +300,7 @@ export default function UserExploreView({
                 <Sparkles className="w-3.5 h-3.5 text-[#00F2FE]" />
                 <span>Available Charging Stations ({stations.length})</span>
               </div>
-              <span className="text-xs text-slate-400 font-mono">Sorted by AI Score</span>
+              <span className="text-xs text-slate-400 font-mono">Ranked by AI Score</span>
             </div>
 
             {loading ? (
@@ -321,8 +321,8 @@ export default function UserExploreView({
                     isTopPick={idx === 0}
                     onBook={(station) => onBookStation(station)}
                     onViewDetails={(station) => {
-                      setSelectedStation(station);
-                      if (onViewStationDetails) onViewStationDetails(station);
+                      handleStationSelect(station);
+                      setDetailModalStation(station);
                     }}
                   />
                 ))}
@@ -333,6 +333,16 @@ export default function UserExploreView({
         )}
 
       </div>
+
+      {/* Station Detail / Specs Modal */}
+      {detailModalStation && (
+        <StationDetailModal
+          isOpen={!!detailModalStation}
+          onClose={() => setDetailModalStation(null)}
+          station={detailModalStation}
+          onBook={(st) => onBookStation(st)}
+        />
+      )}
 
     </div>
   );
