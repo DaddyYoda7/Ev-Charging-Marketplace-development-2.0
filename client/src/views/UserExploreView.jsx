@@ -239,26 +239,28 @@ export default function UserExploreView({
             />
           </div>
 
-          {/* Transparent Available Only Toggle & Reset (Centered Alignment) */}
+          {/* Transparent Available Only Toggle & Reset (Perfect Interior & Exterior Centering) */}
           <div className="md:col-span-2 flex items-center justify-center gap-2">
             <button
               onClick={() => setAvailableOnly(!availableOnly)}
-              className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold border transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 availableOnly
-                  ? 'bg-emerald-500/25 text-[#00E676] border-emerald-500/50 shadow-sm'
+                  ? 'bg-emerald-500/20 text-[#00E676] border-emerald-500/50 shadow-sm'
                   : 'bg-white/5 text-slate-300 border-white/15 hover:text-white hover:bg-white/10'
               }`}
             >
-              <span className={`pulse-dot ${availableOnly ? 'pulse-dot-green' : ''}`}></span>
-              <span>Open Bays</span>
+              <span className={`w-2 h-2 rounded-full shrink-0 transition-all ${
+                availableOnly ? 'bg-[#00E676] shadow-[0_0_8px_#00E676]' : 'bg-slate-500'
+              }`} />
+              <span className="leading-none text-center">Open Bays</span>
             </button>
 
             <button
               onClick={handleResetFilters}
               title="Reset all filters"
-              className="p-2.5 text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105"
+              className="p-2.5 text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105 shrink-0 flex items-center justify-center"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4 h-4" />
             </button>
           </div>
 
