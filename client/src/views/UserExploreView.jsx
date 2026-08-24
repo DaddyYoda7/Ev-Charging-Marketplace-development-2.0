@@ -111,7 +111,7 @@ export default function UserExploreView({
             <div
               onClick={onOpenGarage}
               title="Click to switch vehicle or adjust battery SoC"
-              className="p-4 rounded-2xl bg-[#111A2E]/90 hover:bg-[#15223D] border border-cyan-500/30 hover:border-cyan-400/60 cursor-pointer transition-all duration-300 flex items-center gap-4 shadow-xl shadow-cyan-500/5 group w-full sm:w-auto hover:scale-105"
+              className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-cyan-500/30 hover:border-cyan-400/60 cursor-pointer transition-all duration-300 flex items-center gap-4 shadow-xl shadow-cyan-500/5 group w-full sm:w-auto hover:scale-105"
             >
               <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center text-[#00E676] group-hover:scale-110 transition-transform shrink-0">
                 <BatteryCharging className="w-6 h-6" />
@@ -141,17 +141,17 @@ export default function UserExploreView({
 
       </div>
 
-      {/* Vehicle Category Selector Bar with Extra-Small "14 Cities Connected" Badge */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-[#0E1524] p-3 rounded-2xl border border-white/10 shadow-lg">
+      {/* Vehicle Category Selector Bar with Transparent Background & Small "14 Cities Connected" Badge */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-lg">
         
-        {/* Category Filters */}
+        {/* Category Filters with Transparent Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-2">
           <button
             onClick={() => setVehicleCategory('ALL')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'ALL'
                 ? 'bg-gradient-to-r from-[#00F2FE] to-[#00B0FF] text-[#040814] shadow-md shadow-cyan-500/30 scale-105 font-black'
-                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/15 hover:scale-105'
             }`}
           >
             <Zap className="w-3.5 h-3.5" />
@@ -163,7 +163,7 @@ export default function UserExploreView({
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'SCOOTY'
                 ? 'bg-gradient-to-r from-[#00E676] to-[#00B0FF] text-[#040814] shadow-md shadow-emerald-500/30 scale-105 font-black'
-                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/15 hover:scale-105'
             }`}
           >
             <span>🛵 EV Scooty (2W Fast & Swaps)</span>
@@ -174,14 +174,14 @@ export default function UserExploreView({
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'CAR'
                 ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30 scale-105 font-black'
-                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/15 hover:scale-105'
             }`}
           >
             <span>🚗 4W Fast DC Cars</span>
           </button>
 
           {/* 14 Cities Connected Badge (Noticeably Smaller & Delicate) */}
-          <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-[10px] text-slate-400 font-mono tracking-tight self-center">
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] text-slate-400 font-mono tracking-tight self-center">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00E676] shadow-sm shadow-emerald-400"></span>
             <span>14 Cities Connected</span>
           </div>
@@ -189,11 +189,11 @@ export default function UserExploreView({
 
       </div>
 
-      {/* Search & Dynamic Filter Controls Bar (Crisp Contrast & Alignment) */}
+      {/* Search & Dynamic Filter Controls Bar (Transparent Backgrounds) */}
       <div className="glass-panel p-4 md:p-5 border border-white/10 space-y-4 shadow-xl">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
           
-          {/* Search Input with Bright Contrast & Proper Icon Padding */}
+          {/* Transparent Search Input */}
           <div className="md:col-span-4 relative flex items-center">
             <Search className="w-4 h-4 text-[#00F2FE] absolute left-3.5 pointer-events-none" />
             <input
@@ -201,29 +201,29 @@ export default function UserExploreView({
               placeholder="Search station, city, expressway..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#111827] border border-white/20 text-white placeholder-slate-400 pl-10 pr-3 py-2.5 rounded-xl text-xs outline-none focus:border-[#00F2FE] focus:ring-1 focus:ring-[#00F2FE] transition-all font-body"
+              className="w-full bg-white/5 hover:bg-white/[0.08] focus:bg-white/10 border border-white/15 hover:border-white/30 focus:border-[#00F2FE] text-white placeholder-slate-400 pl-10 pr-3 py-2.5 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#00F2FE] transition-all font-body"
             />
           </div>
 
-          {/* Connector Standard Filter */}
+          {/* Transparent Connector Standard Filter */}
           <div className="md:col-span-3">
             <select
               value={selectedConnector}
               onChange={(e) => setSelectedConnector(e.target.value)}
-              className="w-full bg-[#111827] border border-white/20 text-white pl-3 pr-8 py-2.5 rounded-xl text-xs outline-none focus:border-[#00F2FE] transition-all font-body cursor-pointer"
+              className="w-full bg-white/5 hover:bg-white/[0.08] focus:bg-white/10 border border-white/15 hover:border-white/30 focus:border-[#00F2FE] text-white pl-3 pr-8 py-2.5 rounded-xl text-xs outline-none transition-all font-body cursor-pointer"
             >
-              <option value="">All Connector Standards</option>
-              <option value="Ather Grid (2W)">🛵 Ather Grid Fast (2W)</option>
-              <option value="Ola Hypercharger (2W)">🛵 Ola Hypercharger (2W)</option>
-              <option value="15A EV Socket (2W)">🛵 15A EV Scooty Socket</option>
-              <option value="Battery Swap (2W)">🛵 2W Fast Battery Swap</option>
-              <option value="CCS2">🚗 CCS2 (Tata / MG / Hyundai / Mahindra)</option>
-              <option value="Type 2">🚗 Type 2 AC</option>
+              <option value="" className="bg-[#0B0F19] text-white">All Connector Standards</option>
+              <option value="Ather Grid (2W)" className="bg-[#0B0F19] text-white">🛵 Ather Grid Fast (2W)</option>
+              <option value="Ola Hypercharger (2W)" className="bg-[#0B0F19] text-white">🛵 Ola Hypercharger (2W)</option>
+              <option value="15A EV Socket (2W)" className="bg-[#0B0F19] text-white">🛵 15A EV Scooty Socket</option>
+              <option value="Battery Swap (2W)" className="bg-[#0B0F19] text-white">🛵 2W Fast Battery Swap</option>
+              <option value="CCS2" className="bg-[#0B0F19] text-white">🚗 CCS2 (Tata / MG / Hyundai / Mahindra)</option>
+              <option value="Type 2" className="bg-[#0B0F19] text-white">🚗 Type 2 AC</option>
             </select>
           </div>
 
-          {/* Max Price Range Slider */}
-          <div className="md:col-span-3 bg-[#111827] p-2.5 rounded-xl border border-white/20 text-xs">
+          {/* Transparent Max Price Range Slider */}
+          <div className="md:col-span-3 bg-white/5 p-2.5 rounded-xl border border-white/15 text-xs">
             <div className="flex justify-between text-[11px] text-slate-300 mb-1">
               <span>Max Tariff:</span>
               <span className="font-mono text-[#00E676] font-bold">₹{maxPrice.toFixed(2)}/kWh</span>
@@ -235,18 +235,18 @@ export default function UserExploreView({
               step="1"
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-full h-1.5 bg-slate-700 rounded appearance-none cursor-pointer"
+              className="w-full h-1.5 bg-white/10 rounded appearance-none cursor-pointer"
             />
           </div>
 
-          {/* Available Only Toggle & Reset */}
+          {/* Transparent Available Only Toggle & Reset */}
           <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-2">
             <button
               onClick={() => setAvailableOnly(!availableOnly)}
               className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
                 availableOnly
                   ? 'bg-emerald-500/25 text-[#00E676] border-emerald-500/50 shadow-sm'
-                  : 'bg-[#111827] text-slate-300 border-white/20 hover:text-white hover:bg-white/10'
+                  : 'bg-white/5 text-slate-300 border-white/15 hover:text-white hover:bg-white/10'
               }`}
             >
               <span className={`pulse-dot ${availableOnly ? 'pulse-dot-green' : ''}`}></span>
@@ -256,7 +256,7 @@ export default function UserExploreView({
             <button
               onClick={handleResetFilters}
               title="Reset all filters"
-              className="p-2.5 text-slate-300 hover:text-white bg-[#111827] hover:bg-white/10 rounded-xl border border-white/20 transition-all cursor-pointer hover:scale-105"
+              className="p-2.5 text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>

@@ -12,7 +12,7 @@ export default function Navbar({
   currentUser
 }) {
   return (
-    <header className="sticky top-0 z-50 bg-[#0B0F19] border-b border-white/15 px-4 lg:px-8 py-3 shadow-2xl transition-all">
+    <header className="sticky top-0 z-50 bg-[#0B0F19]/90 backdrop-blur-xl border-b border-white/10 px-4 lg:px-8 py-3 shadow-2xl transition-all">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
         
         {/* Brand Logo & Title: EV Connect AI (With Space & Perfect Alignment) */}
@@ -36,8 +36,8 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Center View Navigation Links: Rich Visible Grey in Transparency & White on Hover */}
-        <nav className="flex items-center gap-1.5 bg-[#111827] p-1 rounded-xl border border-white/15 shadow-md">
+        {/* Center View Navigation Links: Transparent Background with Rich Slate Text & White on Hover */}
+        <nav className="flex items-center gap-1.5 bg-white/5 backdrop-blur-md p-1 rounded-xl border border-white/10 shadow-sm">
           {currentRole === 'user' && (
             <>
               <button
@@ -154,13 +154,13 @@ export default function Navbar({
           )}
 
           {/* Telemetry Live Indicator */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#111827] border border-white/15 text-xs shadow-sm">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs shadow-sm">
             <span className={`pulse-dot ${telemetryConnected ? 'pulse-dot-green' : 'pulse-dot-cyan'}`}></span>
             <span className="text-[11px] text-slate-300 font-mono font-semibold">Live Telemetry</span>
           </div>
 
-          {/* Role Switcher Pill Bar (Rich Slate Grey in Transparency, Vivid Colors on Active) */}
-          <div className="flex items-center bg-[#111827] p-1 rounded-xl border border-white/15 shadow-md gap-1">
+          {/* Transparent Role Switcher Pill Bar */}
+          <div className="flex items-center bg-white/5 p-1 rounded-xl border border-white/10 shadow-sm gap-1">
             <button
               onClick={() => onRoleChange('user')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
