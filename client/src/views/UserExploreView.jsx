@@ -87,12 +87,12 @@ export default function UserExploreView({
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-6 space-y-6">
       
-      {/* Hero Welcome & Pan-India Vehicle Selector Banner */}
+      {/* Top Welcome Banner */}
       <div className="glass-panel p-6 border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden">
         <div className="space-y-1.5 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-[#00F2FE]/20 to-[#00E676]/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 font-mono">
             <span className="pulse-dot pulse-dot-green"></span>
-            <span>Live Pan-India EV Grid & 2W Scooty Swaps Active 🇮🇳</span>
+            <span>Pan-India Live EV Radar & Scooty Battery Swaps Active 🇮🇳</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Find, Reserve & Charge Any EV in India
@@ -102,7 +102,7 @@ export default function UserExploreView({
           </p>
         </div>
 
-        {/* Primary Vehicle Badge & Switcher */}
+        {/* Primary Vehicle Garage Badge */}
         <div className="flex items-center gap-3 shrink-0 relative z-10">
           {primaryVehicle ? (
             <div
@@ -130,15 +130,17 @@ export default function UserExploreView({
         </div>
       </div>
 
-      {/* Vehicle Category Selector Bar (2W Scooty vs 4W Car) */}
+      {/* Vehicle Category & View Mode Switcher */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0E1524] p-3 rounded-2xl border border-white/10 shadow-lg">
-        <div className="flex items-center gap-2">
+        
+        {/* Category Filters with Centered Alignment & Hover Effects */}
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setVehicleCategory('ALL')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               vehicleCategory === 'ALL'
                 ? 'bg-gradient-to-r from-[#00F2FE] to-[#00B0FF] text-[#040814] shadow-md shadow-cyan-500/30'
-                : 'bg-white/5 text-slate-300 hover:text-white'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10'
             }`}
           >
             <Zap className="w-3.5 h-3.5" />
@@ -147,52 +149,52 @@ export default function UserExploreView({
 
           <button
             onClick={() => setVehicleCategory('SCOOTY')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               vehicleCategory === 'SCOOTY'
                 ? 'bg-gradient-to-r from-[#00E676] to-[#00B0FF] text-[#040814] shadow-md shadow-emerald-500/30'
-                : 'bg-white/5 text-slate-300 hover:text-white'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10'
             }`}
           >
-            <span>🛵 EV Scooty / 2W Chargers</span>
+            <span>🛵 EV Scooty (2W)</span>
           </button>
 
           <button
             onClick={() => setVehicleCategory('CAR')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               vehicleCategory === 'CAR'
                 ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30'
-                : 'bg-white/5 text-slate-300 hover:text-white'
+                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10'
             }`}
           >
             <span>🚗 4W Fast DC Cars</span>
           </button>
         </div>
 
-        {/* View Toggle (Map / Split / List) */}
+        {/* View Mode Tabs (Split 50/50, Map Only, Grid List) */}
         <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10 text-xs">
           <button
             onClick={() => setViewMode('both')}
-            className={`px-3 py-1 rounded-lg font-bold transition-all ${
-              viewMode === 'both' ? 'bg-white/15 text-white' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 ${
+              viewMode === 'both' ? 'bg-[#00F2FE] text-[#040814] shadow-sm shadow-cyan-500/20' : 'text-slate-400 hover:text-white'
             }`}
           >
-            Split View
+            <span>Split 50/50</span>
           </button>
           <button
             onClick={() => setViewMode('map')}
-            className={`px-3 py-1 rounded-lg font-bold transition-all ${
-              viewMode === 'map' ? 'bg-white/15 text-white' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 ${
+              viewMode === 'map' ? 'bg-[#00F2FE] text-[#040814] shadow-sm shadow-cyan-500/20' : 'text-slate-400 hover:text-white'
             }`}
           >
-            Live Map
+            <span>Live Map</span>
           </button>
           <button
             onClick={() => setViewMode('list')}
-            className={`px-3 py-1 rounded-lg font-bold transition-all ${
-              viewMode === 'list' ? 'bg-white/15 text-white' : 'text-slate-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 ${
+              viewMode === 'list' ? 'bg-[#00F2FE] text-[#040814] shadow-sm shadow-cyan-500/20' : 'text-slate-400 hover:text-white'
             }`}
           >
-            Grid List
+            <span>Grid List</span>
           </button>
         </div>
       </div>
@@ -273,12 +275,12 @@ export default function UserExploreView({
         </div>
       </div>
 
-      {/* Main Content Area: Map & Station Cards */}
+      {/* Main Content Layout (50/50 Half Screen Split or Full Views) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Left Column: Live Interactive Map */}
+        {/* Left Side: Live Interactive Map (50% on Desktop in Split View) */}
         {(viewMode === 'both' || viewMode === 'map') && (
-          <div className={`${viewMode === 'map' ? 'lg:col-span-12' : 'lg:col-span-7'}`}>
+          <div className={`${viewMode === 'map' ? 'lg:col-span-12' : 'lg:col-span-6'} transition-all duration-300`}>
             <InteractiveMap
               stations={stations}
               selectedStation={selectedStation}
@@ -286,34 +288,36 @@ export default function UserExploreView({
               onBookStation={(st) => onBookStation(st)}
               userLocation={userLocation}
               onUserLocationChange={(coords) => setUserLocation(coords)}
+              viewMode={viewMode}
             />
           </div>
         )}
 
-        {/* Right Column: Station Grid Cards */}
+        {/* Right Side: Available Charging Stations (50% on Desktop in Split View with Scrollable Column) */}
         {(viewMode === 'both' || viewMode === 'list') && (
-          <div className={`${viewMode === 'list' ? 'lg:col-span-12' : 'lg:col-span-5'} space-y-4`}>
+          <div className={`${viewMode === 'list' ? 'lg:col-span-12' : 'lg:col-span-6'} transition-all duration-300`}>
             
-            {/* Header info */}
-            <div className="flex items-center justify-between px-1">
-              <div className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#00F2FE]" />
-                <span>Available Charging Stations ({stations.length})</span>
+            <div className="glass-panel p-4 border border-white/10 mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#00F2FE]" />
+                <span className="text-xs font-bold text-white uppercase tracking-wider">
+                  Available Charging Stations ({stations.length})
+                </span>
               </div>
-              <span className="text-xs text-slate-400 font-mono">Ranked by AI Score</span>
+              <span className="text-[11px] text-slate-400 font-mono">Live Radar Synced</span>
             </div>
 
             {loading ? (
-              <div className="glass-panel p-12 text-center text-slate-400 text-xs flex flex-col items-center justify-center gap-3">
+              <div className="glass-panel p-16 text-center text-slate-400 text-xs flex flex-col items-center justify-center gap-3">
                 <div className="w-8 h-8 border-2 border-[#00F2FE] border-t-transparent rounded-full animate-spin"></div>
                 <span>Scanning Pan-India EV charging grid...</span>
               </div>
             ) : stations.length === 0 ? (
-              <div className="glass-panel p-12 text-center text-slate-400 text-xs">
-                No charging stations matched your filters. Try resetting search or tariffs.
+              <div className="glass-panel p-16 text-center text-slate-400 text-xs">
+                No charging stations matched your filter criteria. Try resetting filters.
               </div>
             ) : (
-              <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
+              <div className={`${viewMode === 'list' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5' : 'space-y-4 max-h-[660px] overflow-y-auto pr-1'}`}>
                 {stations.map((st, idx) => (
                   <StationCard
                     key={st.id}

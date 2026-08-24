@@ -19,7 +19,8 @@ export default function InteractiveMap({
   onSelectStation,
   onBookStation,
   userLocation = { lat: 12.9716, lon: 77.5946 },
-  onUserLocationChange
+  onUserLocationChange,
+  viewMode = 'both'
 }) {
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
@@ -27,7 +28,7 @@ export default function InteractiveMap({
   const userMarkerRef = useRef(null);
   const accuracyCircleRef = useRef(null);
   const [activeCity, setActiveCity] = useState('All India 🇮🇳');
-  const [mapTheme, setMapTheme] = useState('dark'); // 'dark' | 'voyager' | 'satellite'
+  const [mapTheme, setMapTheme] = useState('dark');
   const [liveLocationTracking, setLiveLocationTracking] = useState(false);
 
   // Initialize Map
@@ -44,7 +45,7 @@ export default function InteractiveMap({
       L.control.zoom({ position: 'bottomright' }).addTo(map);
 
       // Default Dark Theme TileLayer
-      const tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      const tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://carto.com/">CARTO</a>, &copy; OpenStreetMap',
         maxZoom: 19
       }).addTo(map);
@@ -52,14 +53,32 @@ export default function InteractiveMap({
       mapInstanceRef.current = map;
       mapInstanceRef.current._tileLayer = tileLayer;
 
-      // Click on Map to relocate user GPS pin
       map.on('click', (e) => {
         if (onUserLocationChange) {
           onUserLocationChange({ lat: e.latlng.lat, lon: e.latlng.lng });
         }
       });
     }
+
+    // Trigger invalidateSize after initial layout paint
+    const timer = setTimeout(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    }, 200);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  // Handle Resize & InvalidateSize when viewMode changes (Split / Full Map)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [viewMode]);
 
   // Update Tile Theme
   useEffect(() => {
@@ -67,9 +86,9 @@ export default function InteractiveMap({
     if (!map || !map._tileLayer) return;
 
     map.removeLayer(map._tileLayer);
-    let newUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-    if (mapTheme === 'dark') {
-      newUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+    let newUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+    if (mapTheme === 'voyager') {
+      newUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
     } else if (mapTheme === 'satellite') {
       newUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
     }
@@ -90,7 +109,7 @@ export default function InteractiveMap({
     if (userMarkerRef.current) userMarkerRef.current.remove();
     if (accuracyCircleRef.current) accuracyCircleRef.current.remove();
 
-    // User Location Pulsing Ring Pin
+    // User Location Pin with pulsing radar
     const userIcon = L.divIcon({
       className: 'custom-user-marker',
       html: `
@@ -106,19 +125,19 @@ export default function InteractiveMap({
     userMarkerRef.current = L.marker([userLocation.lat, userLocation.lon], { icon: userIcon })
       .addTo(map)
       .bindPopup(`
-        <div style="font-family: 'Inter', sans-serif; padding: 2px;">
-          <div style="font-weight: 800; font-size: 12px; color: #00F2FE;">📍 Your GPS Position</div>
+        <div style="font-family: 'Inter', sans-serif; padding: 4px; text-align: center;">
+          <div style="font-weight: 800; font-size: 12px; color: #00F2FE;">📍 Your GPS EV Position</div>
           <div style="font-size: 10px; color: #94A3B8; margin-top: 2px;">Lat: ${userLocation.lat.toFixed(4)}, Lon: ${userLocation.lon.toFixed(4)}</div>
-          <div style="font-size: 10px; color: #00E676; margin-top: 2px;">⚡ Live EV Radar Active</div>
+          <div style="font-size: 10px; color: #00E676; margin-top: 2px; font-weight: 700;">⚡ Live EV Radar Active</div>
         </div>
       `);
 
     accuracyCircleRef.current = L.circle([userLocation.lat, userLocation.lon], {
-      radius: 3500,
+      radius: 4000,
       color: '#00F2FE',
       fillColor: '#00F2FE',
       fillOpacity: 0.05,
-      weight: 1,
+      weight: 1.5,
       dashArray: '4, 4'
     }).addTo(map);
 
@@ -135,14 +154,14 @@ export default function InteractiveMap({
       const isSelected = selectedStation?.id === station.id;
 
       const markerBorder = isSelected ? '#00F2FE' : isAvailable ? (hasScooty ? '#00E676' : '#00F2FE') : '#F59E0B';
-      const glowEffect = isSelected ? '0 0 20px #00F2FE' : isChargingNow ? '0 0 15px #00F2FE66' : '0 4px 12px rgba(0,0,0,0.8)';
+      const glowEffect = isSelected ? '0 0 22px #00F2FE' : isChargingNow ? '0 0 16px #00F2FE66' : '0 4px 14px rgba(0,0,0,0.85)';
       const iconSymbol = hasScooty ? '🛵' : '⚡';
 
       const stationIcon = L.divIcon({
         className: 'custom-station-marker',
         html: `
           <div style="
-            background: ${isSelected ? '#0E2A3B' : '#0B1220'};
+            background: ${isSelected ? '#082535' : '#0B1220'};
             border: 2px solid ${markerBorder};
             border-radius: 14px;
             padding: 5px 9px;
@@ -154,8 +173,9 @@ export default function InteractiveMap({
             gap: 5px;
             box-shadow: ${glowEffect};
             white-space: nowrap;
-            transform: ${isSelected ? 'scale(1.12)' : 'scale(1.0)'};
-            transition: all 0.2s ease;
+            transform: ${isSelected ? 'scale(1.15)' : 'scale(1.0)'};
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
           ">
             <span style="font-size: 14px;">${iconSymbol}</span>
             <span style="letter-spacing: -0.01em;">${station.city || 'Hub'}</span>
@@ -191,7 +211,7 @@ export default function InteractiveMap({
           </div>
 
           <div style="font-size: 10px; color: #94A3B8; margin-bottom: 10px;">
-            <div style="font-weight: 700; margin-bottom: 3px; color: #CBD5E1;">Installed Plugs:</div>
+            <div style="font-weight: 700; margin-bottom: 3px; color: #CBD5E1;">Available Plugs:</div>
             ${station.chargers?.map(c => `<span style="display: inline-block; background: rgba(0,242,254,0.12); color: #00F2FE; padding: 2px 5px; border-radius: 5px; margin: 1.5px; font-size: 9px; font-family: 'JetBrains Mono', monospace;">${c.connector_type} • ${c.power_kw}kW</span>`).join(' ') || 'CCS2'}
           </div>
 
@@ -210,7 +230,7 @@ export default function InteractiveMap({
             justify-content: center;
             gap: 4px;
             box-shadow: 0 4px 14px rgba(0,242,254,0.4);
-          ">⚡ Reserve Charging Slot</button>
+          ">⚡ Reserve Charging Bay</button>
         </div>
       `;
 
@@ -235,7 +255,7 @@ export default function InteractiveMap({
       markersMapRef.current.set(station.id, marker);
     });
 
-    // Fly to selected station
+    // Auto-center selected station
     if (selectedStation) {
       map.flyTo([selectedStation.latitude, selectedStation.longitude], 13.5, { duration: 1.2 });
       const targetMarker = markersMapRef.current.get(selectedStation.id);
@@ -268,7 +288,6 @@ export default function InteractiveMap({
           setLiveLocationTracking(false);
         },
         () => {
-          // Fallback to Bengaluru Tech Corridor
           if (mapInstanceRef.current) {
             mapInstanceRef.current.flyTo([userLocation.lat, userLocation.lon], 13, { duration: 1.2 });
           }
@@ -341,9 +360,6 @@ export default function InteractiveMap({
         <div className="flex items-center gap-1.5 font-semibold text-emerald-400">
           <span className="w-2.5 h-2.5 rounded-full bg-[#00E676] shadow-sm shadow-emerald-400"></span>
           <span>Ready & Open</span>
-        </div>
-        <div className="text-[11px] text-slate-400 hidden sm:inline">
-          💡 Click any station pin or map area to update live radar
         </div>
       </div>
 
