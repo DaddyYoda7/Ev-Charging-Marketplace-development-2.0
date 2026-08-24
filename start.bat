@@ -1,58 +1,19 @@
 @echo off
-setlocal enabledelayedexpansion
-title EV Connect AI Launcher
-
-:: Force current working directory to the folder containing this batch file
-cd /d "%~dp0"
-
 echo ===================================================
-echo   ⚡ EV Connect AI Full-Stack Launcher ⚡
+echo   ⚡ Launching EVConnect AI Full-Stack Platform ⚡
 echo ===================================================
 echo.
+echo 1. Starting Backend API Server (Port 5000)...
+start "EVConnect AI Server" cmd /k "cd server && npm start"
 
-:: 1. Verify Node.js is installed
-where node >nul 2>nul
-if %errorlevel% neq 0 (
-    echo [ERROR] Node.js was not found in your system PATH!
-    echo Please download and install Node.js from https://nodejs.org
-    echo.
-    pause
-    exit /b 1
-)
+echo 2. Starting Frontend Web Client (Port 5173)...
+start "EVConnect AI Client" cmd /k "cd client && npm run dev"
 
-:: 2. Check and install server dependencies if missing
-if not exist "server\node_modules\" (
-    echo [INFO] Installing server dependencies...
-    cd /d "%~dp0server"
-    call npm install
-    cd /d "%~dp0"
-)
-
-:: 3. Check and install client dependencies if missing
-if not exist "client\node_modules\" (
-    echo [INFO] Installing client dependencies...
-    cd /d "%~dp0client"
-    call npm install
-    cd /d "%~dp0"
-)
-
-:: 4. Start the platform
-echo [INFO] Starting EV Connect AI servers...
 echo.
 echo ===================================================
-echo   ⚡ Live Website:   http://localhost:5000
-echo   ⚡ Vite Dev Port:  http://localhost:5173
+echo   EVConnect AI is running!
+echo   Frontend: http://localhost:5173
+echo   Backend:  http://localhost:5000
 echo ===================================================
-echo.
-
-:: Open browser automatically to http://localhost:5000
-start http://localhost:5000
-
-:: Run the server directly in this window
-node start.js
-
-if %errorlevel% neq 0 (
-    echo.
-    echo [ERROR] Server exited with an error.
-    pause
-)
+timeout /t 3
+start http://localhost:5173
