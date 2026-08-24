@@ -36,7 +36,7 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Center View Navigation Links: Transparent Background & Grey Font */}
+        {/* Center View Navigation Links: Transparent Background & Colored Accents on Hover */}
         <nav className="flex items-center gap-1.5 bg-transparent p-1 rounded-xl border border-white/10">
           {currentRole === 'user' && (
             <>
@@ -45,7 +45,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'explore'
                     ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
-                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    : 'bg-transparent text-slate-400 hover:text-[#00F2FE] hover:bg-cyan-500/10'
                 }`}
               >
                 <Compass className="w-3.5 h-3.5" />
@@ -57,7 +57,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'user-dashboard'
                     ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
-                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    : 'bg-transparent text-slate-400 hover:text-[#00F2FE] hover:bg-cyan-500/10'
                 }`}
               >
                 <LayoutDashboard className="w-3.5 h-3.5" />
@@ -69,7 +69,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ai-planner'
                     ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
-                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    : 'bg-transparent text-slate-400 hover:text-[#C084FC] hover:bg-purple-500/10'
                 }`}
               >
                 <Brain className="w-3.5 h-3.5 text-[#C084FC]" />
@@ -85,7 +85,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'host-stations'
                     ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40 shadow-sm font-bold'
-                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    : 'bg-transparent text-slate-400 hover:text-[#00E676] hover:bg-emerald-500/10'
                 }`}
               >
                 <Building2 className="w-3.5 h-3.5" />
@@ -97,7 +97,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'host-analytics'
                     ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40 shadow-sm font-bold'
-                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    : 'bg-transparent text-slate-400 hover:text-[#00E676] hover:bg-emerald-500/10'
                 }`}
               >
                 <Layers className="w-3.5 h-3.5" />
@@ -109,7 +109,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ocpp-lab'
                     ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
-                    : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    : 'bg-transparent text-slate-400 hover:text-[#00F2FE] hover:bg-cyan-500/10'
                 }`}
               >
                 <Cpu className="w-3.5 h-3.5" />
@@ -124,7 +124,7 @@ export default function Navbar({
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 activeView === 'admin-dashboard'
                   ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
-                  : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  : 'bg-transparent text-slate-400 hover:text-[#C084FC] hover:bg-purple-500/10'
               }`}
             >
               <Shield className="w-3.5 h-3.5 text-[#C084FC]" />
@@ -140,7 +140,7 @@ export default function Navbar({
           {currentRole === 'user' && primaryVehicle && (
             <button
               onClick={onOpenGarage}
-              className="hidden lg:flex items-center gap-2 bg-transparent hover:bg-white/5 border border-white/10 hover:border-[#00F2FE] px-3 py-1.5 rounded-xl text-xs font-semibold text-white transition-all duration-200 hover:scale-105 cursor-pointer"
+              className="hidden lg:flex items-center gap-2 bg-transparent hover:bg-cyan-500/10 border border-white/10 hover:border-[#00F2FE] px-3 py-1.5 rounded-xl text-xs font-semibold text-white transition-all duration-200 hover:scale-105 cursor-pointer"
               title="Click to switch EV or adjust battery SoC"
             >
               <BatteryCharging className="w-4 h-4 text-[#00E676]" />
@@ -159,14 +159,14 @@ export default function Navbar({
             <span className="text-[11px] text-slate-400 font-mono font-semibold">Live Telemetry</span>
           </div>
 
-          {/* Transparent Role Switcher Pill Bar (Distinct Color for Admin: Royal Purple #C084FC) */}
+          {/* Transparent Role Switcher Pill Bar with Vivid Distinct Color Accents on Hover */}
           <div className="flex items-center bg-transparent p-1 rounded-xl border border-white/10 gap-1">
             <button
               onClick={() => onRoleChange('user')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'user'
                   ? 'bg-cyan-500/15 text-[#00F2FE] border border-cyan-400/40 shadow-sm font-bold'
-                  : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  : 'bg-transparent text-slate-400 hover:text-[#00F2FE] hover:bg-cyan-500/10'
               }`}
             >
               <Zap className="w-3 h-3" />
@@ -178,7 +178,7 @@ export default function Navbar({
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'owner'
                   ? 'bg-emerald-500/15 text-[#00E676] border border-emerald-400/40 shadow-sm font-bold'
-                  : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  : 'bg-transparent text-slate-400 hover:text-[#00E676] hover:bg-emerald-500/10'
               }`}
             >
               <Building2 className="w-3 h-3" />
@@ -190,7 +190,7 @@ export default function Navbar({
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'admin'
                   ? 'bg-purple-500/15 text-[#C084FC] border border-purple-400/40 shadow-sm font-bold'
-                  : 'bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                  : 'bg-transparent text-slate-400 hover:text-[#C084FC] hover:bg-purple-500/10'
               }`}
             >
               <Shield className="w-3 h-3 text-[#C084FC]" />
