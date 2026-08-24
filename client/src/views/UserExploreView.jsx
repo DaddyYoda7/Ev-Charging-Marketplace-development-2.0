@@ -86,7 +86,7 @@ export default function UserExploreView({
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
       
-      {/* Hero Welcome Banner (Cleanly Aligned Text & Ather 450X Vehicle Card) */}
+      {/* Hero Welcome Banner */}
       <div className="glass-panel p-6 md:p-8 border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden">
         
         {/* Left Side: Headline & Subtitle */}
@@ -144,14 +144,14 @@ export default function UserExploreView({
       {/* Vehicle Category Selector Bar with "14 Cities Connected" Aligned in the Center */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-[#0E1524] p-3 rounded-2xl border border-white/10 shadow-lg">
         
-        {/* Category Filters with Centered Alignment & Hover Effects */}
+        {/* Category Filters with Grey in Transparency & White on Hover */}
         <div className="flex flex-wrap items-center justify-center gap-2.5">
           <button
             onClick={() => setVehicleCategory('ALL')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'ALL'
                 ? 'bg-gradient-to-r from-[#00F2FE] to-[#00B0FF] text-[#040814] shadow-md shadow-cyan-500/30 scale-105 font-black'
-                : 'bg-white/5 text-white hover:bg-white/15 hover:scale-105'
+                : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
             }`}
           >
             <Zap className="w-4 h-4" />
@@ -163,7 +163,7 @@ export default function UserExploreView({
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'SCOOTY'
                 ? 'bg-gradient-to-r from-[#00E676] to-[#00B0FF] text-[#040814] shadow-md shadow-emerald-500/30 scale-105 font-black'
-                : 'bg-white/5 text-white hover:bg-white/15 hover:scale-105'
+                : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
             }`}
           >
             <span>🛵 EV Scooty (2W Fast & Swaps)</span>
@@ -174,16 +174,16 @@ export default function UserExploreView({
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'CAR'
                 ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30 scale-105 font-black'
-                : 'bg-white/5 text-white hover:bg-white/15 hover:scale-105'
+                : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
             }`}
           >
             <span>🚗 4W Fast DC Cars</span>
           </button>
 
           {/* 14 Cities Connected Badge Centered */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 border border-white/15 text-xs text-slate-200 font-mono">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 border border-white/15 text-xs text-slate-300 font-mono">
             <span className="w-2 h-2 rounded-full bg-[#00E676] shadow-sm shadow-emerald-400"></span>
-            <span className="font-bold text-white">14 Cities Connected</span>
+            <span className="font-bold text-slate-200">14 Cities Connected</span>
           </div>
         </div>
 
@@ -246,7 +246,7 @@ export default function UserExploreView({
               className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
                 availableOnly
                   ? 'bg-emerald-500/25 text-[#00E676] border-emerald-500/50 shadow-sm'
-                  : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
+                  : 'bg-white/5 text-slate-400 border-white/15 hover:text-white hover:bg-white/10'
               }`}
             >
               <span className={`pulse-dot ${availableOnly ? 'pulse-dot-green' : ''}`}></span>
@@ -256,7 +256,7 @@ export default function UserExploreView({
             <button
               onClick={handleResetFilters}
               title="Reset all filters"
-              className="p-2 text-white hover:text-[#00F2FE] bg-white/10 hover:bg-white/20 rounded-xl border border-white/20 transition-all cursor-pointer hover:scale-105"
+              className="p-2 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/15 transition-all cursor-pointer hover:scale-105"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Zap, MapPin, Star, ShieldCheck, Sparkles, Navigation, Clock } from 'lucide-react';
 
+const FALLBACK_STATION_IMG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%230B1220"/><path d="M0 0h600v400H0z" fill="url(%23g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="%2300F2FE" stop-opacity="0.25"/><stop offset="1" stop-color="%238B5CF6" stop-opacity="0.15"/></linearGradient></defs><circle cx="300" cy="200" r="70" fill="%23111A2E" stroke="%2300F2FE" stroke-width="3"/><path d="M305 160l-20 45h18l-8 35 30-50h-20z" fill="%2300F2FE"/><text x="300" y="320" font-family="sans-serif" font-size="18" font-weight="bold" fill="%23FFFFFF" text-anchor="middle">⚡ EV CONNECT SUPERHUB</text></svg>';
+
 export default function StationCard({
   station,
   onBook,
@@ -28,12 +30,16 @@ export default function StationCard({
         </div>
       )}
 
-      {/* Card Header & Media */}
+      {/* Card Header & Media with 100% Reliable Image Fallback */}
       <div>
-        <div className="relative h-44 w-full overflow-hidden">
+        <div className="relative h-44 w-full overflow-hidden bg-[#0B1220]">
           <img
-            src={station.image_url || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&auto=format&fit=crop&q=80'}
+            src={station.image_url || FALLBACK_STATION_IMG}
             alt={station.name}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = FALLBACK_STATION_IMG;
+            }}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-black/30 to-transparent"></div>
@@ -120,7 +126,7 @@ export default function StationCard({
         </div>
       </div>
 
-      {/* Card Action Footer with Centrally Aligned Buttons */}
+      {/* Card Action Footer with Centrally Aligned Buttons (Grey in Transparency, White/Cyan on Hover) */}
       <div className="p-5 pt-0 grid grid-cols-2 gap-2.5">
         <button
           onClick={() => onViewDetails(station)}

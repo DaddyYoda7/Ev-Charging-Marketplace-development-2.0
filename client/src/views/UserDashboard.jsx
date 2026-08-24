@@ -73,6 +73,10 @@ export default function UserDashboard({
           <img
             src={currentUser?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'}
             alt="User"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150"><rect width="100%" height="100%" fill="%23111827"/><circle cx="75" cy="55" r="28" fill="%2300F2FE"/><path d="M25 135c0-28 22-45 50-45s50 17 50 45" fill="%2300F2FE"/></svg>';
+            }}
             className="w-16 h-16 rounded-2xl object-cover border-2 border-[#00F2FE]/50 shadow-lg shadow-cyan-500/10"
           />
           <div>

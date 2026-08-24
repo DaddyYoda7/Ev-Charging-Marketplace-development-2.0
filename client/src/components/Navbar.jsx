@@ -32,11 +32,11 @@ export default function Navbar({
               </span>
               <span className="badge badge-ai text-[10px] px-2 py-0.5 font-bold">Bharat 2.0</span>
             </div>
-            <p className="text-[11px] text-slate-300 font-medium mt-0.5">Intelligent EV Charging & Telemetry Hub</p>
+            <p className="text-[11px] text-slate-400 font-medium mt-0.5">Intelligent EV Charging & Telemetry Hub</p>
           </div>
         </div>
 
-        {/* Center View Navigation Links: Compact Size & 100% Crisp Visible Text */}
+        {/* Center View Navigation Links: Grey Text in Transparency & Crisp White/Cyan on Hover/Active */}
         <nav className="flex items-center gap-1.5 bg-[#111827] p-1 rounded-xl border border-white/15 shadow-md">
           {currentRole === 'user' && (
             <>
@@ -45,7 +45,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'explore'
                     ? 'bg-[#00F2FE] text-[#040814] shadow-md shadow-cyan-500/30 font-black scale-105'
-                    : 'text-white hover:text-[#00F2FE] hover:bg-white/10 hover:scale-105'
+                    : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
                 }`}
               >
                 <Compass className="w-3.5 h-3.5" />
@@ -57,7 +57,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'user-dashboard'
                     ? 'bg-[#00F2FE] text-[#040814] shadow-md shadow-cyan-500/30 font-black scale-105'
-                    : 'text-white hover:text-[#00F2FE] hover:bg-white/10 hover:scale-105'
+                    : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
                 }`}
               >
                 <LayoutDashboard className="w-3.5 h-3.5" />
@@ -69,7 +69,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ai-planner'
                     ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30 font-black scale-105'
-                    : 'text-white hover:text-[#D8B4FE] hover:bg-white/10 hover:scale-105'
+                    : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
                 }`}
               >
                 <Brain className="w-3.5 h-3.5 text-[#C084FC]" />
@@ -85,7 +85,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'host-stations'
                     ? 'bg-[#00E676] text-[#040814] shadow-md shadow-emerald-500/30 font-black scale-105'
-                    : 'text-white hover:text-[#00E676] hover:bg-white/10 hover:scale-105'
+                    : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
                 }`}
               >
                 <Building2 className="w-3.5 h-3.5" />
@@ -97,7 +97,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'host-analytics'
                     ? 'bg-[#00E676] text-[#040814] shadow-md shadow-emerald-500/30 font-black scale-105'
-                    : 'text-white hover:text-[#00E676] hover:bg-white/10 hover:scale-105'
+                    : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
                 }`}
               >
                 <Layers className="w-3.5 h-3.5" />
@@ -109,7 +109,7 @@ export default function Navbar({
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                   activeView === 'ocpp-lab'
                     ? 'bg-[#00F2FE] text-[#040814] shadow-md shadow-cyan-500/30 font-black scale-105'
-                    : 'text-white hover:text-[#00F2FE] hover:bg-white/10 hover:scale-105'
+                    : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
                 }`}
               >
                 <Cpu className="w-3.5 h-3.5" />
@@ -124,7 +124,7 @@ export default function Navbar({
               className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 activeView === 'admin-dashboard'
                   ? 'bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white shadow-md shadow-purple-500/30 font-black scale-105'
-                  : 'text-white hover:text-[#D8B4FE] hover:bg-white/10 hover:scale-105'
+                  : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
               }`}
             >
               <Shield className="w-3.5 h-3.5" />
@@ -133,10 +133,10 @@ export default function Navbar({
           )}
         </nav>
 
-        {/* Right Section: Primary Vehicle (Ather 450X), Live Signal & Role Switcher */}
+        {/* Right Section: Primary Vehicle, Live Signal & Role Switcher */}
         <div className="flex items-center gap-2.5">
           
-          {/* Primary Vehicle Garage Pill (Restored clean original style with Hover Effect) */}
+          {/* Primary Vehicle Garage Pill */}
           {currentRole === 'user' && primaryVehicle && (
             <button
               onClick={onOpenGarage}
@@ -156,17 +156,17 @@ export default function Navbar({
           {/* Telemetry Live Indicator */}
           <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#111827] border border-white/15 text-xs shadow-sm">
             <span className={`pulse-dot ${telemetryConnected ? 'pulse-dot-green' : 'pulse-dot-cyan'}`}></span>
-            <span className="text-[11px] text-white font-mono font-semibold">Live Telemetry</span>
+            <span className="text-[11px] text-slate-300 font-mono font-semibold">Live Telemetry</span>
           </div>
 
-          {/* Role Switcher Pill Bar (High Contrast & Tactile Hover States) */}
+          {/* Role Switcher Pill Bar (Grey in Transparency, Vivid Colors on Active) */}
           <div className="flex items-center bg-[#111827] p-1 rounded-xl border border-white/15 shadow-md gap-1">
             <button
               onClick={() => onRoleChange('user')}
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'user'
                   ? 'bg-gradient-to-r from-[#00F2FE] to-[#00B0FF] text-[#040814] shadow-md shadow-cyan-500/30 font-black scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                  : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
               }`}
             >
               <Zap className="w-3 h-3" />
@@ -178,7 +178,7 @@ export default function Navbar({
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'owner'
                   ? 'bg-gradient-to-r from-[#00E676] to-[#00B0FF] text-[#040814] shadow-md shadow-emerald-500/30 font-black scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                  : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
               }`}
             >
               <Building2 className="w-3 h-3" />
@@ -190,7 +190,7 @@ export default function Navbar({
               className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'admin'
                   ? 'bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white shadow-md shadow-purple-500/30 font-black scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-white/10 hover:scale-105'
+                  : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-105'
               }`}
             >
               <Shield className="w-3 h-3" />

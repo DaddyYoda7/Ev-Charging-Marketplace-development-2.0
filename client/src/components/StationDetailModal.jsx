@@ -1,6 +1,8 @@
 import React from 'react';
 import { X, Zap, MapPin, Star, ShieldCheck, Clock, CheckCircle2, ChevronRight, Navigation, Sparkles, AlertTriangle } from 'lucide-react';
 
+const FALLBACK_STATION_IMG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400"><rect width="100%" height="100%" fill="%230B1220"/><path d="M0 0h800v400H0z" fill="url(%23g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="%2300F2FE" stop-opacity="0.25"/><stop offset="1" stop-color="%238B5CF6" stop-opacity="0.15"/></linearGradient></defs><circle cx="400" cy="200" r="70" fill="%23111A2E" stroke="%2300F2FE" stroke-width="3"/><path d="M405 160l-20 45h18l-8 35 30-50h-20z" fill="%2300F2FE"/><text x="400" y="320" font-family="sans-serif" font-size="18" font-weight="bold" fill="%23FFFFFF" text-anchor="middle">⚡ EV CONNECT BHARAT HUB</text></svg>';
+
 export default function StationDetailModal({
   isOpen,
   onClose,
@@ -25,11 +27,15 @@ export default function StationDetailModal({
           <X className="w-5 h-5" />
         </button>
 
-        {/* Station Hero Image & Badges */}
-        <div className="relative h-52 w-full rounded-2xl overflow-hidden mb-6 border border-white/10">
+        {/* Station Hero Image & Badges with 100% Reliable Image Fallback */}
+        <div className="relative h-52 w-full rounded-2xl overflow-hidden mb-6 border border-white/10 bg-[#0B1220]">
           <img
-            src={station.image_url || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&auto=format&fit=crop&q=80'}
+            src={station.image_url || FALLBACK_STATION_IMG}
             alt={station.name}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = FALLBACK_STATION_IMG;
+            }}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0E1524] via-black/40 to-transparent"></div>
