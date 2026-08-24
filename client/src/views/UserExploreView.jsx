@@ -173,7 +173,7 @@ export default function UserExploreView({
             onClick={() => setVehicleCategory('CAR')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'CAR'
-                ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30 scale-105 font-black'
+                ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-[#040814] shadow-md shadow-purple-500/30 scale-105 font-black'
                 : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/15 hover:scale-105'
             }`}
           >
