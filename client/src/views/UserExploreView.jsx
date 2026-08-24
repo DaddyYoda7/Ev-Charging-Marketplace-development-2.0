@@ -235,10 +235,10 @@ export default function UserExploreView({
           {/* Transparent Connector Standard Filter (Custom Glass Dropdown with Transparent Options & Full Background Blur) */}
           <div className={`md:col-span-3 relative ${isConnectorDropdownOpen ? 'z-50' : 'z-10'}`} ref={connectorDropdownRef}>
             
-            {/* Full High-Intensity Background Blur Overlay when dropdown is open */}
+            {/* Black with Subtle Transparency Background Blur Overlay */}
             {isConnectorDropdownOpen && (
               <div 
-                className="fixed inset-0 bg-black/65 backdrop-blur-2xl z-40 transition-all duration-300 animate-fadeIn"
+                className="fixed inset-0 bg-black/80 backdrop-blur-2xl z-40 transition-all duration-300 animate-fadeIn"
                 onClick={() => setIsConnectorDropdownOpen(false)}
               />
             )}
@@ -247,7 +247,7 @@ export default function UserExploreView({
               type="button"
               onClick={() => setIsConnectorDropdownOpen(!isConnectorDropdownOpen)}
               className={`w-full h-[38px] bg-white/5 hover:bg-white/10 focus:bg-white/10 border text-white px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all cursor-pointer select-none relative z-50 ${
-                isConnectorDropdownOpen ? 'border-[#00F2FE] shadow-[0_0_15px_rgba(0,242,254,0.25)] bg-[#0B0F19]/90' : 'border-white/15 hover:border-white/30'
+                isConnectorDropdownOpen ? 'border-[#00F2FE] shadow-[0_0_15px_rgba(0,242,254,0.25)] bg-black/90' : 'border-white/15 hover:border-white/30'
               }`}
             >
               <div className="flex items-center gap-2 truncate">
@@ -259,9 +259,9 @@ export default function UserExploreView({
               <ChevronDown className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-200 ${isConnectorDropdownOpen ? 'rotate-180 text-[#00F2FE]' : ''}`} />
             </button>
 
-            {/* Transparent Frosted Glass Dropdown Menu with Deep Backdrop Blur */}
+            {/* Black with Little Transparency Frosted Dropdown Menu */}
             {isConnectorDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-[#0B0F19]/90 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.95)] z-50 p-2 space-y-1 animate-fadeIn max-h-64 overflow-y-auto">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-black/90 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.95)] z-50 p-2 space-y-1 animate-fadeIn max-h-64 overflow-y-auto">
                 {CONNECTOR_OPTIONS.map((opt) => {
                   const isSelected = selectedConnector === opt.value;
                   return (
@@ -275,12 +275,12 @@ export default function UserExploreView({
                       className={`w-full px-3 py-2.5 rounded-xl text-xs flex items-center justify-between text-left transition-all duration-200 cursor-pointer ${
                         isSelected
                           ? 'bg-cyan-500/25 text-[#00F2FE] font-bold border border-cyan-400/40 shadow-sm backdrop-blur-xl'
-                          : 'text-slate-300 hover:text-white hover:bg-white/10 hover:backdrop-blur-xl active:bg-white/20 active:backdrop-blur-2xl bg-transparent'
+                          : 'text-slate-200 hover:text-white hover:bg-white/10 hover:backdrop-blur-xl active:bg-white/20 active:backdrop-blur-2xl bg-transparent'
                       }`}
                     >
                       <div className="flex items-center gap-2.5 truncate">
                         <span className="shrink-0 text-sm leading-none">{opt.icon}</span>
-                        <span className="truncate">{opt.label}</span>
+                        <span className="truncate font-medium">{opt.label}</span>
                       </div>
                       {isSelected && <Check className="w-3.5 h-3.5 text-[#00F2FE] shrink-0" />}
                     </button>
