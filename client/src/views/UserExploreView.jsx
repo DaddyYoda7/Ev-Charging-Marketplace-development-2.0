@@ -111,7 +111,7 @@ export default function UserExploreView({
             <div
               onClick={onOpenGarage}
               title="Click to switch vehicle or adjust battery SoC"
-              className="p-4 rounded-2xl bg-[#111A2E]/90 hover:bg-[#15223D] border border-cyan-500/30 hover:border-cyan-400/60 cursor-pointer transition-all duration-300 flex items-center gap-4 shadow-xl shadow-cyan-500/5 group w-full sm:w-auto"
+              className="p-4 rounded-2xl bg-[#111A2E]/90 hover:bg-[#15223D] border border-cyan-500/30 hover:border-cyan-400/60 cursor-pointer transition-all duration-300 flex items-center gap-4 shadow-xl shadow-cyan-500/5 group w-full sm:w-auto hover:scale-105"
             >
               <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center text-[#00E676] group-hover:scale-110 transition-transform shrink-0">
                 <BatteryCharging className="w-6 h-6" />
@@ -125,9 +125,9 @@ export default function UserExploreView({
                   </span>
                 </div>
 
-                <div className="text-xs text-slate-400 font-mono mt-1 flex items-center gap-2">
+                <div className="text-xs text-slate-300 font-mono mt-1 flex items-center gap-2">
                   <span>Battery SoC: <b className="text-[#00E676] font-bold">{primaryVehicle.current_soc}%</b></span>
-                  <span className="text-slate-600">•</span>
+                  <span className="text-slate-500">•</span>
                   <span>{primaryVehicle.battery_capacity} kWh</span>
                 </div>
               </div>
@@ -141,17 +141,17 @@ export default function UserExploreView({
 
       </div>
 
-      {/* Vehicle Category Selector Bar */}
-      <div className="flex flex-wrap items-center justify-center sm:justify-between gap-3 bg-[#0E1524] p-3 rounded-2xl border border-white/10 shadow-lg">
+      {/* Vehicle Category Selector Bar with "14 Cities Connected" Aligned in the Center */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-[#0E1524] p-3 rounded-2xl border border-white/10 shadow-lg">
         
         {/* Category Filters with Centered Alignment & Hover Effects */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 w-full sm:w-auto">
+        <div className="flex flex-wrap items-center justify-center gap-2.5">
           <button
             onClick={() => setVehicleCategory('ALL')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'ALL'
-                ? 'bg-gradient-to-r from-[#00F2FE] to-[#00B0FF] text-[#040814] shadow-md shadow-cyan-500/30 scale-105'
-                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10'
+                ? 'bg-gradient-to-r from-[#00F2FE] to-[#00B0FF] text-[#040814] shadow-md shadow-cyan-500/30 scale-105 font-black'
+                : 'bg-white/5 text-white hover:bg-white/15 hover:scale-105'
             }`}
           >
             <Zap className="w-4 h-4" />
@@ -160,10 +160,10 @@ export default function UserExploreView({
 
           <button
             onClick={() => setVehicleCategory('SCOOTY')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'SCOOTY'
-                ? 'bg-gradient-to-r from-[#00E676] to-[#00B0FF] text-[#040814] shadow-md shadow-emerald-500/30 scale-105'
-                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10'
+                ? 'bg-gradient-to-r from-[#00E676] to-[#00B0FF] text-[#040814] shadow-md shadow-emerald-500/30 scale-105 font-black'
+                : 'bg-white/5 text-white hover:bg-white/15 hover:scale-105'
             }`}
           >
             <span>🛵 EV Scooty (2W Fast & Swaps)</span>
@@ -171,20 +171,22 @@ export default function UserExploreView({
 
           <button
             onClick={() => setVehicleCategory('CAR')}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               vehicleCategory === 'CAR'
-                ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30 scale-105'
-                : 'bg-white/5 text-slate-300 hover:text-white hover:bg-white/10'
+                ? 'bg-gradient-to-r from-[#8B5CF6] to-[#00F2FE] text-white shadow-md shadow-purple-500/30 scale-105 font-black'
+                : 'bg-white/5 text-white hover:bg-white/15 hover:scale-105'
             }`}
           >
             <span>🚗 4W Fast DC Cars</span>
           </button>
+
+          {/* 14 Cities Connected Badge Centered */}
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 border border-white/15 text-xs text-slate-200 font-mono">
+            <span className="w-2 h-2 rounded-full bg-[#00E676] shadow-sm shadow-emerald-400"></span>
+            <span className="font-bold text-white">14 Cities Connected</span>
+          </div>
         </div>
 
-        <div className="text-xs text-slate-400 font-mono hidden sm:flex items-center gap-1.5 pr-2">
-          <span className="w-2 h-2 rounded-full bg-[#00E676]"></span>
-          <span>14 Cities Connected</span>
-        </div>
       </div>
 
       {/* Search & Dynamic Filter Controls Bar */}
@@ -222,7 +224,7 @@ export default function UserExploreView({
 
           {/* Max Price Range Slider */}
           <div className="md:col-span-3 bg-black/30 p-2.5 rounded-xl border border-white/5 text-xs">
-            <div className="flex justify-between text-[11px] text-slate-400 mb-1">
+            <div className="flex justify-between text-[11px] text-slate-300 mb-1">
               <span>Max Tariff:</span>
               <span className="font-mono text-[#00E676] font-bold">₹{maxPrice.toFixed(2)}/kWh</span>
             </div>
@@ -241,10 +243,10 @@ export default function UserExploreView({
           <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-2">
             <button
               onClick={() => setAvailableOnly(!availableOnly)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
                 availableOnly
-                  ? 'bg-emerald-500/20 text-[#00E676] border-emerald-500/40 shadow-sm'
-                  : 'bg-white/5 text-slate-400 border-white/10 hover:text-white'
+                  ? 'bg-emerald-500/25 text-[#00E676] border-emerald-500/50 shadow-sm'
+                  : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
               }`}
             >
               <span className={`pulse-dot ${availableOnly ? 'pulse-dot-green' : ''}`}></span>
@@ -254,7 +256,7 @@ export default function UserExploreView({
             <button
               onClick={handleResetFilters}
               title="Reset all filters"
-              className="p-2 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 transition-colors"
+              className="p-2 text-white hover:text-[#00F2FE] bg-white/10 hover:bg-white/20 rounded-xl border border-white/20 transition-all cursor-pointer hover:scale-105"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
@@ -272,7 +274,7 @@ export default function UserExploreView({
               Pan-India EV Charging Map
             </h2>
           </div>
-          <span className="text-xs text-slate-400 font-mono">Interactive GPS & Topography</span>
+          <span className="text-xs text-slate-300 font-mono">Interactive GPS & Topography</span>
         </div>
 
         <InteractiveMap
@@ -295,7 +297,7 @@ export default function UserExploreView({
                 Available Charging Stations
               </h2>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-300 mt-0.5">
               Verified charging bays & battery swap hubs sorted by AI matching score and proximity.
             </p>
           </div>
@@ -308,12 +310,12 @@ export default function UserExploreView({
         </div>
 
         {loading ? (
-          <div className="glass-panel p-16 text-center text-slate-400 text-xs flex flex-col items-center justify-center gap-3">
+          <div className="glass-panel p-16 text-center text-slate-300 text-xs flex flex-col items-center justify-center gap-3">
             <div className="w-8 h-8 border-2 border-[#00F2FE] border-t-transparent rounded-full animate-spin"></div>
             <span>Scanning Pan-India EV charging grid...</span>
           </div>
         ) : stations.length === 0 ? (
-          <div className="glass-panel p-16 text-center text-slate-400 text-xs">
+          <div className="glass-panel p-16 text-center text-slate-300 text-xs">
             No charging stations matched your filter criteria. Try resetting filters.
           </div>
         ) : (
