@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EV Connect AI — Complete Technical & Architectural Documentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  @page {
+    size: A4;
+    margin: 18mm 16mm 18mm 16mm;
+    @bottom-right {
+      content: "Page " counter(page);
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      color: #64748b;
+    }
+    @bottom-left {
+      content: "EV Connect AI • Full Technical Documentation";
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      color: #64748b;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.6;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4 {
+    color: #0f172a;
+    font-weight: 800;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    page-break-after: avoid;
+  }
+
+  h1 { font-size: 20pt; line-height: 1.2; border-bottom: 2px solid #0284c7; padding-bottom: 6px; }
+  h2 { font-size: 14pt; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-top: 1.8em; color: #0369a1; }
+  h3 { font-size: 11pt; color: #0f172a; margin-top: 1.2em; }
+  h4 { font-size: 10pt; color: #334155; }
+
+  p { margin: 0.6em 0; text-align: justify; }
+
+  /* Cover Page */
+  .cover-page {
+    page-break-after: always;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 20px 20px 20px;
+    background: linear-gradient(135deg, #090e17 0%, #0f172a 100%);
+    color: #ffffff;
+    border-radius: 12px;
+  }
+
+  .cover-badge {
+    display: inline-block;
+    background: rgba(0, 242, 254, 0.15);
+    border: 1px solid #00f2fe;
+    color: #00f2fe;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .cover-title {
+    font-size: 32pt;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.15;
+    margin: 20px 0 10px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .cover-title span {
+    color: #00f2fe;
+  }
+
+  .cover-subtitle {
+    font-size: 13pt;
+    color: #94a3b8;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-bottom: 30px;
+  }
+
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 9pt;
+  }
+
+  .cover-meta-item strong {
+    color: #38bdf8;
+    display: block;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+
+  .cover-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+    font-size: 8pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Table styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 8.5pt;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+
+  /* Code blocks */
+  pre, code {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  code {
+    background-color: #f1f5f9;
+    color: #0369a1;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-size: 8.5pt;
+  }
+
+  pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 8pt;
+    line-height: 1.45;
+    overflow-x: auto;
+    page-break-inside: avoid;
+    border-left: 4px solid #0284c7;
+  }
+
+  pre code {
+    background: transparent;
+    color: #f8fafc;
+    padding: 0;
+  }
+
+  /* Callout boxes */
+  .callout {
+    background-color: #f0f9ff;
+    border-left: 4px solid #0284c7;
+    padding: 10px 14px;
+    margin: 12px 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 9pt;
+    page-break-inside: avoid;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    color: #0369a1;
+    margin-bottom: 3px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 7.5pt;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .badge-cyan { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+  .badge-green { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+  .badge-purple { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+
+  .page-break {
+    page-break-before: always;
+  }
+
+  .diagram-box {
+    background: #0f172a;
+    color: #38bdf8;
+    padding: 14px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5pt;
+    line-height: 1.35;
+    margin: 12px 0;
+    page-break-inside: avoid;
+    white-space: pre;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-page">
+  <div>
+    <div class="cover-badge">⚡ BHARAT 2.0 EDITION • PRODUCTION READY</div>
+    <div class="cover-title">EV Connect <span>AI</span></div>
+    <div class="cover-subtitle">
+      Pan-India Intelligent EV Charging Marketplace, Real-Time OCPP Telemetry, Atomic Slot Engine & AI Route Optimization Architecture
+    </div>
+  </div>
+
+  <div>
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item">
+        <strong>Author & Lead Architect</strong>
+        EV Connect Engineering Team
+      </div>
+      <div class="cover-meta-item">
+        <strong>Release Version</strong>
+        v2.0.0 (Production Full-Stack)
+      </div>
+      <div class="cover-meta-item">
+        <strong>Target Ecosystem</strong>
+        2W EV Scooters & 4W Electric Vehicles across 14 Indian Cities
+      </div>
+      <div class="cover-meta-item">
+        <strong>Repository</strong>
+        github.com/DaddyYoda7/Ev-Charging-Marketplace-development-2.0
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <span>CONFIDENTIAL & PROPRIETARY — EV CONNECT AI PLATFORM</span>
+    <span>AUGUST 2026</span>
+  </div>
+</div>
+
+<!-- PAGE BREAK: TABLE OF CONTENTS & SECTION 1 -->
+<div class="page-break"></div>
+
+<h1>1. Executive Summary & Core Mission</h1>
+<p>
+  <strong>EV Connect AI</strong> is a full-stack, two-sided electric mobility marketplace and telemetry management platform engineered to resolve the most critical bottlenecks in India's rapid EV adoption: charger availability fragmentation, range anxiety, dynamic time-of-day tariffs, and hardware unreliability.
+</p>
+<p>
+  The architecture unifies three primary stakeholder workflows into a cohesive, low-latency, and high-security web ecosystem:
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Stakeholder Persona</th>
+      <th style="width: 35%;">Core Platform Capabilities</th>
+      <th style="width: 40%;">Value Proposition & Impact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>EV Drivers (2W / 4W)</strong></td>
+      <td>Pan-India discovery, 45-min slot reservation, vehicle garage manager, simulated UPI/Card payments, and AI Highway Trip Planner.</td>
+      <td>Eliminates range anxiety, guarantees slot availability, and supports both 2W battery swaps and 4W Ultra-Fast DC charging.</td>
+    </tr>
+    <tr>
+      <td><strong>Station Hosts / CPOs</strong></td>
+      <td>Station builder, bay hardware management (3.3kW to 350kW), dynamic kWh tariff editor, and automated 90% payout settlement.</td>
+      <td>Maximizes charger utilization, enables dynamic peak-hour monetization, and automates revenue reconciliation.</td>
+    </tr>
+    <tr>
+      <td><strong>Platform Admins</strong></td>
+      <td>National grid telemetry hub, 10% platform commission ledger, station verification audit, and predictive hardware failure monitoring.</td>
+      <td>Provides total visibility over national EV infrastructure health, Gross Merchandise Value (GMV), and dispute management.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="callout-title">⚡ Pan-India Infrastructure Scope</div>
+  The platform ships with pre-configured stations covering 14 key Indian metropolitan regions and expressways: Bengaluru, Mumbai, Delhi NCR, Hyderabad, Chennai, Pune, Ahmedabad, Kolkata, Jaipur, Kochi, Chandigarh, Lucknow, Goa, and the Mumbai-Pune Expressway.
+</div>
+
+<h2>2. High-Level Architecture & Communication Protocols</h2>
+<p>
+  The platform operates on a decoupled client-server architecture utilizing synchronous <strong>RESTful JSON APIs</strong> for transactional operations and persistent <strong>Server-Sent Events (SSE)</strong> for real-time telemetry streaming.
+</p>
+
+<div class="diagram-box">
++-------------------------------------------------------------------------------+
+|                             CLIENT LAYER (React 19)                           |
+|  +-----------------------+  +----------------------+  +--------------------+  |
+|  | Driver Explore & Maps |  | Host & CPO Dashboard |  | Admin Platform Hub |  |
+|  +-----------------------+  +----------------------+  +--------------------+  |
+|  +-------------------------------------------------------------------------+  |
+|  |         Leaflet Maps • Tailwind Glassmorphism • Lucide Icons            |  |
+|  +-------------------------------------------------------------------------+  |
++---------------------------------------^---------------------------------------+
+                                        | (HTTP / REST & SSE Stream)
++---------------------------------------v---------------------------------------+
+|                            BACKEND LAYER (Express.js)                         |
+|  +-------------------+  +-------------------+  +----------------------------+ |
+|  | Stations & Search |  | Bookings & Slots  |  | Split Payments & Invoicing | |
+|  +-------------------+  +-------------------+  +----------------------------+ |
+|  +-------------------+  +-------------------+  +----------------------------+ |
+|  | AI Recommendation |  | OCPP 2.0.1 Engine |  | Predictive Maintenance     | |
+|  +-------------------+  +-------------------+  +----------------------------+ |
++---------------------------------------^---------------------------------------+
+                                        | (SQL Queries & Transactions)
++---------------------------------------v---------------------------------------+
+|                              DATA LAYER (SQLite3)                             |
+|  [Users] • [Vehicles] • [Stations] • [Chargers] • [Bookings] • [Payments]    |
++-------------------------------------------------------------------------------+
+</div>
+
+<div class="page-break"></div>
+
+<h1>3. Complete Technology Stack & Tooling</h1>
+
+<h3>3.1 Frontend Architecture</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Library / Tool</th>
+      <th>Version</th>
+      <th>Technical Role & Architectural Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>React</strong></td>
+      <td><code>^19.2.8</code></td>
+      <td>Component-based UI framework managing view states, responsive modals, dynamic filters, and real-time charging animations.</td>
+    </tr>
+    <tr>
+      <td><strong>Vite</strong></td>
+      <td><code>^8.2.0</code></td>
+      <td>High-speed build tool and development server providing sub-second Hot Module Replacement (HMR) and optimized rollup production bundles.</td>
+    </tr>
+    <tr>
+      <td><strong>Tailwind CSS</strong></td>
+      <td><code>^4.0</code></td>
+      <td>Utility-first styling augmented with glassmorphic tokens, deep frosted backdrop blurs (<code>backdrop-blur-2xl</code>), and electric color palettes.</td>
+    </tr>
+    <tr>
+      <td><strong>Leaflet</strong></td>
+      <td><code>^1.9.4</code></td>
+      <td>Interactive map engine rendering CartoDB Voyager dark tiles, custom 2W/4W vehicle pins, and highway route overlays.</td>
+    </tr>
+    <tr>
+      <td><strong>Lucide React</strong></td>
+      <td><code>^1.33.0</code></td>
+      <td>Modern SVG icon library utilized across navigation bars, telemetry cards, and hardware controls.</td>
+    </tr>
+    <tr>
+      <td><strong>Canvas Confetti</strong></td>
+      <td><code>^1.9.4</code></td>
+      <td>Micro-animation celebration engine triggered upon successful slot booking and payment completion.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>3.2 Backend Architecture & Data Layer</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Library / Tool</th>
+      <th>Version</th>
+      <th>Technical Role & Architectural Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Node.js</strong></td>
+      <td><code>>=18.0.0</code></td>
+      <td>Asynchronous, non-blocking JavaScript runtime powering backend services and event loops.</td>
+    </tr>
+    <tr>
+      <td><strong>Express.js</strong></td>
+      <td><code>^4.21.2</code></td>
+      <td>RESTful API routing framework, middleware orchestrator, and production static asset server.</td>
+    </tr>
+    <tr>
+      <td><strong>SQLite3</strong></td>
+      <td><code>^5.1.7</code></td>
+      <td>ACID-compliant relational database engine enforcing foreign key integrity and transactional isolation.</td>
+    </tr>
+    <tr>
+      <td><strong>CORS</strong></td>
+      <td><code>^2.8.5</code></td>
+      <td>Security middleware managing cross-origin headers and trusted domain communication.</td>
+    </tr>
+    <tr>
+      <td><strong>Server-Sent Events (SSE)</strong></td>
+      <td><code>Native HTTP</code></td>
+      <td>Persistent unidirectional telemetry pipe broadcasting active power (kW), voltage, current, and SoC % updates.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h1>4. Phased Development Roadmap (Phases 1 to 6)</h1>
+
+<h3>Phase 1: User & EV Driver Platform</h3>
+<ul>
+  <li><strong>Multi-Role Switcher</strong>: Seamless switching between Driver (<span class="badge badge-cyan">Cyan #00F2FE</span>), Host (<span class="badge badge-green">Emerald #00E676</span>), and Admin (<span class="badge badge-purple">Purple #C084FC</span>).</li>
+  <li><strong>Interactive Garage Manager</strong>: Configurable EV garage profiles supporting Ather 450X, Ola S1 Pro, TVS iQube, Tata Nexon EV, MG ZS EV, and Hyundai Ioniq 5 with adjustable SoC sliders.</li>
+  <li><strong>Pan-India Map Explorer</strong>: 15 verified stations across 14 cities with interactive city quick-jump shortcuts.</li>
+  <li><strong>Search & Filter Grid</strong>: Real-time query search, vehicle category filters (<strong>All</strong>, <strong>🛵 EV Scooty</strong>, <strong>🚗 4W Fast DC</strong>), custom transparent frosted connector dropdown with full background blur, max tariff slider, and <strong>Open Bays</strong> toggle.</li>
+</ul>
+
+<h3>Phase 2: Station Owner / Host Marketplace</h3>
+<ul>
+  <li><strong>Station Onboarding Builder</strong>: Comprehensive registration form for physical hubs with GPS coordinates, address, and amenities (Café, Restrooms, WiFi, CCTV).</li>
+  <li><strong>Bay Hardware Configurator</strong>: Add and configure individual chargers ranging from 3.3kW AC (15A socket) up to 350kW DC Ultra-Fast.</li>
+  <li><strong>Dynamic Tariff & Penalty Engine</strong>: Set base tariffs (₹/kWh), peak-hour surcharges (1.25x), and idle parking penalties (₹/min after charging completion).</li>
+</ul>
+
+<h3>Phase 3: Slot Reservation & Conflict Prevention Engine</h3>
+<ul>
+  <li><strong>Dynamic 45-Minute Slot Matrix</strong>: Generates available slots for today and tomorrow based on station operational hours.</li>
+  <li><strong>Atomic Concurrency Control</strong>: SQLite-level transaction checks prevent double-booking collisions by verifying slot overlaps before confirming reservations.</li>
+  <li><strong>Session Lifecycle State Machine</strong>: Transitions through <code>CONFIRMED</code> &rarr; <code>ACTIVE</code> (charging in progress) &rarr; <code>COMPLETED</code> or <code>CANCELLED</code>.</li>
+</ul>
+
+<h3>Phase 4: Financial Transactions, Revenue Splits & Invoicing</h3>
+<ul>
+  <li><strong>Multi-Method Checkout</strong>: Simulated payment gateway supporting UPI QR codes (GPay, PhonePe, Paytm), Credit/Debit Cards, and EV Connect Digital Wallet.</li>
+  <li><strong>10/90 Settlement Engine</strong>:
+    <pre><code>Platform Commission (10%) = Total Amount * 0.10
+Host Payout (90%)         = Total Amount * 0.90</code></pre>
+  </li>
+  <li><strong>Cryptographic GST Tax Invoices</strong>: Generates printable and downloadable tax invoices with HMAC-SHA256 verification hashes.</li>
+</ul>
+
+<h3>Phase 5: Multi-Factor AI Recommendation Engine</h3>
+<ul>
+  <li><strong>Mathematical Weighted Scoring Model</strong>:
+    <pre><code>Score = (0.30 * Availability) + (0.25 * Proximity) + (0.20 * Price) + (0.15 * Speed) + (0.10 * Rating)</code></pre>
+  </li>
+  <li><strong>Explainable AI (XAI) Badges</strong>: Displays natural language rationale tags (e.g. <em>"Top Pick: 60kW Fast DC + 100% Green Solar"</em>).</li>
+  <li><strong>AI Route & Battery Planner</strong>: Computes total trip distance, estimated energy consumption (kWh), remaining SoC at arrival, and recommends charging stops along major expressways.</li>
+</ul>
+
+<h3>Phase 6: OCPP 2.0.1 Hardware Simulator & Predictive Maintenance</h3>
+<ul>
+  <li><strong>OCPP Message Protocol</strong>: Implements <code>BootNotification</code>, <code>StatusNotification</code>, <code>Heartbeat</code>, <code>MeterValues</code>, <code>StartTransaction</code>, and <code>StopTransaction</code>.</li>
+  <li><strong>Fault Injection Sandbox</strong>: Live simulation for <em>Overheating</em>, <em>Ground Fault</em>, and <em>Connector Lock Failure</em>.</li>
+  <li><strong>Predictive Maintenance (MTBF)</strong>: Evaluates voltage variance, connector wear cycles, and hardware temperature to calculate Mean Time Between Failures.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h1>5. Component-by-Component Guide</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Component / View</th>
+      <th style="width: 35%;">File Location</th>
+      <th style="width: 40%;">Core Functionality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Navbar</strong></td>
+      <td><code>client/src/components/Navbar.jsx</code></td>
+      <td>Header navigation, transparent active tabs, live vehicle SoC pill, green pulsing telemetry dot, and role switcher.</td>
+    </tr>
+    <tr>
+      <td><strong>UserExploreView</strong></td>
+      <td><code>client/src/views/UserExploreView.jsx</code></td>
+      <td>Main driver dashboard, hero banner, category pills, custom transparent frosted glass dropdown with full background blur, and 3-column station grid.</td>
+    </tr>
+    <tr>
+      <td><strong>InteractiveMap</strong></td>
+      <td><code>client/src/components/InteractiveMap.jsx</code></td>
+      <td>Leaflet dark map with 2W/4W custom glowing pins, city jump shortcuts, and route polyline overlays.</td>
+    </tr>
+    <tr>
+      <td><strong>StationCard</strong></td>
+      <td><code>client/src/components/StationCard.jsx</code></td>
+      <td>Station summary cards showing live bay occupancy, AI score badge, pricing, amenities, and quick-book triggers.</td>
+    </tr>
+    <tr>
+      <td><strong>StationDetailModal</strong></td>
+      <td><code>client/src/components/StationDetailModal.jsx</code></td>
+      <td>Deep technical specs, bay telemetry status, charger hardware information, and navigation directions.</td>
+    </tr>
+    <tr>
+      <td><strong>BookingModal</strong></td>
+      <td><code>client/src/components/BookingModal.jsx</code></td>
+      <td>45-minute slot selector, duration slider, estimated kWh calculation, EV profile selection, and pricing breakdown.</td>
+    </tr>
+    <tr>
+      <td><strong>PaymentModal</strong></td>
+      <td><code>client/src/components/PaymentModal.jsx</code></td>
+      <td>Multi-method checkout (UPI, Card, Wallet), 10/90 platform-host split calculation, and instant tax invoice generation.</td>
+    </tr>
+    <tr>
+      <td><strong>GarageModal</strong></td>
+      <td><code>client/src/components/GarageModal.jsx</code></td>
+      <td>EV vehicle garage manager, primary vehicle selection, and real-time battery SoC % sliders.</td>
+    </tr>
+    <tr>
+      <td><strong>OcppSimulator</strong></td>
+      <td><code>client/src/components/OcppSimulator.jsx</code></td>
+      <td>Floating OCPP 1.6-J/2.0.1 hardware dock with real-time gauges for Power, Voltage, Current, Temp, and Fault injection.</td>
+    </tr>
+    <tr>
+      <td><strong>UserDashboard</strong></td>
+      <td><code>client/src/views/UserDashboard.jsx</code></td>
+      <td>Driver active charging sessions, live telemetry meters, battery wave animation, booking history, and tax invoices.</td>
+    </tr>
+    <tr>
+      <td><strong>HostDashboard</strong></td>
+      <td><code>client/src/views/HostDashboard.jsx</code></td>
+      <td>Station owner portal, charger bay manager, dynamic tariff editor (₹/kWh), and station builder modal.</td>
+    </tr>
+    <tr>
+      <td><strong>HostAnalyticsView</strong></td>
+      <td><code>client/src/views/HostAnalyticsView.jsx</code></td>
+      <td>Business intelligence, revenue charts, energy consumption (kWh), and hardware uptime matrix.</td>
+    </tr>
+    <tr>
+      <td><strong>AdminDashboard</strong></td>
+      <td><code>client/src/views/AdminDashboard.jsx</code></td>
+      <td>National platform hub, 10% commission accounting, station approval/moderation, and grid health monitoring.</td>
+    </tr>
+    <tr>
+      <td><strong>AiAssistantView</strong></td>
+      <td><code>client/src/views/AiAssistantView.jsx</code></td>
+      <td>AI Highway Trip Planner, range anxiety optimizer, and custom recommendation weighting model tuner.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h1>6. Database Schema & REST API Specifications</h1>
+
+<h3>6.1 Database Relational Schema (SQLite3)</h3>
+<pre><code>-- Users & Stakeholders
+CREATE TABLE users (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    role TEXT CHECK(role IN ('DRIVER', 'HOST', 'ADMIN')),
+    wallet_balance REAL DEFAULT 1500.0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Vehicles (Garage)
+CREATE TABLE vehicles (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    model TEXT NOT NULL,
+    vehicle_type TEXT CHECK(vehicle_type IN ('SCOOTY', 'CAR')),
+    battery_capacity REAL NOT NULL,
+    current_soc REAL DEFAULT 50.0,
+    connector_type TEXT NOT NULL,
+    is_primary INTEGER DEFAULT 0,
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+-- Stations
+CREATE TABLE stations (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    address TEXT NOT NULL,
+    city TEXT NOT NULL,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL,
+    base_tariff REAL NOT NULL,
+    idle_fee REAL DEFAULT 2.0,
+    peak_multiplier REAL DEFAULT 1.25,
+    rating REAL DEFAULT 4.8,
+    host_id TEXT NOT NULL,
+    FOREIGN KEY(host_id) REFERENCES users(id)
+);
+
+-- Chargers (Bays)
+CREATE TABLE chargers (
+    id TEXT PRIMARY KEY,
+    station_id TEXT NOT NULL,
+    identifier TEXT NOT NULL,
+    connector_type TEXT NOT NULL,
+    power_kw REAL NOT NULL,
+    status TEXT CHECK(status IN ('AVAILABLE', 'CHARGING', 'MAINTENANCE', 'FAULTED')),
+    current_power REAL DEFAULT 0.0,
+    FOREIGN KEY(station_id) REFERENCES stations(id)
+);
+
+-- Bookings
+CREATE TABLE bookings (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    station_id TEXT NOT NULL,
+    charger_id TEXT NOT NULL,
+    vehicle_id TEXT,
+    slot_time TEXT NOT NULL,
+    duration_min INTEGER DEFAULT 45,
+    estimated_kwh REAL NOT NULL,
+    total_amount REAL NOT NULL,
+    status TEXT CHECK(status IN ('CONFIRMED', 'ACTIVE', 'COMPLETED', 'CANCELLED')),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(station_id) REFERENCES stations(id),
+    FOREIGN KEY(charger_id) REFERENCES chargers(id)
+);
+
+-- Payments & Settlements
+CREATE TABLE payments (
+    id TEXT PRIMARY KEY,
+    booking_id TEXT NOT NULL,
+    amount REAL NOT NULL,
+    platform_fee REAL NOT NULL,
+    host_payout REAL NOT NULL,
+    payment_method TEXT NOT NULL,
+    transaction_ref TEXT UNIQUE NOT NULL,
+    status TEXT CHECK(status IN ('SUCCESS', 'PENDING', 'FAILED')),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(booking_id) REFERENCES bookings(id)
+);</code></pre>
+
+<div class="page-break"></div>
+
+<h3>6.2 REST API Specification</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Endpoint</th>
+      <th>Method</th>
+      <th>Description & Parameters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/api/auth/users</code></td>
+      <td><span class="badge badge-cyan">GET</span></td>
+      <td>Fetch all registered users and stakeholder profiles.</td>
+    </tr>
+    <tr>
+      <td><code>/api/auth/vehicles</code></td>
+      <td><span class="badge badge-cyan">GET</span></td>
+      <td>List vehicles in the driver's garage (<code>?userId=:id</code>).</td>
+    </tr>
+    <tr>
+      <td><code>/api/auth/vehicles/:id/soc</code></td>
+      <td><span class="badge badge-purple">PUT</span></td>
+      <td>Update vehicle battery state of charge (SoC %). Body: <code>{ soc: number }</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/api/stations</code></td>
+      <td><span class="badge badge-cyan">GET</span></td>
+      <td>Search and filter stations by keyword, connector, power, price, and geo-radius.</td>
+    </tr>
+    <tr>
+      <td><code>/api/stations/:id</code></td>
+      <td><span class="badge badge-cyan">GET</span></td>
+      <td>Retrieve detailed station hardware specs, amenities, and bay availability.</td>
+    </tr>
+    <tr>
+      <td><code>/api/stations/:id/tariff</code></td>
+      <td><span class="badge badge-purple">PUT</span></td>
+      <td>Update base tariff, peak multipliers, and idle parking fees (Host only).</td>
+    </tr>
+    <tr>
+      <td><code>/api/bookings/slots</code></td>
+      <td><span class="badge badge-cyan">GET</span></td>
+      <td>Generate 45-minute available slot matrix (<code>?stationId=:id&date=:date</code>).</td>
+    </tr>
+    <tr>
+      <td><code>/api/bookings</code></td>
+      <td><span class="badge badge-green">POST</span></td>
+      <td>Reserve a charging bay with atomic concurrency double-booking prevention.</td>
+    </tr>
+    <tr>
+      <td><code>/api/bookings/active</code></td>
+      <td><span class="badge badge-cyan">GET</span></td>
+      <td>Fetch active charging sessions with live metering (<code>?userId=:id</code>).</td>
+    </tr>
+    <tr>
+      <td><code>/api/payments/process</code></td>
+      <td><span class="badge badge-green">POST</span></td>
+      <td>Process payment with 10% platform / 90% host settlement split.</td>
+    </tr>
+    <tr>
+      <td><code>/api/payments/invoice/:bookingId</code></td>
+      <td><span class="badge badge-cyan">GET</span></td>
+      <td>Generate cryptographic GST tax invoice with HMAC-SHA256 signature.</td>
+    </tr>
+    <tr>
+      <td><code>/api/ai/recommend</code></td>
+      <td><span class="badge badge-green">POST</span></td>
+      <td>Compute multi-factor recommendation score for driver location and vehicle.</td>
+    </tr>
+    <tr>
+      <td><code>/api/ai/trip-planner</code></td>
+      <td><span class="badge badge-green">POST</span></td>
+      <td>Plan long-distance EV trip with battery discharge curve and charging stops.</td>
+    </tr>
+    <tr>
+      <td><code>/api/telemetry/stream</code></td>
+      <td><span class="badge badge-cyan">GET</span></td>
+      <td><strong>Server-Sent Events (SSE)</strong> persistent live telemetry broadcast pipe.</td>
+    </tr>
+    <tr>
+      <td><code>/api/telemetry/ocpp/event</code></td>
+      <td><span class="badge badge-green">POST</span></td>
+      <td>Dispatch simulated OCPP events (<code>StartTransaction</code>, <code>StopTransaction</code>, <code>Fault</code>).</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<h1>7. Installation, Execution & Cloud Deployment Guide</h1>
+
+<h3>7.1 Local Development Setup</h3>
+
+<div class="callout">
+  <div class="callout-title">🟢 1-Click Launch (Windows)</div>
+  Double-click <code>start.bat</code> in the project root folder. It will automatically start both the Express backend API on port 5000 and the Vite frontend dev server on port 5173.
+</div>
+
+<pre><code># Manual Multi-Terminal Execution:
+
+# Terminal 1: Backend API Server
+cd server
+npm install
+npm start
+
+# Terminal 2: Frontend Vite Client
+cd client
+npm install
+npm run dev</code></pre>
+
+<ul>
+  <li><strong>Frontend Web Client</strong>: <a href="http://localhost:5173">http://localhost:5173</a></li>
+  <li><strong>Backend REST API</strong>: <a href="http://localhost:5000/api/health">http://localhost:5000/api/health</a></li>
+</ul>
+
+<h3>7.2 Free Cloud Deployment (1-Click)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cloud Host</th>
+      <th>Hosting Type</th>
+      <th>Deployment Configuration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Render.com</strong></td>
+      <td>Fullstack (Node + SQLite + Static)</td>
+      <td>Connect repository <code>DaddyYoda7/Ev-Charging-Marketplace-development-2.0</code><br>Build Command: <code>cd client && npm install && npm run build</code><br>Start Command: <code>cd server && npm install && node index.js</code></td>
+    </tr>
+    <tr>
+      <td><strong>Railway.app</strong></td>
+      <td>Fullstack Container</td>
+      <td>Deploy from GitHub repository &rarr; Generate public domain under service settings.</td>
+    </tr>
+    <tr>
+      <td><strong>Vercel</strong></td>
+      <td>Frontend Client (Vite SPA)</td>
+      <td>Import repository &rarr; Framework: <code>Vite</code> &rarr; Root Directory: <code>client</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top: 40px; text-align: center; border-top: 1px solid #cbd5e1; padding-top: 20px; color: #64748b; font-size: 8.5pt;">
+  <strong>EV Connect AI</strong> • Full Technical & Architectural Documentation • Bharat 2.0 Edition
+</div>
+
+</body>
+</html>
