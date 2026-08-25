@@ -153,7 +153,7 @@ async function initSchema() {
       tax_amount REAL NOT NULL,
       payment_method TEXT DEFAULT 'UPI',
       transaction_id TEXT UNIQUE NOT NULL,
-      status TEXT CHECK(status IN ('SUCCESS', 'PENDING', 'REFUNDED')) DEFAULT 'SUCCESS',
+      status TEXT CHECK(status IN ('SUCCESS', 'SETTLED', 'PENDING', 'REFUNDED')) DEFAULT 'SUCCESS',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (booking_id) REFERENCES bookings(id),
       FOREIGN KEY (user_id) REFERENCES users(id)

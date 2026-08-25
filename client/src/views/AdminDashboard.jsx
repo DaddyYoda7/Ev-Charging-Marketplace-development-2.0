@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, DollarSign, Building2, Users, Zap, CheckCircle2, TrendingUp, RefreshCw, FileText } from 'lucide-react';
+import { 
+  Shield, DollarSign, Building2, Users, Zap, CheckCircle2, TrendingUp, 
+  RefreshCw, FileText, Download, Check, AlertTriangle, Power, Lock, 
+  LogOut, Filter, BadgeCheck, Sliders, ChevronRight, Activity
+} from 'lucide-react';
 import { api } from '../utils/api';
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ adminUser, onLogout }) {
   const [adminData, setAdminData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('ledger'); // 'ledger' | 'stations' | 'grid'
+  const [statusFilter, setStatusFilter] = useState('ALL'); // 'ALL' | 'SUCCESS' | 'SETTLED'
+  const [actionMessage, setActionMessage] = useState(null);
+  const [processingId, setProcessingId] = useState(null);
 
   useEffect(() => {
     loadAdminStats();
@@ -24,127 +32,453 @@ export default function AdminDashboard() {
     }
   }
 
+  function showNotification(msg) {
+    setActionMessage(msg);
+    setTimeout(() => setActionMessage(null), 4500);
+  }
+
+  // Settle individual host payout
+  async function handleSettlePayout(paymentId) {
+    setProcessingId(paymentId);
+    try {
+      const res = await api.settlePayout(paymentId);
+      if (res.success) {
+        showNotification(res.message || 'Host payout settled successfully!');
+        await loadAdminStats();
+      }
+    } catch (err) {
+      showNotification('Error settling payout.');
+    } finally {
+      setProcessingId(null);
+    }
+  }
+
+  // Settle all pending host payouts
+  async function handleSettleAllPayouts() {
+    setProcessingId('all');
+    try {
+      const res = await api.settleAllPayouts();
+      if (res.success) {
+        showNotification(res.message || 'All host payouts settled successfully!');
+        await loadAdminStats();
+      }
+    } catch (err) {
+      showNotification('Error processing batch payout.');
+    } finally {
+      setProcessingId(null);
+    }
+  }
+
+  // Emergency Grid Fault Reset
+  async function handleResetGridFaults() {
+    setProcessingId('reset-faults');
+    try {
+      const res = await api.resetGridFaults();
+      if (res.success) {
+        showNotification(res.message || 'National Grid hardware faults cleared!');
+        await loadAdminStats();
+      }
+    } catch (err) {
+      showNotification('Error resetting grid faults.');
+    } finally {
+      setProcessingId(null);
+    }
+  }
+
+  // Toggle Station Status (ONLINE / MAINTENANCE / SUSPENDED)
+  async function handleStationStatusToggle(stationId, currentStatus) {
+    const nextStatus = currentStatus === 'ONLINE' ? 'MAINTENANCE' : 'ONLINE';
+    try {
+      const res = await api.updateStationStatus(stationId, nextStatus);
+      if (res.success) {
+        showNotification(`Station ${res.station?.name || ''} marked as ${nextStatus}`);
+        await loadAdminStats();
+      }
+    } catch (err) {
+      showNotification('Error updating station status.');
+    }
+  }
+
+  // Toggle Station Verification
+  async function handleStationVerifyToggle(stationId, currentVerified) {
+    try {
+      const res = await api.verifyStation(stationId, !currentVerified);
+      if (res.success) {
+        showNotification(`Station verification updated.`);
+        await loadAdminStats();
+      }
+    } catch (err) {
+      showNotification('Error updating verification.');
+    }
+  }
+
+  // Export Financial Ledger as CSV
+  function exportLedgerCSV() {
+    const rows = adminData?.recentTransactions || [];
+    if (rows.length === 0) return;
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Transaction ID,Driver,Station,Total Amount (INR),Platform Commission (10%),Host Share (90%),Payment Method,Status,Timestamp\n";
+
+    rows.forEach((tx) => {
+      csvContent += `"${tx.transaction_id}","${tx.user_name}","${tx.station_name}",${tx.total_amount},${tx.platform_commission},${tx.owner_payout},"${tx.payment_method}","${tx.status}","${tx.created_at || ''}"\n`;
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `EVConnect_Financial_Ledger_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showNotification("Financial Ledger exported to CSV successfully.");
+  }
+
   const stats = adminData?.stats;
   const transactions = adminData?.recentTransactions || [];
   const stationsList = adminData?.stationsList || [];
 
+  const filteredTransactions = transactions.filter((tx) => {
+    if (statusFilter === 'ALL') return true;
+    return tx.status === statusFilter;
+  });
+
   return (
-    <div className="max-w-7xl mx-auto px-4 lg:px-8 py-6 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-6">
       
-      {/* Admin Title Banner */}
-      <div className="glass-panel p-6 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-[#8B5CF6] uppercase tracking-wider mb-1">
-            <Shield className="w-4 h-4" />
-            <span>National Platform Governance & Settlement</span>
+      {/* Top Banner with Admin Security Clearance & Controls */}
+      <div className="glass-panel p-6 md:p-8 border border-purple-500/30 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden shadow-2xl shadow-purple-500/10">
+        
+        {/* Left: Title & Clearance */}
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/15 border border-purple-400/40 text-[10px] font-mono text-purple-300 font-bold uppercase tracking-wider">
+            <Shield className="w-3.5 h-3.5 text-[#C084FC]" />
+            <span>Security Clearance: Level 4 National Grid Admin</span>
           </div>
-          <h1 className="text-2xl font-black text-white">Central Marketplace Admin Hub (Bharat)</h1>
-          <p className="text-xs text-slate-400 mt-0.5">Monitoring 10% platform commission revenue, UPI settlements, and charging station operator payouts in ₹.</p>
+
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            National Marketplace Governance & Financial Hub 🇮🇳
+          </h1>
+
+          <p className="text-xs text-slate-300 leading-relaxed max-w-2xl">
+            Logged in as <span className="text-purple-300 font-semibold">{adminUser?.name || 'National Admin'}</span> ({adminUser?.email || 'admin@evconnect.in'}). Authorized for UPI financial reconciliations, 10/90 settlement ledgers, and Pan-India station grid moderation.
+          </p>
         </div>
 
-        <button
-          onClick={loadAdminStats}
-          className="btn-secondary text-xs px-3.5 py-2 flex items-center gap-1.5 self-start md:self-center"
-        >
-          <RefreshCw className="w-3.5 h-3.5" />
-          <span>Refresh Ledger</span>
-        </button>
+        {/* Right: Action Buttons */}
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button
+            onClick={loadAdminStats}
+            title="Refresh statistics"
+            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-300 hover:text-white transition-all cursor-pointer"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={handleResetGridFaults}
+            disabled={processingId === 'reset-faults'}
+            className="py-2.5 px-3.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/40 text-red-300 hover:text-red-200 text-xs font-bold font-mono flex items-center gap-1.5 transition-all cursor-pointer"
+          >
+            <Power className="w-3.5 h-3.5" />
+            <span>Emergency Grid Reset</span>
+          </button>
+
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-red-500/20 border border-white/15 hover:border-red-500/40 text-slate-300 hover:text-red-300 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Secure Logout</span>
+            </button>
+          )}
+        </div>
+
       </div>
+
+      {/* Action Notification Alert */}
+      {actionMessage && (
+        <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs flex items-center justify-between shadow-lg shadow-emerald-500/10 animate-fadeIn">
+          <div className="flex items-center gap-2.5">
+            <CheckCircle2 className="w-4 h-4 text-[#00E676] shrink-0" />
+            <span className="font-medium">{actionMessage}</span>
+          </div>
+          <button onClick={() => setActionMessage(null)} className="text-slate-400 hover:text-white text-xs cursor-pointer">Dismiss</button>
+        </div>
+      )}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Marketplace GMV */}
-        <div className="glass-panel p-5 border border-white/10">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Marketplace Gross Volume</div>
+        <div className="glass-panel p-5 border border-white/10 hover:border-white/20 transition-all">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Marketplace Gross Volume</div>
           <div className="text-3xl font-black text-white font-mono">
             ₹{stats?.gmv?.toLocaleString('en-IN') || '2,314.50'}
           </div>
-          <div className="text-[11px] text-slate-400 mt-2 font-mono">
-            {stats?.totalTransactions || 3} Confirmed Transactions
+          <div className="text-[11px] text-slate-400 mt-2 font-mono flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00F2FE]"></span>
+            <span>{stats?.totalTransactions || 3} Confirmed Transactions</span>
           </div>
         </div>
 
         {/* 10% Platform Commission Revenue */}
-        <div className="glass-panel p-5 border border-white/10">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Platform Commission (10%)</div>
+        <div className="glass-panel p-5 border border-white/10 hover:border-cyan-500/30 transition-all">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Platform Commission (10%)</div>
           <div className="text-3xl font-black text-[#00F2FE] font-mono">
             ₹{stats?.platformCommission?.toLocaleString('en-IN') || '231.45'}
           </div>
           <div className="text-[11px] text-[#00E676] mt-2 font-mono font-semibold">
-            Owner Payouts (90%): ₹{stats?.ownerPayouts?.toLocaleString('en-IN') || '2,083.05'}
+            Host Payouts (90%): ₹{stats?.ownerPayouts?.toLocaleString('en-IN') || '2,083.05'}
           </div>
         </div>
 
         {/* Total Stations & Bays */}
-        <div className="glass-panel p-5 border border-white/10">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Network Capacity</div>
+        <div className="glass-panel p-5 border border-white/10 hover:border-emerald-500/30 transition-all">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Pan-India Capacity</div>
           <div className="text-3xl font-black text-[#00E676] font-mono">
-            {stats?.totalChargers || 11} <span className="text-sm font-normal text-slate-400">Bays</span>
+            {stats?.totalChargers || 14} <span className="text-sm font-normal text-slate-400">Bays</span>
           </div>
           <div className="text-[11px] text-slate-400 mt-2 font-mono">
-            Across {stats?.totalStations || 6} Charging Hubs
+            Across {stats?.totalStations || 14} Charging Hubs
           </div>
         </div>
 
         {/* Network Live Load */}
-        <div className="glass-panel p-5 border border-white/10">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Active Sessions</div>
-          <div className="text-3xl font-black text-purple-400 font-mono">
+        <div className="glass-panel p-5 border border-white/10 hover:border-purple-500/30 transition-all">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Grid Health & Load</div>
+          <div className="text-3xl font-black text-[#C084FC] font-mono">
             {stats?.activeSessions || 1} <span className="text-sm font-normal text-slate-400">Live</span>
           </div>
-          <div className="text-[11px] text-slate-400 mt-2 font-mono">
-            {stats?.faultedChargers || 0} Hardware Faults Flagged
+          <div className="text-[11px] text-slate-400 mt-2 font-mono flex items-center gap-1.5">
+            <span className={`w-1.5 h-1.5 rounded-full ${stats?.faultedChargers > 0 ? 'bg-red-400' : 'bg-[#00E676]'}`}></span>
+            <span>{stats?.faultedChargers || 0} Hardware Faults</span>
           </div>
         </div>
 
       </div>
 
-      {/* Transactions Settlement Ledger */}
-      <div className="glass-panel p-6 border border-white/10 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-[#00E676] font-bold text-base">₹</span>
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider">UPI Settlement & 10/90 Commission Ledger</h2>
-          </div>
-          <span className="text-xs text-slate-400 font-mono">Server-Side Verified</span>
-        </div>
+      {/* Admin Tab Navigation */}
+      <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+        <button
+          onClick={() => setActiveTab('ledger')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === 'ledger'
+              ? 'bg-purple-500/20 text-[#C084FC] border border-purple-400/40 shadow-sm'
+              : 'text-slate-400 hover:text-white hover:bg-white/5'
+          }`}
+        >
+          <DollarSign className="w-3.5 h-3.5" />
+          <span>Financial Settlements & 10/90 Ledger</span>
+        </button>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs text-left">
-            <thead>
-              <tr className="border-b border-white/10 text-slate-400 font-bold uppercase text-[10px]">
-                <th className="py-2.5 px-3">Transaction ID</th>
-                <th className="py-2.5 px-3">Driver</th>
-                <th className="py-2.5 px-3">Station</th>
-                <th className="py-2.5 px-3">Total Amount</th>
-                <th className="py-2.5 px-3 text-[#00F2FE]">10% Commission</th>
-                <th className="py-2.5 px-3 text-[#00E676]">90% Host Share</th>
-                <th className="py-2.5 px-3">Method</th>
-                <th className="py-2.5 px-3">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5 font-mono">
-              {transactions.map((tx) => (
-                <tr key={tx.id} className="hover:bg-white/[0.02] transition-colors">
-                  <td className="py-3 px-3 font-semibold text-slate-300">{tx.transaction_id}</td>
-                  <td className="py-3 px-3 text-white font-sans">{tx.user_name}</td>
-                  <td className="py-3 px-3 text-slate-300 font-sans">{tx.station_name}</td>
-                  <td className="py-3 px-3 font-bold text-white">₹{tx.total_amount.toFixed(2)}</td>
-                  <td className="py-3 px-3 font-bold text-[#00F2FE]">₹{tx.platform_commission.toFixed(2)}</td>
-                  <td className="py-3 px-3 font-bold text-[#00E676]">₹{tx.owner_payout.toFixed(2)}</td>
-                  <td className="py-3 px-3 text-slate-400 font-sans">{tx.payment_method}</td>
-                  <td className="py-3 px-3">
-                    <span className="badge badge-available text-[9px]">
-                      {tx.status}
-                    </span>
-                  </td>
+        <button
+          onClick={() => setActiveTab('stations')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === 'stations'
+              ? 'bg-purple-500/20 text-[#C084FC] border border-purple-400/40 shadow-sm'
+              : 'text-slate-400 hover:text-white hover:bg-white/5'
+          }`}
+        >
+          <Building2 className="w-3.5 h-3.5" />
+          <span>Station Grid Moderation ({stationsList.length})</span>
+        </button>
+      </div>
+
+      {/* TAB 1: Financial Settlements & Ledger */}
+      {activeTab === 'ledger' && (
+        <div className="glass-panel p-6 border border-white/10 space-y-4 shadow-xl">
+          
+          {/* Table Header & Controls */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#00E676] font-bold text-base">₹</span>
+                <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                  UPI Settlement & 10/90 Commission Ledger
+                </h2>
+              </div>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Audit transactions, execute automated host bank payouts, and export financial records.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Status Filter Buttons */}
+              <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+                {['ALL', 'SUCCESS', 'SETTLED'].map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => setStatusFilter(st)}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                      statusFilter === st
+                        ? 'bg-purple-500/25 text-[#C084FC] shadow-sm'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    {st}
+                  </button>
+                ))}
+              </div>
+
+              {/* Settle All Button */}
+              <button
+                onClick={handleSettleAllPayouts}
+                disabled={processingId === 'all'}
+                className="py-1.5 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-[#00E676] text-xs font-bold font-mono transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>Settle All Payouts</span>
+              </button>
+
+              {/* Export CSV Button */}
+              <button
+                onClick={exportLedgerCSV}
+                className="py-1.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-300 hover:text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5 text-[#00F2FE]" />
+                <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Transactions Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs text-left">
+              <thead>
+                <tr className="border-b border-white/10 text-slate-400 font-bold uppercase text-[10px]">
+                  <th className="py-3 px-3">Transaction Ref</th>
+                  <th className="py-3 px-3">Driver</th>
+                  <th className="py-3 px-3">Station</th>
+                  <th className="py-3 px-3">Total Amount</th>
+                  <th className="py-3 px-3 text-[#00F2FE]">Platform (10%)</th>
+                  <th className="py-3 px-3 text-[#00E676]">Host Share (90%)</th>
+                  <th className="py-3 px-3">Payment Method</th>
+                  <th className="py-3 px-3">Status</th>
+                  <th className="py-3 px-3 text-right">Settlement Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-white/5 font-mono">
+                {filteredTransactions.length === 0 ? (
+                  <tr>
+                    <td colSpan="9" className="text-center py-8 text-slate-400 text-xs font-sans">
+                      No transactions match the selected filter.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredTransactions.map((tx) => (
+                    <tr key={tx.id} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="py-3 px-3 font-semibold text-slate-300">{tx.transaction_id}</td>
+                      <td className="py-3 px-3 text-white font-sans">{tx.user_name}</td>
+                      <td className="py-3 px-3 text-slate-300 font-sans">{tx.station_name}</td>
+                      <td className="py-3 px-3 font-bold text-white">₹{tx.total_amount.toFixed(2)}</td>
+                      <td className="py-3 px-3 font-bold text-[#00F2FE]">₹{tx.platform_commission.toFixed(2)}</td>
+                      <td className="py-3 px-3 font-bold text-[#00E676]">₹{tx.owner_payout.toFixed(2)}</td>
+                      <td className="py-3 px-3 text-slate-400 font-sans">{tx.payment_method}</td>
+                      <td className="py-3 px-3">
+                        <span className={`badge text-[9px] ${
+                          tx.status === 'SETTLED' ? 'badge-available' : 'badge-charging'
+                        }`}>
+                          {tx.status}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3 text-right font-sans">
+                        {tx.status !== 'SETTLED' ? (
+                          <button
+                            onClick={() => handleSettlePayout(tx.id)}
+                            disabled={processingId === tx.id}
+                            className="py-1 px-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-[#00E676] text-[11px] font-bold transition-all cursor-pointer disabled:opacity-50"
+                          >
+                            {processingId === tx.id ? 'Settling...' : 'Settle Payout (90%)'}
+                          </button>
+                        ) : (
+                          <span className="text-[11px] text-slate-400 font-mono flex items-center justify-end gap-1">
+                            <Check className="w-3 h-3 text-[#00E676]" />
+                            <span>Paid to Host</span>
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
         </div>
-      </div>
+      )}
+
+      {/* TAB 2: Station Grid Moderation */}
+      {activeTab === 'stations' && (
+        <div className="glass-panel p-6 border border-white/10 space-y-4 shadow-xl">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                Pan-India Station Moderation & Operational Grid
+              </h2>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Authorize new charging station operators, toggle maintenance states, and verify physical hardware.
+              </p>
+            </div>
+            <span className="text-xs text-slate-400 font-mono">{stationsList.length} Hubs Listed</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            {stationsList.map((st) => (
+              <div key={st.id} className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3 hover:border-white/20 transition-all">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-white">{st.name}</span>
+                      {st.is_verified === 1 && (
+                        <BadgeCheck className="w-4 h-4 text-[#00F2FE]" title="Verified CPO" />
+                      )}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-0.5">{st.city} • Owner: <span className="text-slate-300 font-medium">{st.owner_name}</span></p>
+                  </div>
+
+                  <span className={`badge text-[9px] ${
+                    st.status === 'ONLINE' || !st.status ? 'badge-available' : 'badge-faulted'
+                  }`}>
+                    {st.status || 'ONLINE'}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-slate-300 font-mono border-t border-white/5 pt-2">
+                  <span>Capacity: <b className="text-white">{st.charger_count || 2} Bays</b></span>
+                  <span>Base Tariff: <b className="text-[#00E676]">₹{st.base_tariff?.toFixed(2)}/kWh</b></span>
+                </div>
+
+                {/* Moderation Controls */}
+                <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/5">
+                  <button
+                    onClick={() => handleStationVerifyToggle(st.id, st.is_verified === 1)}
+                    className={`text-[11px] font-bold py-1.5 px-3 rounded-xl border transition-all cursor-pointer ${
+                      st.is_verified === 1
+                        ? 'bg-cyan-500/10 text-cyan-300 border-cyan-400/30 hover:bg-cyan-500/20'
+                        : 'bg-white/5 text-slate-400 border-white/10 hover:text-white'
+                    }`}
+                  >
+                    {st.is_verified === 1 ? '✔ Verified CPO' : 'Mark Verified'}
+                  </button>
+
+                  <button
+                    onClick={() => handleStationStatusToggle(st.id, st.status || 'ONLINE')}
+                    className={`text-[11px] font-bold py-1.5 px-3 rounded-xl border transition-all cursor-pointer ${
+                      st.status === 'MAINTENANCE'
+                        ? 'bg-emerald-500/20 text-[#00E676] border-emerald-500/40 hover:bg-emerald-500/30'
+                        : 'bg-amber-500/15 text-amber-300 border-amber-500/40 hover:bg-amber-500/25'
+                    }`}
+                  >
+                    {st.status === 'MAINTENANCE' ? 'Restore Online' : 'Set Maintenance'}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
     </div>
   );

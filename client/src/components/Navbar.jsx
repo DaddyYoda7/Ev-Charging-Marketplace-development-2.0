@@ -1,5 +1,5 @@
 import React from 'react';
-import { Zap, Shield, Building2, BatteryCharging, Compass, LayoutDashboard, Brain, Cpu, Wallet, Layers } from 'lucide-react';
+import { Zap, Shield, Building2, BatteryCharging, Compass, LayoutDashboard, Brain, Cpu, Wallet, Layers, Lock, Unlock, LogOut } from 'lucide-react';
 
 export default function Navbar({
   currentRole,
@@ -9,10 +9,13 @@ export default function Navbar({
   primaryVehicle,
   onOpenGarage,
   telemetryConnected,
-  currentUser
+  currentUser,
+  isAdminAuthenticated,
+  adminUser,
+  onAdminLogout
 }) {
   return (
-    <header className="sticky top-0 z-50 bg-[#0B0F19]/90 backdrop-blur-xl border-b border-white/10 px-4 lg:px-8 py-3 shadow-2xl transition-all">
+    <header className="sticky top-0 z-40 bg-[#0B0F19]/90 backdrop-blur-xl border-b border-white/10 px-4 lg:px-8 py-3 shadow-2xl transition-all">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
         
         {/* Brand Logo & Title: EV Connect AI */}
@@ -128,7 +131,7 @@ export default function Navbar({
               }`}
             >
               <Shield className="w-3.5 h-3.5 text-[#C084FC]" />
-              <span>National Platform Hub</span>
+              <span>National Governance Hub</span>
             </button>
           )}
         </nav>
@@ -159,7 +162,7 @@ export default function Navbar({
             <span className="leading-none tracking-tight">Live Telemetry</span>
           </div>
 
-          {/* Transparent Role Switcher Pill Bar (Distinct Colors for Roles) */}
+          {/* Transparent Role Switcher Pill Bar (Distinct Colors for Roles with Admin Lock) */}
           <div className="flex items-center bg-transparent p-1 rounded-xl border border-white/10 gap-1">
             <button
               onClick={() => onRoleChange('user')}
@@ -187,13 +190,18 @@ export default function Navbar({
 
             <button
               onClick={() => onRoleChange('admin')}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold font-heading transition-all duration-200 cursor-pointer ${
                 currentRole === 'admin'
                   ? 'bg-purple-500/20 text-[#C084FC] border border-purple-400/50 shadow-sm font-bold'
                   : 'bg-transparent text-slate-400 hover:text-[#C084FC] hover:bg-purple-500/10'
               }`}
+              title={isAdminAuthenticated ? "National Admin Authenticated" : "Password Protected Admin Access"}
             >
-              <Shield className="w-3 h-3 text-[#C084FC]" />
+              {isAdminAuthenticated ? (
+                <Shield className="w-3 h-3 text-[#C084FC]" />
+              ) : (
+                <Lock className="w-3 h-3 text-purple-400/70" />
+              )}
               <span>Admin</span>
             </button>
           </div>

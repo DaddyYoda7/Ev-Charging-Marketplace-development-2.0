@@ -11,6 +11,7 @@ import BookingModal from './components/BookingModal';
 import PaymentModal from './components/PaymentModal';
 import InvoiceModal from './components/InvoiceModal';
 import GarageModal from './components/GarageModal';
+import AdminLoginModal from './components/AdminLoginModal';
 import { api } from './utils/api';
 
 export default function App() {
@@ -21,6 +22,19 @@ export default function App() {
   const [primaryVehicle, setPrimaryVehicle] = useState(null);
   const [allChargers, setAllChargers] = useState([]);
   const [telemetryConnected, setTelemetryConnected] = useState(false);
+
+  // Admin Security Authentication state
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+    return !!sessionStorage.getItem('evconnect_admin_token');
+  });
+  const [adminUser, setAdminUser] = useState(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem('evconnect_admin_user') || 'null');
+    } catch (e) {
+      return null;
+    }
+  });
+  const [isAdminLoginModalOpen, setIsAdminLoginModalOpen] = useState(false);
 
   // Modals state
   const [bookingModalStation, setBookingModalStation] = useState(null);
@@ -103,6 +117,11 @@ export default function App() {
   }
 
   function handleRoleChange(newRole) {
+    if (newRole === 'admin' && !isAdminAuthenticated) {
+      setIsAdminLoginModalOpen(true);
+      return;
+    }
+
     setCurrentRole(newRole);
     if (newRole === 'user') {
       setActiveView('explore');
@@ -111,6 +130,23 @@ export default function App() {
     } else if (newRole === 'admin') {
       setActiveView('admin-dashboard');
     }
+  }
+
+  function handleAdminLoginSuccess(token, user) {
+    setIsAdminAuthenticated(true);
+    setAdminUser(user);
+    setIsAdminLoginModalOpen(false);
+    setCurrentRole('admin');
+    setActiveView('admin-dashboard');
+  }
+
+  function handleAdminLogout() {
+    sessionStorage.removeItem('evconnect_admin_token');
+    sessionStorage.removeItem('evconnect_admin_user');
+    setIsAdminAuthenticated(false);
+    setAdminUser(null);
+    setCurrentRole('user');
+    setActiveView('explore');
   }
 
   function handleVehiclesChange(updatedVehicles) {
@@ -143,32 +179,35 @@ export default function App() {
         onOpenGarage={() => setIsGarageOpen(true)}
         telemetryConnected={telemetryConnected}
         currentUser={currentUser}
+        isAdminAuthenticated={isAdminAuthenticated}
+        adminUser={adminUser}
+        onAdminLogout={handleAdminLogout}
       />
 
-      {/* Main Views Container */}
-      <main className="flex-1">
+      {/* Main Content Area */}
+      <main className="flex-1 pb-16">
         {currentRole === 'user' && (
           <>
             {activeView === 'explore' && (
               <UserExploreView
+                onSelectStation={(station) => {}}
+                onBookStation={(station) => setBookingModalStation(station)}
                 primaryVehicle={primaryVehicle}
                 onOpenGarage={() => setIsGarageOpen(true)}
-                onBookStation={(st) => setBookingModalStation(st)}
               />
             )}
             {activeView === 'user-dashboard' && (
               <UserDashboard
                 currentUser={currentUser}
                 primaryVehicle={primaryVehicle}
-                onOpenGarage={() => setIsGarageOpen(true)}
+                onBookStation={(st) => setBookingModalStation(st)}
                 onViewInvoice={handleViewInvoice}
-                onPayBooking={(bk) => setPaymentModalBooking(bk)}
               />
             )}
             {activeView === 'ai-planner' && (
               <AiAssistantView
                 primaryVehicle={primaryVehicle}
-                onBookStation={(st) => setBookingModalStation(st)}
+                onSelectStation={(st) => setBookingModalStation(st)}
               />
             )}
           </>
@@ -198,7 +237,10 @@ export default function App() {
         {currentRole === 'admin' && (
           <>
             {activeView === 'admin-dashboard' && (
-              <AdminDashboard />
+              <AdminDashboard 
+                adminUser={adminUser} 
+                onLogout={handleAdminLogout} 
+              />
             )}
           </>
         )}
@@ -238,6 +280,13 @@ export default function App() {
         onClose={() => setIsGarageOpen(false)}
         vehicles={vehicles}
         onVehiclesChange={handleVehiclesChange}
+      />
+
+      {/* Admin Security Login Gateway Modal */}
+      <AdminLoginModal
+        isOpen={isAdminLoginModalOpen}
+        onClose={() => setIsAdminLoginModalOpen(false)}
+        onLoginSuccess={handleAdminLoginSuccess}
       />
 
       {/* Footer */}

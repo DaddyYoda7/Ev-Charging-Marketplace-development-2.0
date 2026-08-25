@@ -178,13 +178,67 @@ export const api = {
     return res.json();
   },
 
-  // Analytics
+  // Analytics & Admin Operations
   async getHostAnalytics(ownerId) {
     const res = await fetch(`${API_BASE}/analytics/host?ownerId=${ownerId || ''}`);
     return res.json();
   },
   async getAdminAnalytics() {
     const res = await fetch(`${API_BASE}/analytics/admin`);
+    return res.json();
+  },
+  async adminLogin(email, password) {
+    const res = await fetch(`${API_BASE}/auth/admin-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    return res.json();
+  },
+  async adminVerify(token) {
+    const res = await fetch(`${API_BASE}/auth/admin-verify`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return res.json();
+  },
+  async settlePayout(paymentId) {
+    const res = await fetch(`${API_BASE}/analytics/admin/settle-payout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paymentId })
+    });
+    return res.json();
+  },
+  async settleAllPayouts() {
+    const res = await fetch(`${API_BASE}/analytics/admin/settle-all-payouts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    return res.json();
+  },
+  async resetGridFaults() {
+    const res = await fetch(`${API_BASE}/analytics/admin/reset-grid-faults`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    return res.json();
+  },
+  async updateStationStatus(stationId, status) {
+    const res = await fetch(`${API_BASE}/stations/${stationId}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status })
+    });
+    return res.json();
+  },
+  async verifyStation(stationId, isVerified) {
+    const res = await fetch(`${API_BASE}/stations/${stationId}/verify`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ isVerified })
+    });
     return res.json();
   }
 };

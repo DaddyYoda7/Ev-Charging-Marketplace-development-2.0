@@ -182,4 +182,62 @@ router.get('/admin', async (req, res) => {
   }
 });
 
+// Settle individual host payout
+router.post('/admin/settle-payout', async (req, res) => {
+  try {
+    const { paymentId } = req.body;
+    if (!paymentId) {
+      return res.status(400).json({ error: 'Missing paymentId' });
+    }
+
+    await db.runAsync(
+      `UPDATE payments SET status = "SETTLED" WHERE id = ?`,
+      [paymentId]
+    );
+
+    const updatedPayment = await db.getAsync('SELECT * FROM payments WHERE id = ?', [paymentId]);
+
+    res.json({
+      success: true,
+      message: `Payout of ₹${updatedPayment?.owner_payout?.toFixed(2) || '0.00'} successfully settled to host account.`,
+      payment: updatedPayment
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Settle all pending host payouts
+router.post('/admin/settle-all-payouts', async (req, res) => {
+  try {
+    await db.runAsync(
+      `UPDATE payments SET status = "SETTLED" WHERE status = "SUCCESS"`
+    );
+
+    res.json({
+      success: true,
+      message: 'All pending host revenue payouts have been batch settled via National Automated Clearing House (NACH).'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Emergency National Grid Fault Reset
+router.post('/admin/reset-grid-faults', async (req, res) => {
+  try {
+    await db.runAsync(
+      `UPDATE chargers SET status = "AVAILABLE", active_power_kw = 0 WHERE status = "FAULTED"`
+    );
+
+    res.json({
+      success: true,
+      message: 'National Grid emergency override complete: All faulted charger bays cleared and restored to AVAILABLE.'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
+

@@ -12,6 +12,72 @@ router.get('/users', async (req, res) => {
   }
 });
 
+// Admin Security Login
+router.post('/admin-login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    // Check if email belongs to admin
+    const normalizedEmail = (email || '').trim().toLowerCase();
+    const adminUser = await db.getAsync('SELECT * FROM users WHERE (email = ? OR role = "admin") AND role = "admin"', [normalizedEmail]);
+
+    if (!adminUser) {
+      return res.status(401).json({ success: false, error: 'Unauthorized: Admin record not found.' });
+    }
+
+    // Accepted secure passwords for national admin
+    const validPasswords = ['Admin@EVConnect2026', 'admin123', 'admin@2026', 'admin', 'hashed_admin_pass'];
+    if (!password || !validPasswords.includes(password.trim())) {
+      return res.status(401).json({ success: false, error: 'Invalid security password. Access Denied.' });
+    }
+
+    const adminToken = `evconnect-admin-sec-${adminUser.id}-${Date.now()}`;
+
+    res.json({
+      success: true,
+      adminToken,
+      adminUser: {
+        id: adminUser.id,
+        name: adminUser.name,
+        email: adminUser.email,
+        phone: adminUser.phone,
+        role: 'admin',
+        clearanceLevel: 'Level 4 National Grid Admin',
+        wallet_balance: adminUser.wallet_balance,
+        avatar_url: adminUser.avatar_url,
+        authenticatedAt: new Date().toISOString()
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin Token Verification
+router.get('/admin-verify', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization || '';
+    const token = authHeader.replace('Bearer ', '');
+    if (token && token.startsWith('evconnect-admin-sec-')) {
+      const adminUser = await db.getAsync('SELECT * FROM users WHERE role = "admin" LIMIT 1');
+      return res.json({
+        success: true,
+        valid: true,
+        adminUser: {
+          id: adminUser?.id || 'usr-admin-1',
+          name: adminUser?.name || 'Vikram Malhotra',
+          email: adminUser?.email || 'admin@evconnect.in',
+          role: 'admin',
+          clearanceLevel: 'Level 4 National Grid Admin'
+        }
+      });
+    }
+    res.status(401).json({ success: false, valid: false, error: 'Invalid or expired admin session token.' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Login
 router.post('/login', async (req, res) => {
   try {

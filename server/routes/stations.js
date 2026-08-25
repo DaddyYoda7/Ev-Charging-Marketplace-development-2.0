@@ -304,4 +304,39 @@ router.delete('/chargers/:chargerId', async (req, res) => {
   }
 });
 
+// Admin: Override station status (ONLINE, MAINTENANCE, SUSPENDED)
+router.patch('/:id/status', async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!status) return res.status(400).json({ error: 'Missing status' });
+
+    await db.runAsync(
+      `UPDATE charging_stations SET status = ? WHERE id = ?`,
+      [status, req.params.id]
+    );
+
+    const station = await db.getAsync('SELECT * FROM charging_stations WHERE id = ?', [req.params.id]);
+    res.json({ success: true, station, message: `Station status updated to ${status}` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin: Toggle station verified badge
+router.patch('/:id/verify', async (req, res) => {
+  try {
+    const { isVerified } = req.body;
+    await db.runAsync(
+      `UPDATE charging_stations SET is_verified = ? WHERE id = ?`,
+      [isVerified ? 1 : 0, req.params.id]
+    );
+
+    const station = await db.getAsync('SELECT * FROM charging_stations WHERE id = ?', [req.params.id]);
+    res.json({ success: true, station, message: `Station verification set to ${isVerified ? 'VERIFIED' : 'UNVERIFIED'}` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
+
