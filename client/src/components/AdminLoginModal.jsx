@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Lock, Eye, EyeOff, KeyRound, AlertTriangle, CheckCircle2, X, LogIn } from 'lucide-react';
+import { Lock, Eye, EyeOff, KeyRound, AlertTriangle, CheckCircle2, X, LogIn } from 'lucide-react';
 import { api } from '../utils/api';
 
 export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
@@ -90,47 +90,39 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-3xl animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-2xl animate-fadeIn">
       
-      {/* Translucent Frosted Glass Modal Container */}
-      <div className="relative w-full max-w-lg bg-white/20 backdrop-blur-3xl border border-white/40 shadow-[0_30px_70px_rgba(0,0,0,0.35)] rounded-3xl overflow-hidden text-black">
+      {/* Modal Container: Matching Landing Page Background (#0B0F19) with Round Bezels */}
+      <div className="relative w-full max-w-lg bg-[#0B0F19] border border-white/15 rounded-[32px] sm:rounded-[36px] shadow-[0_25px_80px_rgba(0,0,0,0.9)] overflow-hidden">
         
-        {/* Top Gradient Header Accent */}
+        {/* Top Glowing Header Accent */}
         <div className="h-1.5 w-full bg-gradient-to-r from-[#00F2FE] via-[#8B5CF6] to-[#C084FC]"></div>
 
-        {/* Close Button */}
+        {/* Close Button with Hover Animation */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-black/70 hover:text-black hover:bg-black/10 rounded-full transition-all cursor-pointer z-10"
+          className="absolute top-5 right-5 p-2.5 text-slate-400 hover:text-white hover:bg-white/10 hover:rotate-90 rounded-full transition-all duration-200 cursor-pointer z-10"
+          title="Close modal"
         >
           <X className="w-4 h-4" />
         </button>
 
         <div className="p-6 sm:p-8 space-y-6">
           
-          {/* Header & Shield Icon */}
-          <div className="text-center space-y-2">
-            <div className="w-13 h-13 mx-auto rounded-2xl bg-black/10 border border-black/20 flex items-center justify-center text-black shadow-md shadow-black/10">
-              <Shield className="w-6 h-6" />
-            </div>
-            
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/10 border border-black/20 text-[10px] font-mono text-black font-extrabold uppercase tracking-wider">
-              <Lock className="w-3 h-3 text-black" />
-              <span>National Security Gateway</span>
-            </div>
-
-            <h2 className="text-2xl font-black text-black tracking-tight">
+          {/* Clean Header: No Shield Icon or Bubble */}
+          <div className="text-center space-y-1.5 pt-1">
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {authMode === 'login' ? 'Admin Portal Authentication' : 'Activate License & Create Admin'}
             </h2>
-            <p className="text-xs text-slate-900 font-medium max-w-sm mx-auto leading-relaxed">
+            <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
               {authMode === 'login'
                 ? 'Sign in to access platform governance, financial settlement ledgers, and station moderation.'
                 : 'Enter your Enterprise Product License Key provided when purchasing the application to provision a new Administrator.'}
             </p>
           </div>
 
-          {/* Mode Switcher Tabs */}
-          <div className="flex items-center p-1 rounded-2xl bg-black/10 border border-black/15 gap-1">
+          {/* Mode Switcher Tabs with Hover Effects */}
+          <div className="flex items-center p-1.5 rounded-2xl bg-[#111827] border border-white/10 gap-1.5">
             <button
               type="button"
               onClick={() => {
@@ -138,10 +130,10 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
                 setError(null);
                 setSuccessMsg(null);
               }}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${
                 authMode === 'login'
-                  ? 'bg-black text-white shadow-md font-extrabold'
-                  : 'text-slate-900 hover:text-black hover:bg-black/5 font-bold'
+                  ? 'bg-purple-500/25 text-[#C084FC] border border-purple-400/40 shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
               <LogIn className="w-3.5 h-3.5" />
@@ -155,10 +147,10 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
                 setError(null);
                 setSuccessMsg(null);
               }}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${
                 authMode === 'register'
-                  ? 'bg-black text-white shadow-md font-extrabold'
-                  : 'text-slate-900 hover:text-black hover:bg-black/5 font-bold'
+                  ? 'bg-purple-500/25 text-[#C084FC] border border-purple-400/40 shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
               <KeyRound className="w-3.5 h-3.5" />
@@ -168,16 +160,16 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
 
           {/* Error Message Alert */}
           {error && (
-            <div className="p-3.5 rounded-xl bg-red-600/15 border border-red-600/40 text-red-950 font-bold text-xs flex items-center gap-2.5 animate-shake">
-              <AlertTriangle className="w-4 h-4 text-red-700 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-red-500/15 border border-red-500/35 text-red-300 text-xs flex items-center gap-2.5 animate-shake">
+              <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Success Message Alert */}
           {successMsg && (
-            <div className="p-3.5 rounded-xl bg-emerald-600/20 border border-emerald-600/40 text-emerald-950 font-bold text-xs flex items-center gap-2.5 animate-fadeIn">
-              <CheckCircle2 className="w-4 h-4 text-emerald-800 shrink-0" />
+            <div className="p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/35 text-emerald-300 text-xs flex items-center gap-2.5 animate-fadeIn">
+              <CheckCircle2 className="w-4 h-4 text-[#00E676] shrink-0" />
               <span>{successMsg}</span>
             </div>
           )}
@@ -188,21 +180,21 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
               
               {/* Email Field */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-black">Admin Email Address</label>
+                <label className="text-xs font-semibold text-slate-300">Admin Email Address</label>
                 <input
                   type="email"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   required
                   placeholder="e.g. admin@evconnect.in"
-                  className="w-full bg-white/30 hover:bg-white/40 focus:bg-white/50 border border-black/20 focus:border-black rounded-xl px-3.5 py-2.5 text-xs text-black font-semibold placeholder-slate-700 outline-none transition-all font-mono"
+                  className="w-full bg-[#111827]/90 hover:bg-[#182338] focus:bg-[#182338] border border-white/15 focus:border-[#C084FC] rounded-2xl px-4 py-3 text-xs text-white placeholder-slate-500 outline-none transition-all duration-200 font-mono"
                 />
               </div>
 
               {/* Password Field */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-black">Admin Password</label>
+                  <label className="text-xs font-semibold text-slate-300">Admin Password</label>
                 </div>
                 
                 <div className="relative flex items-center">
@@ -212,23 +204,24 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
                     onChange={(e) => setLoginPassword(e.target.value)}
                     required
                     placeholder="Enter your admin security password..."
-                    className="w-full bg-white/30 hover:bg-white/40 focus:bg-white/50 border border-black/20 focus:border-black rounded-xl px-3.5 py-2.5 pr-10 text-xs text-black font-semibold placeholder-slate-700 outline-none transition-all font-mono"
+                    className="w-full bg-[#111827]/90 hover:bg-[#182338] focus:bg-[#182338] border border-white/15 focus:border-[#C084FC] rounded-2xl px-4 py-3 pr-11 text-xs text-white placeholder-slate-500 outline-none transition-all duration-200 font-mono"
                   />
                   <button
                     type="button"
                     onClick={() => setShowLoginPassword(!showLoginPassword)}
-                    className="absolute right-3 text-black/70 hover:text-black transition-colors cursor-pointer"
+                    className="absolute right-3.5 text-slate-400 hover:text-white hover:scale-110 transition-all duration-200 cursor-pointer p-1"
+                    title={showLoginPassword ? "Hide password" : "Show password"}
                   >
                     {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button with Gradient Glow Hover */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-xl bg-black hover:bg-slate-900 text-white font-black text-xs shadow-lg shadow-black/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#8B5CF6] to-[#C084FC] hover:from-[#7C3AED] hover:to-[#A855F7] text-white font-bold text-xs shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
               >
                 {loading ? (
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -241,16 +234,16 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
               </button>
 
               {/* Switch to Register footer */}
-              <div className="text-center pt-2 border-t border-black/10">
+              <div className="text-center pt-2 border-t border-white/5">
                 <button
                   type="button"
                   onClick={() => {
                     setAuthMode('register');
                     setError(null);
                   }}
-                  className="text-xs text-slate-900 hover:text-black transition-colors cursor-pointer font-medium"
+                  className="text-xs text-slate-400 hover:text-[#C084FC] hover:scale-[1.02] transition-all duration-200 cursor-pointer"
                 >
-                  Purchased the app? <span className="text-black font-extrabold underline underline-offset-2">Create Admin Account with License Key</span>
+                  Purchased the app? <span className="text-[#C084FC] font-semibold underline underline-offset-2">Create Admin Account with License Key</span>
                 </button>
               </div>
 
@@ -262,13 +255,13 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
             <form onSubmit={handleRegister} className="space-y-3.5">
               
               {/* Product License Key (Guarded Field) */}
-              <div className="space-y-1.5 p-3.5 rounded-2xl bg-white/30 border border-black/20">
+              <div className="space-y-1.5 p-3.5 rounded-2xl bg-[#111827] border border-purple-500/30">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-black text-black flex items-center gap-1.5">
-                    <KeyRound className="w-3.5 h-3.5 text-black" />
+                  <label className="text-xs font-bold text-purple-200 flex items-center gap-1.5">
+                    <KeyRound className="w-3.5 h-3.5 text-[#C084FC]" />
                     <span>Master Product License Key</span>
                   </label>
-                  <span className="text-[10px] text-slate-900 font-mono font-bold">Issued at purchase</span>
+                  <span className="text-[10px] text-purple-300/80 font-mono">Issued at purchase</span>
                 </div>
                 <input
                   type="text"
@@ -276,56 +269,56 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
                   onChange={(e) => setLicenseKey(e.target.value.toUpperCase())}
                   required
                   placeholder="e.g. EVCONNECT-PRO-ADMIN-2026-KEY"
-                  className="w-full bg-white/40 border border-black/25 focus:border-black rounded-xl px-3 py-2 text-xs text-black font-bold placeholder-slate-700 outline-none transition-all font-mono tracking-wider"
+                  className="w-full bg-[#080C15] border border-purple-400/40 focus:border-[#00F2FE] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all duration-200 font-mono tracking-wider"
                 />
-                <p className="text-[10px] text-slate-800 font-medium">
-                  This commercial key was provided when you bought the application.
+                <p className="text-[10px] text-slate-400">
+                  This key was provided with your commercial software deployment.
                 </p>
               </div>
 
               {/* Full Name & Phone in 2 columns */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-black">Admin Full Name</label>
+                  <label className="text-xs font-semibold text-slate-300">Admin Full Name</label>
                   <input
                     type="text"
                     value={regName}
                     onChange={(e) => setRegName(e.target.value)}
                     required
                     placeholder="e.g. Vikram Malhotra"
-                    className="w-full bg-white/30 hover:bg-white/40 focus:bg-white/50 border border-black/20 focus:border-black rounded-xl px-3 py-2 text-xs text-black font-semibold placeholder-slate-700 outline-none transition-all font-body"
+                    className="w-full bg-[#111827]/90 hover:bg-[#182338] focus:bg-[#182338] border border-white/15 focus:border-[#C084FC] rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all duration-200"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-black">Official Mobile Phone</label>
+                  <label className="text-xs font-semibold text-slate-300">Official Mobile Phone</label>
                   <input
                     type="text"
                     value={regPhone}
                     onChange={(e) => setRegPhone(e.target.value)}
                     placeholder="+91 99000 11223"
-                    className="w-full bg-white/30 hover:bg-white/40 focus:bg-white/50 border border-black/20 focus:border-black rounded-xl px-3 py-2 text-xs text-black font-semibold placeholder-slate-700 outline-none transition-all font-mono"
+                    className="w-full bg-[#111827]/90 hover:bg-[#182338] focus:bg-[#182338] border border-white/15 focus:border-[#C084FC] rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all duration-200 font-mono"
                   />
                 </div>
               </div>
 
               {/* Email Field */}
               <div className="space-y-1">
-                <label className="text-xs font-bold text-black">Admin Work Email</label>
+                <label className="text-xs font-semibold text-slate-300">Admin Work Email</label>
                 <input
                   type="email"
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
                   required
                   placeholder="e.g. admin@yourdomain.com"
-                  className="w-full bg-white/30 hover:bg-white/40 focus:bg-white/50 border border-black/20 focus:border-black rounded-xl px-3 py-2 text-xs text-black font-semibold placeholder-slate-700 outline-none transition-all font-mono"
+                  className="w-full bg-[#111827]/90 hover:bg-[#182338] focus:bg-[#182338] border border-white/15 focus:border-[#C084FC] rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all duration-200 font-mono"
                 />
               </div>
 
               {/* Password & Confirm Password */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-black">New Password</label>
+                  <label className="text-xs font-semibold text-slate-300">New Password</label>
                   <div className="relative flex items-center">
                     <input
                       type={showRegPassword ? 'text' : 'password'}
@@ -333,12 +326,13 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
                       onChange={(e) => setRegPassword(e.target.value)}
                       required
                       placeholder="Min 6 characters..."
-                      className="w-full bg-white/30 hover:bg-white/40 focus:bg-white/50 border border-black/20 focus:border-black rounded-xl px-3 py-2 pr-8 text-xs text-black font-semibold placeholder-slate-700 outline-none transition-all font-mono"
+                      className="w-full bg-[#111827]/90 hover:bg-[#182338] focus:bg-[#182338] border border-white/15 focus:border-[#C084FC] rounded-2xl px-3.5 py-2.5 pr-9 text-xs text-white placeholder-slate-500 outline-none transition-all duration-200 font-mono"
                     />
                     <button
                       type="button"
                       onClick={() => setShowRegPassword(!showRegPassword)}
-                      className="absolute right-2.5 text-black/70 hover:text-black transition-colors cursor-pointer"
+                      className="absolute right-2.5 text-slate-400 hover:text-white hover:scale-110 transition-all duration-200 cursor-pointer p-1"
+                      title={showRegPassword ? "Hide password" : "Show password"}
                     >
                       {showRegPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
@@ -346,45 +340,42 @@ export default function AdminLoginModal({ isOpen, onClose, onLoginSuccess }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-black">Confirm Password</label>
+                  <label className="text-xs font-semibold text-slate-300">Confirm Password</label>
                   <input
                     type={showRegPassword ? 'text' : 'password'}
                     value={regConfirmPassword}
                     onChange={(e) => setRegConfirmPassword(e.target.value)}
                     required
                     placeholder="Repeat password..."
-                    className="w-full bg-white/30 hover:bg-white/40 focus:bg-white/50 border border-black/20 focus:border-black rounded-xl px-3 py-2 text-xs text-black font-semibold placeholder-slate-700 outline-none transition-all font-mono"
+                    className="w-full bg-[#111827]/90 hover:bg-[#182338] focus:bg-[#182338] border border-white/15 focus:border-[#C084FC] rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all duration-200 font-mono"
                   />
                 </div>
               </div>
 
-              {/* Submit Registration Button */}
+              {/* Submit Registration Button with Hover Effects */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-xl bg-black hover:bg-slate-900 text-white font-black text-xs shadow-lg shadow-black/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-3"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#00F2FE] via-[#8B5CF6] to-[#C084FC] hover:opacity-95 text-black font-black text-xs shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-3"
               >
                 {loading ? (
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
                 ) : (
-                  <>
-                    <Shield className="w-4 h-4" />
-                    <span>Verify License & Create Admin Account</span>
-                  </>
+                  <span>Verify License & Create Admin Account</span>
                 )}
               </button>
 
               {/* Switch to Login footer */}
-              <div className="text-center pt-2 border-t border-black/10">
+              <div className="text-center pt-2 border-t border-white/5">
                 <button
                   type="button"
                   onClick={() => {
                     setAuthMode('login');
                     setError(null);
                   }}
-                  className="text-xs text-slate-900 hover:text-black transition-colors cursor-pointer font-medium"
+                  className="text-xs text-slate-400 hover:text-[#C084FC] hover:scale-[1.02] transition-all duration-200 cursor-pointer"
                 >
-                  Already have an authorized admin account? <span className="text-black font-extrabold underline underline-offset-2">Sign In</span>
+                  Already have an authorized admin account? <span className="text-[#C084FC] font-semibold underline underline-offset-2">Sign In</span>
                 </button>
               </div>
 
