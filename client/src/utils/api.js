@@ -195,6 +195,14 @@ export const api = {
     });
     return res.json();
   },
+  async adminRegister(data) {
+    const res = await fetch(`${API_BASE}/auth/admin-register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    return res.json();
+  },
   async adminVerify(token) {
     const res = await fetch(`${API_BASE}/auth/admin-verify`, {
       headers: {
